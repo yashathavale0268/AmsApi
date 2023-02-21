@@ -91,7 +91,11 @@ namespace AmsApi.Controllers
             userSessions =  await _repository.GetbyObj(user);
            
 
-            
+            if (userSessions.Userid>0)
+            { 
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "Successful Login";
+
                 if (userSessions.Userid>0)
                 {
                     
@@ -103,16 +107,21 @@ namespace AmsApi.Controllers
 
                     tokenvalues = _repository.DecodeJwtPayload(token); 
 
-                return Ok(tokenvalues);
+                    //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
+                    return Ok(tokenvalues);
 
                 }
                 else
                 {
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " no user found";
-                    
-                   
+                    throw new ArgumentNullException(nameof(userSessions));
+
+
+
                 }
+
+            }
            
             return Ok(msg); 
         }
@@ -149,9 +158,11 @@ namespace AmsApi.Controllers
         {
             var msg = new Message<UserModel>();
             var Users = await _repository.GetAllUser(PageNumber, PageSize);
-            if (Users.Count>0) {
+            if (Users.Userid>0) {
+                msg.IsSuccess = true;
+                 msg.Data = Users;
                 
-                return Users;
+                
             }
             else
             {
@@ -168,8 +179,11 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int User =0)
         {
             var msg = new Message<UserModel>();
-            var users = await _repository.SearchUsers(pageNumber,pageSize,searchTerm,User);
-            if (users.Count>0) { return users; }
+            var Users = await _repository.SearchUsers(pageNumber,pageSize,searchTerm,User);
+            if (Users.Userid>0) {
+                msg.IsSuccess = true;
+                Users = msg.Data;
+            }
             else { msg.ReturnMessage = "no match found"; }
             return NotFound(msg);
         }

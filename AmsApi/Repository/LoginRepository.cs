@@ -26,7 +26,7 @@ namespace AmsApi.Repository
     {
         private readonly string _connectionString;
         private readonly JwtBearerTokenSettings jwtBearerTokenSettings;
-        private readonly JwtSecurityTokenHandler tokenHandler;
+       // private readonly JwtSecurityTokenHandler tokenHandler;
         public bool Itexists { get; private set; }
         public bool IsSuccess { get; private set; }
 
@@ -184,28 +184,28 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<List<UserModel>> GetAllUser(int pageNumber, int pageSize)
+        internal async Task<UserModel> GetAllUser(int pageNumber, int pageSize)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllUsers", sql);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
             cmd.Parameters.AddWithValue("@PageSize", pageSize);
-            var response = new List<UserModel>();
+            UserModel response = new();
             await sql.OpenAsync();
 
             using (var reader = await cmd.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
-                    response.Add(MapToValue(reader));
+                    response = MapToValue(reader);
                 }
             }
 
             return response;
         }
 
-        public async Task<List<UserModel>> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User)
+        public async Task<UserModel> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -217,14 +217,14 @@ namespace AmsApi.Repository
                 cmd.Parameters.AddWithValue("@User", User);
 
 
-                var response = new List<UserModel>();
+                UserModel response = new();
                 await sql.OpenAsync();
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        response.Add(MapToValue(reader));
+                        response= MapToValue(reader);
                     }
                 }
 
@@ -273,6 +273,9 @@ namespace AmsApi.Repository
 
                     
                     await command.ExecuteNonQueryAsync();
+
+
+                 
 
                     UserModel response = new();
                    // var response = new List<AssetModel>();

@@ -30,16 +30,19 @@ namespace AmsApi.Controllers
         {
             var msg = new Message<UserModel>();
             var Vendors = await _repository.GetAllVendors(PageNumber, PageSize);
-            if (Vendors == null) { msg.ReturnMessage="No entries found"; return Ok(msg); }
-            return Vendors;
+            if (Vendors == null) { msg.ReturnMessage="No entries found";  }
+            else { return Vendors; }
+            return Ok(msg);
         }
 
         // GET api/values/5
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<VendorModel>>> SearchVendors([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]String InvDate=null,[FromQuery] String WarryTillDate = null)
         {
+            var msg = new Message<UserModel>();
             var Vendors = await _repository.SearchVendors(pageNumber, pageSize, searchTerm,InvDate,WarryTillDate);
-            if (Vendors == null) { return NotFound(); }
+            if (Vendors == null) { msg.ReturnMessage = "No entries found"; }
+            
             return Vendors;
         }
 
