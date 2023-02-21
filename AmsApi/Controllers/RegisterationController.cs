@@ -91,7 +91,11 @@ namespace AmsApi.Controllers
             userSessions =  await _repository.GetbyObj(user);
            
 
-            
+            if (userSessions.Userid>0)
+            { 
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "Successful Login";
+
                 if (userSessions.Userid>0)
                 {
                     
@@ -103,16 +107,21 @@ namespace AmsApi.Controllers
 
                     tokenvalues = _repository.DecodeJwtPayload(token); 
 
-                return Ok(tokenvalues);
+                    //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
+                    return Ok(tokenvalues);
 
                 }
                 else
                 {
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " no user found";
-                    
-                   
+                    throw new ArgumentNullException(nameof(userSessions));
+
+
+
                 }
+
+            }
            
             return Ok(msg); 
         }

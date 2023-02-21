@@ -274,6 +274,9 @@ namespace AmsApi.Repository
                     
                     await command.ExecuteNonQueryAsync();
 
+
+                 
+
                     UserModel response = new();
                    // var response = new List<AssetModel>();
                     using (var reader = await command.ExecuteReaderAsync())
