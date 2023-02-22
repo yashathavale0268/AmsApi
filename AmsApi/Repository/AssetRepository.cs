@@ -289,7 +289,7 @@ namespace AmsApi.Repository
         public async Task Update([FromBody] AssetModel asset, int id)
         {
             try {
-                var msg = new Message<AssetModel>();
+              
                 using SqlConnection sql = new(_connectionString);
                 using SqlCommand cmd = new("sp_AssetCreate", sql);
                 cmd.CommandType = CommandType.StoredProcedure;

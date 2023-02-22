@@ -13,7 +13,8 @@ namespace AmsApi.Repository
     public class StatusRepository
     {
         private readonly string _connectionString;
-
+        public bool Itexists { get; set; }
+        public bool IsSuccess { get; set; }
         public StatusRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
@@ -145,7 +146,15 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@active", 1);
 
                     await sql.OpenAsync();
+                    var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returncode);
+                    var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returnpart);
                     await cmd.ExecuteNonQueryAsync();
+                    bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    Itexists = itExists;
+                    IsSuccess = isSuccess;
                     return;
                 }
             }
@@ -184,8 +193,16 @@ namespace AmsApi.Repository
                                 cmd.Parameters.AddWithValue("@Creat_at", stat.Created_at);
                                 cmd.Parameters.AddWithValue("@active", 1);
                                 await sql.OpenAsync();
-                                await cmd.ExecuteNonQueryAsync();
-                                return;
+                        var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        //  cmd.Parameters.Add(returncode);
+                        var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returnpart);
+                        await cmd.ExecuteNonQueryAsync();
+                        //     bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                        bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                        //  Itexists = itExists;
+                        IsSuccess = isSuccess;
+                        return;
                          }
                     }
             }

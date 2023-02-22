@@ -48,40 +48,84 @@ namespace AmsApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<CompanyModel>>> Get(int id)
         {
-            var msg = new Message<CompanyModel>();
+            var msg = new Message();
             var response = await _repository.GetById(id);
-            if (response.Count>0) { return response; }
-            else { msg.ReturnMessage = "no companies found"; }
+            if (response.Count>0) 
+            {
+                msg.IsSuccess = true;
+                msg.Data = response; 
+            }
+            else 
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no id found"; 
+            }
             return Ok(msg);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task Post([FromBody] CompanyModel company)
+        public async Task<IActionResult> Post([FromBody] CompanyModel company)
         {
+            var msg = new Message();
             await _repository.Insert(company);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.ReturnMessage = "Item alredy registered";
+            }
+            else if (success is true)
+            {
+                msg.ReturnMessage = " new entry succesfully registered";
+            }
+            else
+            {
+                msg.ReturnMessage = "registeration unscessfull";
+            }
+            return Ok(msg);
         }
 
         // PUT api/values/5
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] CompanyModel comp)
         {
+            var msg = new Message();
             var GetComp = await _repository.GetById(id);
-            if (GetComp == null)
+            if (GetComp.Count>0)
             {
-                return NotFound();
+                await _repository.UpdateComp(comp, id);
+
             }
-
-            await _repository.UpdateComp(comp, id);
-
-            return NoContent();
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no id found";
+                
+            }
+            return Ok(msg);
         }
 
         // DELETE api/values/5
         [HttpDelete("Delete/{id}")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id=0)
         {
-            await _repository.DeleteById(id);
+            var msg = new Message();
+            var GetComp = await _repository.GetById(id);
+         
+            if (GetComp.Count>0)
+            {
+
+                await _repository.DeleteById(id);
+                msg.ReturnMessage = "Succesfully Deleted";
+            }
+            else
+            {
+                msg.ReturnMessage = "no values found";
+            }
+
+            return Ok(msg);
         }
     }
 }

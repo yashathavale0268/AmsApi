@@ -13,7 +13,8 @@ namespace AmsApi.Repository
     public class RequestRepository
     {
         private readonly string _connectionString;
-
+        public bool Itexists { get; set; }
+        public bool IsSuccess { get; set; }
         public RequestRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
@@ -107,13 +108,21 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@active", 1);
 
                     await sql.OpenAsync();
+                    var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returncode);
+                    var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returnpart);
                     await cmd.ExecuteNonQueryAsync();
+                    bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    Itexists = itExists;
+                    IsSuccess = isSuccess;
                     return;
                 }
             }
         }
 
-        internal async Task<RequestModel> GetRequestId(int id)
+        internal async Task<List<RequestModel>> GetRequestId(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -121,14 +130,15 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@id", id));
-                    RequestModel response = null;
+                   // RequestModel response = null;
+                    var response = new List<RequestModel>();
                     await sql.OpenAsync();
 
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            response = MapToValue(reader);
+                            response.Add(MapToValue(reader));
                         }
                     }
 
@@ -154,7 +164,15 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@Status", request.Status);
                         cmd.Parameters.AddWithValue("@active", 1);
                         await sql.OpenAsync();
+                        var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        //  cmd.Parameters.Add(returncode);
+                        var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returnpart);
                         await cmd.ExecuteNonQueryAsync();
+                        //     bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                        bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                        //  Itexists = itExists;
+                        IsSuccess = isSuccess;
                         return;
                     }
                 }

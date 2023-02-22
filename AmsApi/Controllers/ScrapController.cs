@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AmsApi.Models;
 using AmsApi.Repository;
+using CoreApiAdoDemo.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace AmsApi.Controllers
         
         public async Task<ActionResult<IEnumerable<ScrapModel>>> GetAllScrap([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
+            var msg = new Message();
             var scrap = await _repository.GetAllScrap(PageNumber, PageSize);
             if (scrap == null) { return NotFound(); }
             return scrap;
@@ -33,6 +35,7 @@ namespace AmsApi.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<ScrapModel>>> SearchScrap([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int searchId = 0, [FromQuery] int assetId = 0, [FromQuery] int brcId = 0, [FromQuery] int vedId = 0, [FromQuery] int empId = 0)
         {
+            var msg = new Message();
             var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, empId) ;
             if (Scrap == null) { return NotFound(); }
             return Scrap;
@@ -50,6 +53,7 @@ namespace AmsApi.Controllers
         [HttpPost]
         public async Task Post([FromBody] ScrapModel request)
         {
+            var msg = new Message();
             await _repository.Insert(request);
         }
 
@@ -57,6 +61,7 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ScrapModel request)
         {
+            var msg = new Message();
             var GetScrap = await _repository.GetScrapId(id);
             if (GetScrap == null)
             {
@@ -72,6 +77,7 @@ namespace AmsApi.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task Delete(int id)
         {
+            var msg = new Message();
             await _repository.DeleteById(id);
         }
     }

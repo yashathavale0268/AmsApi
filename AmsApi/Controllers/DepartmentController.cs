@@ -11,6 +11,7 @@ using AmsApi.Utility;
 using AmsApi.Repository;
 using System.Data.SqlClient;
 using System.Data;
+using CoreApiAdoDemo.Model;
 
 namespace AmsApi.Controllers
 {
@@ -27,9 +28,11 @@ namespace AmsApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DepartmentModel>>> GetAllDep([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
+            var msg = new Message();
             var dep = await _repository.GetAllDep(PageNumber, PageSize);
-            if (dep == null) { return NotFound(); }
-            return dep;
+            if (dep.Count>0) { msg.Data = dep; } else { msg.ReturnMessage = "No values found"; }
+            return Ok(msg);
+            
         }
         //    public async Task<ActionResult<IEnumerable<DepartmentModel>>> Get()
         //{
@@ -38,46 +41,101 @@ namespace AmsApi.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<DepartmentModel>>> SearchDep([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]int Dep=0)
         {
+            var msg = new Message();
             var assets = await _repository.SearchDepartment(pageNumber, pageSize, searchTerm,Dep);
-            if (assets == null) { return NotFound(); }
-            return assets;
+            if (assets.Count > 0) { msg.Data = assets; }else{ msg.ReturnMessage = "No id found"; }
+
+            return Ok(msg);
         }
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DepartmentModel>> Get(int id)
         {
+            var msg = new Message();
             var response = await _repository.GetById(id);
-            if (response == null) { return NotFound(); }
-            return response;
+            if (response.Count>0) {
+                msg.IsSuccess = true;
+                msg.Data = response; }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "No id found";
+            }
+            return Ok(msg);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task Post([FromBody] DepartmentModel dep)
+        public async Task<IActionResult> Post([FromBody] DepartmentModel dep)
         {
+            var msg = new Message();
             await _repository.Insert(dep);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.ReturnMessage = "Item alredy registered";
+            }
+            else if (success is true)
+            {
+                msg.ReturnMessage = " new asset succesfully registered";
+            }
+            else
+            {
+                msg.ReturnMessage = "registeration unscessfull";
+            }
+            return Ok(msg);
         }
 
         // PUT api/values/5
         [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] DepartmentModel dep)
+        public async Task<IActionResult> Update( [FromBody] DepartmentModel dep, int id)
         {
+            var msg = new Message();
             var GetComp = await _repository.GetById(id);
-            if (GetComp == null)
+            if (GetComp.Count>0)
             {
-                return NotFound();
+                await _repository.UpdateDep(dep, id);
+                bool success = _repository.IsSuccess;
+                if (success is true)
+                {
+                    msg.ReturnMessage = " updated succefully";
+                }
+                else
+                {
+                    msg.ReturnMessage = "  update unsuccessfull ";
+                }
+               
             }
+            else
+            {
+                msg.ReturnMessage = "no value found";
 
-            await _repository.UpdateDep(dep, id);
-
-            return NoContent();
+            }
+            return Ok(msg);
         }
 
         // DELETE api/values/5
         [HttpDelete("Delete/{id}")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id=0)
         {
-            await _repository.DeleteById(id);
+            var msg = new Message();
+            var GetDep = await _repository.GetById(id);
+
+            if (GetDep.Count > 0)
+            {
+
+                await _repository.DeleteById(id);
+                msg.ReturnMessage = "Succesfully Deleted";
+            }
+            else
+            {
+                msg.ReturnMessage = "no values found";
+            }
+
+            return Ok(msg);
+           // await _repository.DeleteById(id);
         }
     }
 }

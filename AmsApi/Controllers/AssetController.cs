@@ -12,9 +12,12 @@ using AmsApi.Repository;
 using System.Data.SqlClient;
 using System.Data;
 using CoreApiAdoDemo.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AmsApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -34,14 +37,18 @@ namespace AmsApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
         {
-            var msg = new Message<AssetModel>();
+            var msg = new Message();
             var assets = await _repository.GetAllAssets_Paginated(pageNumber, pageSize);
-            if (assets == null) 
-            { 
-                msg.ReturnMessage="no values found";
-                return Ok(msg);
+            if (assets == null)
+            {
+                msg.ReturnMessage = "no values found";
+
             }
-               return assets;
+            else {
+                msg.IsSuccess = true;
+                msg.Data= assets; 
+            }
+            return Ok(msg);
         }
 
         //    [HttpGet]
@@ -71,7 +78,7 @@ namespace AmsApi.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<AssetModel>>> SearchAssets([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Brcid =0 , [FromQuery] int Typeid=0, [FromQuery] int Empid=0)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
         {
-            var msg = new Message<AssetModel>();
+            var msg = new Message();
             var assets = await _repository.SearchAssets(pageNumber, pageSize, searchTerm, Brcid, Typeid, Empid);//,ptype,mtype,rtype,btype);
             if (assets.Count>0)
             {
@@ -93,7 +100,7 @@ namespace AmsApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AssetModel asset)
         {
-            var msg = new Message<AssetModel>();
+            var msg = new Message();
             await _repository.Insert(asset);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
@@ -104,7 +111,7 @@ namespace AmsApi.Controllers
             }
             else if (success is true)
                 {
-                    msg.ReturnMessage = " new asset succesfully registered";
+                    msg.ReturnMessage = " new entry succesfully registered";
                 }
             else{
                 msg.ReturnMessage = "registeration unscessfull";
@@ -116,7 +123,7 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] AssetModel asset, int id=0)
         {
-            var msg = new Message<AssetModel>();
+            var msg = new Message();
           
            
             var GetAsset = await _repository.GetById(id);
@@ -125,14 +132,14 @@ namespace AmsApi.Controllers
 
                 await _repository.Update(asset, id);
                 bool success = _repository.IsSuccess;
-                bool exists = _repository.Itexists;
+                //bool exists = _repository.Itexists;
                 if (success is true)
                 {
                     msg.ReturnMessage = "values updated successfully";
                 }
-                else if(exists is true)
+                else
                 {
-                    msg.ReturnMessage = "values not updated ";
+                    msg.ReturnMessage = " update unsuccessfull";
                 }
             }
             else
@@ -150,7 +157,7 @@ namespace AmsApi.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete([FromQuery] int id = 0)
         {
-            var msg = new Message<AssetModel>();
+            var msg = new Message();
 
             var GetAsset = await _repository.GetById(id);
             if (GetAsset.Count > 0)
