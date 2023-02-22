@@ -13,7 +13,8 @@ namespace AmsApi.Repository
     public class CompanyRepository
     {
         private readonly string _connectionString;
-
+        public bool Itexists { get;  set; }
+        public bool IsSuccess { get;  set; }
         public CompanyRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
@@ -130,20 +131,38 @@ namespace AmsApi.Repository
       
         public async Task Insert(CompanyModel comp)
         {
-            using (SqlConnection sql = new(_connectionString))
+            try
             {
-                using (SqlCommand cmd = new("sp_CompanyCreate", sql))
+                using (SqlConnection sql = new(_connectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    //cmd.Parameters.AddWithValue("@id", comp.Companyid);
-                    cmd.Parameters.AddWithValue("@Name", comp.Name);
-                    cmd.Parameters.AddWithValue("@Remarks", comp.Remarks);
-                    cmd.Parameters.AddWithValue("@active", 1);
-                   
-                    await sql.OpenAsync();
-                    await cmd.ExecuteNonQueryAsync();
-                    return;
+                    using (SqlCommand cmd = new("sp_CompanyCreate", sql))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        //cmd.Parameters.AddWithValue("@id", comp.Companyid);
+                        cmd.Parameters.AddWithValue("@Name", comp.Name);
+                        cmd.Parameters.AddWithValue("@Remarks", comp.Remarks);
+                        cmd.Parameters.AddWithValue("@active", 1);
+
+                        await sql.OpenAsync();
+                        var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returncode);
+                        var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returnpart);
+
+                        await cmd.ExecuteNonQueryAsync();
+
+                        bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                        bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                        Itexists = itExists;
+                        IsSuccess = isSuccess;
+
+                        return;
+                    }
                 }
+            }
+            catch(Exception)
+            {
+
             }
         }
 
@@ -194,7 +213,20 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@Name", comp.Name);
                         cmd.Parameters.AddWithValue("@Remarks", comp.Remarks);
                         await sql.OpenAsync();
+                      
+
+                       // var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        //cmd.Parameters.Add(returncode);
+                        var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returnpart);
+
                         await cmd.ExecuteNonQueryAsync();
+
+                        //bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                        bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    //    Itexists = itExists;
+                        IsSuccess = isSuccess;
+
                         return;
                     }
                 }

@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using AmsApi.Models;
 using AmsApi.Repository;
+using CoreApiAdoDemo.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmsApi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ScrapController : ControllerBase
@@ -19,9 +22,10 @@ namespace AmsApi.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
         [HttpGet]
-        
+
         public async Task<ActionResult<IEnumerable<ScrapModel>>> GetAllScrap([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
+            var msg = new Message();
             var scrap = await _repository.GetAllScrap(PageNumber, PageSize);
             if (scrap == null) { return NotFound(); }
             return scrap;
@@ -33,7 +37,8 @@ namespace AmsApi.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<ScrapModel>>> SearchScrap([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int searchId = 0, [FromQuery] int assetId = 0, [FromQuery] int brcId = 0, [FromQuery] int vedId = 0, [FromQuery] int empId = 0)
         {
-            var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, empId) ;
+            var msg = new Message();
+            var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, empId);
             if (Scrap == null) { return NotFound(); }
             return Scrap;
         }
@@ -41,39 +46,94 @@ namespace AmsApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ScrapModel>> Get(int id)
         {
+            var msg = new Message();
             var response = await _repository.GetScrapId(id);
-            if (response == null) { return NotFound(); }
-            return response;
+            if (response.Count > 0)
+            {
+                msg.IsSuccess = true; msg.Data = response;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " no id found";
+            }
+
+            return Ok(msg);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task Post([FromBody] ScrapModel request)
+        public async Task<ActionResult> Post([FromBody] ScrapModel request)
         {
+            var msg = new Message();
             await _repository.Insert(request);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.ReturnMessage = "item already registered";
+            }
+            else if (success is true)
+            {
+                msg.ReturnMessage = " new entry succesfully registered";
+            }
+            else
+            {
+                msg.ReturnMessage = "registeration unscessfull";
+            }
+            return Ok(msg);
         }
 
         // PUT api/values/5
         [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ScrapModel request)
+        public async Task<IActionResult> Update([FromBody] ScrapModel scrap, int id = 0)
         {
+            var msg = new Message();
             var GetScrap = await _repository.GetScrapId(id);
-            if (GetScrap == null)
+            if (GetScrap.Count > 0)
             {
-                return NotFound();
+                await _repository.UpdateScrap(scrap, id);
+                bool success = _repository.IsSuccess;
+
+                if (success is true)
+                {
+                    msg.ReturnMessage = "values updated successfully";
+                }
+                else
+                {
+                    msg.ReturnMessage = " update unsuccessfull";
+                }
+            }
+            else
+            {
+
+                msg.ReturnMessage = "No  entry found";
+
             }
 
-            await _repository.UpdateScrap(request, id);
 
-            return NoContent();
+            return Ok(msg);
+
         }
 
         // DELETE api/values/5
         [HttpDelete("Delete/{id}")]
-        public async Task Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            await _repository.DeleteById(id);
+            var msg = new Message();
+            var GetScrap = await _repository.GetScrapId(id);
+            if (GetScrap.Count > 0)
+            {
+                await _repository.DeleteById(id);
+                msg.ReturnMessage = "succesfully removed";
+            }
+            else
+            {
+                msg.ReturnMessage = "removal unsuccessfull";
+            }
+            return Ok(msg);
+
         }
     }
 }
-

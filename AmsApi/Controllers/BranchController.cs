@@ -12,9 +12,11 @@ using AmsApi.Repository;
 using System.Data.SqlClient;
 using System.Data;
 using CoreApiAdoDemo.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AmsApi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +30,7 @@ namespace AmsApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BranchModel>>> GetAllBranch([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
-            var msg = new Message<BranchModel>();
+            var msg = new Message();
             var branch = await _repository.GetAllBranch(PageNumber, PageSize);
             if (branch.Count > 0)
             {
@@ -46,7 +48,7 @@ namespace AmsApi.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<BranchModel>>> SearchBranch([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int brcid = 0)
         {
-            var msg = new Message<BranchModel>();
+            var msg = new Message();
             var assets = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
             if (assets.Count > 0) {
                 return assets;
@@ -61,7 +63,7 @@ namespace AmsApi.Controllers
             [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<BranchModel>>> Get(int id)
         {
-            var msg = new Message<BranchModel>();
+            var msg = new Message();
             var response = await _repository.GetById(id);
             if (response.Count>0) {
                 return response;
@@ -74,7 +76,7 @@ namespace AmsApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BranchModel value)
         {
-            var msg = new Message<BranchModel>();
+            var msg = new Message();
             await _repository.Insert(value);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
@@ -97,7 +99,7 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update( [FromBody] BranchModel branch, int id=0)
         {
-            var msg = new Message<BranchModel>();
+            var msg = new Message();
          
             var GetBranch = await _repository.GetBranchById(id);
             if (GetBranch.Count>0)
@@ -124,7 +126,7 @@ namespace AmsApi.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id=0)
         {
-            var msg = new Message<BranchModel>();
+            var msg = new Message();
             var GetBranch = await _repository.GetById(id);
             if (GetBranch.Count> 0)
             {
