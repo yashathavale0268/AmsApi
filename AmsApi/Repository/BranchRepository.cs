@@ -14,8 +14,8 @@ namespace AmsApi.Repository
     {
         private readonly string _connectionString;
 
-        public bool Itexists { get; private set; }
-        public bool IsSuccess { get; private set; }
+        public bool Itexists { get; set; }
+        public bool IsSuccess { get; set; }
 
         public BranchRepository(IConfiguration configuration)
         {
@@ -159,15 +159,15 @@ namespace AmsApi.Repository
             command.Parameters.AddWithValue("@Name", branch.Name);
             command.Parameters.AddWithValue("@Created_at", branch.Created_at);
 
-            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-            command.Parameters.Add(returncode);
+           // var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+           // command.Parameters.Add(returncode);
             var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             command.Parameters.Add(returnpart);
             await command.ExecuteNonQueryAsync();
 
-            bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+          //  bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
             bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
-            Itexists = itExists;
+           // Itexists = itExists;
             IsSuccess = isSuccess;
             return;
         }
@@ -207,16 +207,16 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@Created_at", branch.Created_at);
                     cmd.Parameters.AddWithValue("@active", 1);
 
-                    var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                    cmd.Parameters.Add(returncode);
+                   // var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                   // cmd.Parameters.Add(returncode);
                     var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(returnpart);
                    
                     await sql.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
-                    bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                   // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
                     bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
-                    Itexists = itExists;
+                  //  Itexists = itExists;
                     IsSuccess = isSuccess;
                     return;
                 }

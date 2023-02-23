@@ -136,7 +136,7 @@ namespace AmsApi
             });
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+               // options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
 
                 // options.AddPolicy("Role", policy => policy.RequireClaim(ClaimTypes.Role,session.role));
             });
@@ -161,7 +161,7 @@ namespace AmsApi
             services.AddScoped<ScrapRepository>();
           
             services.AddMvc();
-         //   services.Configure<DbContext>(Configuration.GetSection("Maincon"));
+          // services.Configure<DbContext>(Configuration.GetSection("Maincon"));
             services.AddDbContext<IdentityDbcontext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("MainCon")));
             

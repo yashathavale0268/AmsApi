@@ -13,7 +13,8 @@ namespace AmsApi.Repository
     public class DepartmentRepository
     {
         private readonly string _connectionString;
-
+        public bool Itexists { get; set; }
+        public bool IsSuccess { get; set; }
         public DepartmentRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
@@ -101,7 +102,7 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<DepartmentModel> GetById(int id)
+        public async Task<List<DepartmentModel>> GetById(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -109,15 +110,15 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@id", id));
-                    
-                    DepartmentModel response = null;
+                    var response = new List<DepartmentModel>();
+                    //DepartmentModel response = null;
                     await sql.OpenAsync();
 
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            response = MapToValue(reader);
+                            response.Add(MapToValue(reader));
                         }
                     }
 

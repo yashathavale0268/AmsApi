@@ -5,16 +5,18 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AmsApi.Configuration;
 using AmsApi.Models;
 using AmsApi.Repository;
 using CoreApiAdoDemo.Model;
+using Microsoft.AspNetCore.Authorization;
 //using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace AmsApi.Controllers
-{
+{  [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles ={}]
@@ -23,10 +25,11 @@ namespace AmsApi.Controllers
     {
 
         private readonly LoginRepository _repository;
-        public RegisterationController(LoginRepository repository)
+        private readonly string key;
+        public RegisterationController(LoginRepository repository,IConfiguration config)
         {
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-
+            key = config.GetConnectionString("SecretKey");
         }
 
         #region login old
@@ -82,7 +85,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<UserModel>> Userlogin([FromBody] UserModel user)
         {
             
-            var msg = new Message<UserModel>();
+            var msg = new Message();
             // ,bool Admin//,Admin
             //throw new ArgumentNullException(nameof(userSessions));
             ////,key //var tokendecode = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),your - 256 - bit - secret) //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
@@ -98,17 +101,24 @@ namespace AmsApi.Controllers
 
                 if (userSessions.Userid>0)
                 {
+
+
+
+                    string token =(string)_repository.GenerateToken(userSessions); //null;//
+                    string secretKey = key;
+                    string tokenkey = secretKey;
+                    msg.Data =tokenkey;
+                    msg.Data = token;
                     
-                    msg.ReturnMessage = "Successful Login";
+                    //var validatedtoken = _repository.Validatetoken(token, tokenkey);
+                    //msg.Data = validatedtoken;
+                    
+                    ////---if want to decode the token later---
+                    //tokenvalues = _repository.DecodeJwtPayload((validatedtoken).ToString());
 
-                    string token = (string)_repository.GenerateToken(userSessions);
-                  
-                   
 
-                    tokenvalues = _repository.DecodeJwtPayload(token); 
+                    
 
-                    //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
-                    return Ok(tokenvalues);
 
                 }
                 else
@@ -152,22 +162,40 @@ namespace AmsApi.Controllers
         #endregion
 
         // [Authorize(Policy = "Adminonly")]
-        [HttpGet]
-        [Route("GetAllUsers")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetAllUser([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
-        {
-            var msg = new Message<UserModel>();
-            var Users = await _repository.GetAllUser(PageNumber, PageSize);
-            if (Users.Userid>0) {
-                msg.IsSuccess = true;
-                 msg.Data = Users;
-                
-                
-            }
-            else
-            {
+        /*  public async Task<ActionResult<UserModel>> GetAll()  //[FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5
+        {                                                    //GetAllUser(int pageNumber, int pageSize)
+            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+            var Users = await _repository.GetAll()
+            if (Users == null) {
                
                 msg.ReturnMessage = "no user found";
+
+            }
+            else if(Users.Userid>0)
+            {
+                msg.Data = Users;
+                msg.IsSuccess = true;
+              
+
+            }
+            return Ok(msg);*/
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetAll([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)  //
+        {                                                    //GetAllUser(int pageNumber, int pageSize)
+            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+            var Users = await _repository.GetAllUser(PageNumber, PageSize);
+            if (Users == null) {
+               
+                msg.ReturnMessage = "no user found";
+
+            }
+            else if(Users.Count>0)
+            {
+                msg.Data = Users;
+                msg.IsSuccess = true;
+              
+
             }
             return Ok(msg);
         }
@@ -178,20 +206,23 @@ namespace AmsApi.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int User =0)
         {
-            var msg = new Message<UserModel>();
+            var msg = new Message();
             var Users = await _repository.SearchUsers(pageNumber,pageSize,searchTerm,User);
-            if (Users.Userid>0) {
-                msg.IsSuccess = true;
-                Users = msg.Data;
+            if (Users == null) {
+                
+                msg.ReturnMessage = "no match found";
             }
-            else { msg.ReturnMessage = "no match found"; }
+            else {
+                msg.IsSuccess = true;
+                msg.Data = Users;
+            }
             return NotFound(msg);
         }
         [HttpGet("Searchbyid/{id}")]
         
         public async Task<ActionResult<UserModel>> Get(int id=0)
         {
-            var msg = new Message<UserModel>();
+            var msg = new Message();
             var response = await _repository.GetById(id);
             if(response.Userid>0) { return response;}
             else
@@ -205,10 +236,11 @@ namespace AmsApi.Controllers
         [Route("NewUser")]
         public async Task<ActionResult<UserModel>> Post([FromBody] UserModel user)
         {
-            var msg = new Message<UserModel>();
+            var msg = new Message();
             await _repository.Insert(user);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
+           
             if (exists is true)
             {
              
@@ -231,11 +263,11 @@ namespace AmsApi.Controllers
         [HttpPost("SetRole/{id}")]
         public async Task<IActionResult> SetRole([FromQuery] string Role = "N/A",int id = 0 )
         {
-            var msg = new Message<UserModel>();
+            var msg = new Message();
             var User = await _repository.GetUserById(id);
             if (User == null)
-            {
-                return NotFound();
+            { msg.IsSuccess = false;
+                msg.ReturnMessage = "no user found";
             }
             else if (User is not null)
             {
@@ -255,26 +287,29 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update( [FromBody] UserModel user,int id= 0)
         {
-            var msg = new Message<UserModel>();
+            var msg = new Message();
             var User = await _repository.GetUserById(id);
-            if (User.Userid>0)
+            if (User == null )
             {
-                await _repository.UpdateUser(user,id);
+                msg.ReturnMessage = " no user found";
+               
+            }
+            else if(User.Userid>0)
+            {
+                msg.Data = User;
+                
+                 await _repository.UpdateUser(user, id);
 
                 if (msg.IsSuccess is true)
                 {
 
-                  
+
                     msg.ReturnMessage = " User is Updated Successfully";
                 }
                 else
                 {
                     msg.ReturnMessage = " User is Update is unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.ReturnMessage = " no user found";
             }
             return Ok(msg);
         }
@@ -283,11 +318,13 @@ namespace AmsApi.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var msg = new Message<AssettypeModel>();
-            var users = await _repository.GetUserById(id);
+            var msg = new Message();
+            var Users = await _repository.GetUserById(id);
 
-            if (users.Userid > 0)
+            if (Users.Userid> 0)
             {
+                msg.IsSuccess = true;
+                msg.Data = Users;
 
                 await _repository.DeleteById(id);
             }

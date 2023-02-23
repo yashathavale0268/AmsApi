@@ -13,7 +13,8 @@ namespace AmsApi.Repository
     public class VendorRepository
     {
         private readonly string _connectionString;
-
+        public bool Itexists { get; set; }
+        public bool IsSuccess { get; set; }
         public VendorRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
@@ -70,7 +71,7 @@ namespace AmsApi.Repository
 
         
 
-        internal async Task<VendorModel> GetById(int id)
+        internal async Task<List<VendorModel>> GetById(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -78,14 +79,15 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@id", id));
-                    VendorModel response = null;
+                    // VendorModel response = null;
+                    var response = new List<VendorModel>();
                     await sql.OpenAsync();
 
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            response = MapToValue(reader);
+                            response.Add(MapToValue(reader));
                         }
                     }
 
@@ -151,8 +153,18 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@active", 1);
 
                     await sql.OpenAsync();
+                    var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returncode);
+                    var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returnpart);
+                    await sql.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
                     await sql.CloseAsync();
+                    bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    Itexists = itExists;
+                    IsSuccess = isSuccess;
+                    
                     return;
                 }
             }
@@ -173,7 +185,7 @@ namespace AmsApi.Repository
             }
         }
 
-        public async Task UpdateVendor(int id, VendorModel vendor)
+        public async Task UpdateVendor( VendorModel vendor, int id)
         {
             try
             {
@@ -181,6 +193,7 @@ namespace AmsApi.Repository
                 {
                     using (SqlCommand cmd = new("sp_VendorCreate", sql))
                     {
+                        await sql.OpenAsync();
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.Parameters.AddWithValue("@Name", vendor.Name);
@@ -188,8 +201,17 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@InvoiceDate", vendor.InvoiceDate);
                         cmd.Parameters.AddWithValue("@Warranty_Till", vendor.Warranty_Till);
                         cmd.Parameters.AddWithValue("@active", 1);
-                        await sql.OpenAsync();
+                        
+                      //  var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                      //  cmd.Parameters.Add(returncode);
+                        var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returnpart);
                         await cmd.ExecuteNonQueryAsync();
+                   //     bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                        bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                      //  Itexists = itExists;
+                        IsSuccess = isSuccess;
+
                         return;
                     }
                 }
