@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace AmsApi.Models
 {
-    public class PolicySettings
+    public class Commondbo
     {
-        public string Role { get; set; }
-
-
-
+            public int Id { get; set; }
+            public string Name { get; set; }
     }
 }

@@ -81,9 +81,9 @@ namespace AmsApi.Repository
                 Requestid = (int)reader["Requestid"],
                 Empid = (int)reader["Empid"],
            //     List<int> Assets = new List<int> {},
-            Assets = reader["Assets"].ToString(),
-          //  Assetid = (int)reader["Assetid"],
-                Created_at = reader.IsDBNull("Created_at ") ? default(DateTime) : reader.GetDateTime("Created_at "),
+          //  Assets = reader["Assets"].ToString(),
+           Assetid = (int)reader["Assetid"],
+                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Justify = reader["Justify"].ToString(),
                 Status = (int)reader["Status"],
                 active= (bool)reader["active"],
@@ -158,7 +158,7 @@ namespace AmsApi.Repository
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.Parameters.AddWithValue("@Empid", request.Empid);
-                        cmd.Parameters.AddWithValue("@Assets", request.Assets);
+                        cmd.Parameters.AddWithValue("@Assets", request.Assetid);
                         cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                         cmd.Parameters.AddWithValue("@Justify", request.Justify);
                         cmd.Parameters.AddWithValue("@Status", request.Status);

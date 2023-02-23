@@ -34,7 +34,7 @@ namespace AmsApi.Controllers
         //    return await _repository.GetAll();
 
         //}
-        [HttpGet]
+        [HttpGet("GetAllAssets")]
         public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
         {
             var msg = new Message();
@@ -97,7 +97,7 @@ namespace AmsApi.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost("AddNew")]
         public async Task<IActionResult> Post([FromBody] AssetModel asset)
         {
             var msg = new Message();

@@ -16,7 +16,7 @@ namespace AmsApi.Models
         //[DataMember(Name = "Assets")]
       [DataMember(Name = "Assetid")]
       //  public List<int> Assets { get; set; }
-        public string Assets { get; set; }
+     //   public string Assets { get; set; }
         public int Assetid { get; set; }
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; }

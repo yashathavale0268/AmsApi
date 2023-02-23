@@ -159,6 +159,7 @@ namespace AmsApi
             services.AddScoped<StatusRepository>();
             services.AddScoped<RequestRepository>();
             services.AddScoped<ScrapRepository>();
+            services.AddScoped<AmsRepository>();
           
             services.AddMvc();
           // services.Configure<DbContext>(Configuration.GetSection("Maincon"));

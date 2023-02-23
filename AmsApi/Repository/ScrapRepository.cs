@@ -103,8 +103,8 @@ namespace AmsApi.Repository
                 Branch = (int)reader["Branch"],
                 Last_user = (int)reader["Last_user"],
                 Vendor=(int)reader["Vendor"],
-                Created_at = reader.IsDBNull("Created_at ") ? default : reader.GetDateTime("Created_at "),
-               
+                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+
                 active = (bool)reader["active"],
             };
         }

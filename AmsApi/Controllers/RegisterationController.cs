@@ -25,11 +25,13 @@ namespace AmsApi.Controllers
     {
 
         private readonly LoginRepository _repository;
+        private readonly AmsRepository _common;
         private readonly string key;
-        public RegisterationController(LoginRepository repository,IConfiguration config)
+        public RegisterationController(LoginRepository repository,AmsRepository common)
         {
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            key = config.GetConnectionString("SecretKey");
+           
+            this._common =common ?? throw new ArgumentNullException(nameof(common));
         }
 
         #region login old
@@ -125,7 +127,7 @@ namespace AmsApi.Controllers
                 {
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " no user found";
-                    throw new ArgumentNullException(nameof(userSessions));
+                    //throw new ArgumentNullException(nameof(userSessions));
 
 
 
@@ -179,6 +181,7 @@ namespace AmsApi.Controllers
 
             }
             return Ok(msg);*/
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetAll([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)  //
@@ -203,6 +206,7 @@ namespace AmsApi.Controllers
         //{
         //    return await _repository.GetAll();
         //}
+        [Authorize(Roles = "Admin")]
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int User =0)
         {
@@ -218,6 +222,7 @@ namespace AmsApi.Controllers
             }
             return NotFound(msg);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("Searchbyid/{id}")]
         
         public async Task<ActionResult<UserModel>> Get(int id=0)
@@ -260,6 +265,7 @@ namespace AmsApi.Controllers
             return Ok(msg);
 
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost("SetRole/{id}")]
         public async Task<IActionResult> SetRole([FromQuery] string Role = "N/A",int id = 0 )
         {
@@ -315,6 +321,7 @@ namespace AmsApi.Controllers
         }
 
         // DELETE api/values/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -342,8 +349,18 @@ namespace AmsApi.Controllers
         //    //logout after time experies
         //    return Ok(new { Token = "", Message = "Logged Out" });
         //}
-    
-}
 
-    
+
+        //[HttpGet]
+        //[Route("api/names")]
+        //public async Task<ActionResult<IEnumerable<Commondbo>>> Giveall()
+        //{
+        //    Commondbo commondbo = new();
+        //    commondbo = await _common.giveAll();
+            
+        //}
+
+    }
+
+
 }

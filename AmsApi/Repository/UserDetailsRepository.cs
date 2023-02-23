@@ -109,8 +109,8 @@ namespace AmsApi.Repository
                     Branch=(int)reader["Branch"],
                     Floor=(int)reader["Floor"],
                     Company=(int)reader["Company"],
-                    Created_at= (DateTime)reader["Created_at"],
-                    active=(bool)reader["active"],
+                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+                active =(bool)reader["active"],
                 };
             
         }
