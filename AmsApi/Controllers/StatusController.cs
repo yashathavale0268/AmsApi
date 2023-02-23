@@ -27,7 +27,7 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet]
+        [HttpGet("GetAllStatus")]
         public async Task<ActionResult<IEnumerable<StatusModel>>> GetAllStatus([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
             var msg = new Message();
@@ -41,7 +41,7 @@ namespace AmsApi.Controllers
         //}
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("Getid/{id}")]
         public async Task<ActionResult<StatusModel>> Get(int id)
         {
             var msg = new Message();
@@ -60,8 +60,8 @@ namespace AmsApi.Controllers
             return requests;
         }
         // POST api/values
-        [HttpPost]
-        public async Task Post([FromBody] StatusModel company)
+        [HttpPost("NewStatus")]
+        public async Task NewStatus([FromBody] StatusModel company)
         {
             await _repository.Insert(company);
         }

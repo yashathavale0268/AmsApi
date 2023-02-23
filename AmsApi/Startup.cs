@@ -25,6 +25,7 @@ using System.Text;
 using AmsApi.Controllers;
 using AmsApi.Configuration;
 using System.Security.Claims;
+using AspNetCoreRateLimit;
 
 namespace AmsApi
 {
@@ -41,7 +42,40 @@ namespace AmsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddMemoryCache();
+
+            services.Configure<IpRateLimitOptions>(options =>
+            {
+                options.EnableEndpointRateLimiting = true;
+                options.StackBlockedRequests = false;
+                options.HttpStatusCode = 429;
+                options.RealIpHeader = "X-Real-IP";
+                options.ClientIdHeader = "X-ClientId";
+                options.GeneralRules = new List<RateLimitRule>
+                    {
+                        new RateLimitRule
+                        {
+           Endpoint = "POST:/api/Registeration/Login",
+            Period = "1s",
+            Limit = 5,
+
+          },  
+                    new RateLimitRule
+                   {
+           Endpoint = "POST:/api/Registeration/Login",
+            Period = "1s",
+            Limit = 5,
+
+          }
+        };
+            }  );
+
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+            services.AddInMemoryRateLimiting();
+
             services.AddControllers()
                 .AddNewtonsoftJson()
                 .AddControllersAsServices()
@@ -57,6 +91,20 @@ namespace AmsApi
             //});
             //--------------Role policies
             services.AddSession(m => m.IdleTimeout = TimeSpan.FromMinutes(30));
+            //----------------------------------------------------------------------------------------------------------------------------------------
+            //services.AddMemoryCache();
+            //services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+            //services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+            //services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            //services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            //services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            //----------------------------------------------------------------------------------------------------------------------------------------
+           // services.AddMemoryCache();
+           // services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+           //// services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+           // services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+           // services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+           // services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             services.AddIdentity<UserAuth, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -181,7 +229,7 @@ namespace AmsApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AmsApi v1"));
             }
-
+            app.UseIpRateLimiting();
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -189,6 +237,7 @@ namespace AmsApi
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
+          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

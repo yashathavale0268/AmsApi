@@ -21,14 +21,21 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        [HttpGet]
+        [HttpGet("GetAllScrap")]
 
         public async Task<ActionResult<IEnumerable<ScrapModel>>> GetAllScrap([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
             var msg = new Message();
             var scrap = await _repository.GetAllScrap(PageNumber, PageSize);
-            if (scrap == null) { return NotFound(); }
-            return scrap;
+            if (scrap.Count>0) { msg.IsSuccess = true;
+                msg.Data = scrap;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no scraps found";
+            }
+            return Ok(msg);
         }
         //public async Task<ActionResult<IEnumerable<ScrapModel>>> Get()
         //{
@@ -39,11 +46,18 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, empId);
-            if (Scrap == null) { return NotFound(); }
+            if (Scrap.Count>0) { msg.IsSuccess = true;
+                msg.Data = Scrap;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "No Matches found ";
+            }
             return Scrap;
         }
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("Getid/{id}")]
         public async Task<ActionResult<ScrapModel>> Get(int id)
         {
             var msg = new Message();
@@ -62,7 +76,7 @@ namespace AmsApi.Controllers
         }
 
         // POST api/values
-        [HttpPost]
+        [HttpPost("AddNew")]
         public async Task<ActionResult> Post([FromBody] ScrapModel request)
         {
             var msg = new Message();

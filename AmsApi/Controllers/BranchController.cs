@@ -27,7 +27,7 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet]
+        [HttpGet("GetAllBranch")]
         public async Task<ActionResult<IEnumerable<BranchModel>>> GetAllBranch([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
             var msg = new Message();
@@ -60,7 +60,7 @@ namespace AmsApi.Controllers
             }
         
         // GET api/values/5
-            [HttpGet("{id}")]
+            [HttpGet("Getid/{id}")]
         public async Task<ActionResult<IEnumerable<BranchModel>>> Get(int id)
         {
             var msg = new Message();
@@ -73,7 +73,7 @@ namespace AmsApi.Controllers
         }
 
         // POST api/values
-        [HttpPost]
+        [HttpPost("AddNew")]
         public async Task<IActionResult> Post([FromBody] BranchModel value)
         {
             var msg = new Message();

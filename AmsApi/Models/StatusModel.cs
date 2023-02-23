@@ -14,7 +14,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Status")]
         public string Status { get; set; }
         [DataMember(Name = "Userid")]
-        public int Userid { get; set; }
+        public int Empid { get; set; }
         [DataMember(Name = "Assetid")]
 
         public int Assetid { get; set; }

@@ -14,6 +14,10 @@ namespace AmsApi.Models
         public int Empid { get; set; }
         [DataMember(Name = "Users")]
         public int Users { get; set; }
+        //[DataMember(Name = "Email")]
+        //public string Email { get; set; }
+        //[DataMember(Name = "Username")]
+        //public string Username { get; set; }
         [DataMember(Name = "First_name")]
         public string First_name { get; set; }
         [DataMember(Name = "Last_name")]

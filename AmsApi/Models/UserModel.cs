@@ -21,7 +21,7 @@ namespace AmsApi.Models
         //[RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
         [DataMember(Name = "Username")]
-        public String Username { get; set; }
+        public string Username { get; set; }
         [Required]
         [DataType(DataType.Password)]
         //[RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",

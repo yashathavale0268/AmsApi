@@ -27,12 +27,19 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet]
+        [HttpGet("GetAllComp")]
         public async Task<ActionResult<IEnumerable<CompanyModel>>> GetAllComp([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {
+            var msg = new Message();
             var Comp = await _repository.GetAllComp(PageNumber, PageSize);
-            if (Comp == null) { return NotFound(); }
-            return Comp;
+            if (Comp.Count>0) { msg.IsSuccess=true;
+                msg.Data = Comp;
+            }
+            else
+            {
+                msg.ReturnMessage = "no values found";
+            }
+            return Ok(msg);
         }
         //public async Task<ActionResult<IEnumerable<CompanyModel>>> Get()
         //{
@@ -41,13 +48,23 @@ namespace AmsApi.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<CompanyModel>>> SearchComp([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]int Comp=0)///[FromQuery]int Comp=0 )
         {
+            var msg = new Message();
             var Company = await _repository.SearchCompany(pageNumber, pageSize, searchTerm,Comp);
-            if (Company == null) { return NotFound(); }
+            if (Company.Count>0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = Comp;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "No match found";
+            }
             return Company;
         }
         // GET api/values/5
         //Search/
-        [HttpGet("{id}")]
+        [HttpGet("Getid/{id}")]
         public async Task<ActionResult<IEnumerable<CompanyModel>>> Get(int id)
         {
             var msg = new Message();
@@ -66,7 +83,7 @@ namespace AmsApi.Controllers
         }
 
         // POST api/values
-        [HttpPost]
+        [HttpPost("AddNew")]
         public async Task<IActionResult> Post([FromBody] CompanyModel company)
         {
             var msg = new Message();

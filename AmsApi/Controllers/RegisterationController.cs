@@ -16,7 +16,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace AmsApi.Controllers
-{  [AllowAnonymous]
+{
+    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles ={}]
@@ -81,7 +83,7 @@ namespace AmsApi.Controllers
         //}
         #endregion
 
-
+        [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
         public async Task<ActionResult<UserModel>> Userlogin([FromBody] UserModel user)
@@ -237,6 +239,8 @@ namespace AmsApi.Controllers
             }
            
         }
+
+        [AllowAnonymous]
         [HttpPost]
         [Route("NewUser")]
         public async Task<ActionResult<UserModel>> Post([FromBody] UserModel user)

@@ -65,14 +65,23 @@ namespace AmsApi.Controllers
         //        var assets = await _repository.GetAllAssets_Paginated(pages);
         //        return Ok(assets);
         //    }
-        // GET api/values/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<AssetModel>> Get(int id)
-        //{
-        //    var response = await _repository.GetById(id);
-        //    if (response == null) { return NotFound(); }
-        //    return response;
-        //}
+      //  GET api/values/5
+        [HttpGet("Getid/{id}")]
+        public async Task<ActionResult<IEnumerable<AssetModel>>> Get(int id)
+        {
+            var msg = new Message();
+            var response = await _repository.GetById(id);
+            if (response.Count>0) { 
+                msg.IsSuccess = true;
+                msg.Data = response;
+            }
+            else
+            {
+                msg.IsSuccess =false;
+                msg.ReturnMessage="no asset found";
+            }
+            return response;
+        }
 
         // POST api/values
         [HttpGet("search")]
