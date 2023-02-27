@@ -56,9 +56,15 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<IEnumerable<BranchModel>>> SearchBranch([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int brcid = 0)
         {
             var msg = new Message();
-            var assets = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
-            if (assets.Count > 0) {
-                return assets;
+            var branches = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
+            if (branches.Count > 0) {
+                msg.IsSuccess = true;
+                msg.Data = branches;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no match found";
             }
 
             return Ok(msg);

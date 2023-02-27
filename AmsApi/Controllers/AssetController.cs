@@ -40,14 +40,16 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var assets = await _repository.GetAllAssets_Paginated(pageNumber, pageSize);
-            if (assets == null)
+            if (assets.Count>0)
             {
-                msg.ReturnMessage = "no values found";
+                msg.IsSuccess = true;
+                msg.Data = assets;
+                
 
             }
             else {
-                msg.IsSuccess = true;
-                msg.Data= assets; 
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values found";
             }
             return Ok(msg);
         }
@@ -92,11 +94,16 @@ namespace AmsApi.Controllers
             var assets = await _repository.SearchAssets(pageNumber, pageSize, searchTerm, Brcid, Typeid, Empid);//,ptype,mtype,rtype,btype);
             if (assets.Count>0)
             {
-                return assets;
+                msg.IsSuccess = true;
+                msg.Data = assets;
                 
                 
             }
-            else { msg.ReturnMessage = "no values found"; }
+          
+            else {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values found"; 
+            }
             return Ok(msg);
         }
         
@@ -117,13 +124,16 @@ namespace AmsApi.Controllers
             
             if (exists is true)
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "Item alredy registered";
             }
             else if (success is true)
                 {
+                msg.IsSuccess = true;
                     msg.ReturnMessage = " new entry succesfully registered";
                 }
             else{
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "registeration unscessfull";
             }
             return Ok(msg);
@@ -145,16 +155,18 @@ namespace AmsApi.Controllers
                 //bool exists = _repository.Itexists;
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = "values updated successfully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = " update unsuccessfull";
                 }
             }
             else
             {
-
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found"; 
                
             }
@@ -173,10 +185,12 @@ namespace AmsApi.Controllers
             if (GetAsset.Count > 0)
             {
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "succesfully removed";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "removal unsuccessfull";
             }
          return Ok(msg);

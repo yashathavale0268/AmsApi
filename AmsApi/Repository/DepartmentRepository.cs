@@ -45,7 +45,7 @@ namespace AmsApi.Repository
         internal async Task<List<DepartmentModel>> GetAllDep(int pageNumber, int pageSize)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllTypes", sql);
+            using SqlCommand cmd = new("sp_GetAllDep", sql);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
             cmd.Parameters.AddWithValue("@PageSize", pageSize);

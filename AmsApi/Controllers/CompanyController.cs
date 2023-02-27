@@ -38,6 +38,7 @@ namespace AmsApi.Controllers
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found";
             }
             return Ok(msg);
@@ -94,14 +95,18 @@ namespace AmsApi.Controllers
 
             if (exists is true)
             {
+                msg.ItExists = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "Item alredy registered";
             }
             else if (success is true)
             {
+                msg.IsSuccess = true;
                 msg.ReturnMessage = " new entry succesfully registered";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "registeration unscessfull";
             }
             return Ok(msg);
@@ -116,7 +121,8 @@ namespace AmsApi.Controllers
             if (GetComp.Count>0)
             {
                 await _repository.UpdateComp(comp, id);
-
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " update successfull";
             }
             else
             {
@@ -138,10 +144,12 @@ namespace AmsApi.Controllers
             {
 
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "Succesfully Deleted";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found";
             }
 
