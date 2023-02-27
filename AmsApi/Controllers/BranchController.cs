@@ -56,14 +56,15 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<IEnumerable<BranchModel>>> SearchBranch([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int brcid = 0)
         {
             var msg = new Message();
-            var assets = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
-            if (assets.Count > 0) {
+            var branches = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
+            if (branches.Count > 0) {
                 msg.IsSuccess = true;
-                msg.Data= assets;
+                msg.Data = branches;
             }
-            else {
+            else
+            {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = " no match found";  
+                msg.ReturnMessage = "no match found";
             }
 
             return Ok(msg);
@@ -127,12 +128,14 @@ namespace AmsApi.Controllers
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = " updated successfully";
                 }
                
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no brance found";
             }
 
@@ -150,10 +153,12 @@ namespace AmsApi.Controllers
             if (GetBranch.Count> 0)
             {
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "succesfully removed";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "removal unsuccessfull";
             }
             return Ok(msg);

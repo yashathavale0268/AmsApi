@@ -29,7 +29,7 @@ namespace AmsApi.Controllers
 
         private readonly LoginRepository _repository;
         private readonly AmsRepository _common;
-        private readonly string key;
+      //  private readonly string key;
         public RegisterationController(LoginRepository repository,AmsRepository common)
         {
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
@@ -95,7 +95,7 @@ namespace AmsApi.Controllers
             //throw new ArgumentNullException(nameof(userSessions));
             ////,key //var tokendecode = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),your - 256 - bit - secret) //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
             UserModel userSessions = new();
-            JwtPayLoad tokenvalues = new();
+           // JwtPayLoad tokenvalues = new();
             userSessions =  await _repository.GetbyObj(user);
            
 
@@ -110,9 +110,9 @@ namespace AmsApi.Controllers
 
 
                     string token =(string)_repository.GenerateToken(userSessions); //null;//
-                    string secretKey = key;
-                    string tokenkey = secretKey;
-                    msg.Data =tokenkey;
+                    //string secretKey = key;
+                    //string tokenkey = secretKey;
+                    //msg.Data =tokenkey;
                     msg.Data = token;
                     
                     //var validatedtoken = _repository.Validatetoken(token, tokenkey);
