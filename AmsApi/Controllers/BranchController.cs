@@ -58,9 +58,13 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var assets = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
             if (assets.Count > 0) {
-                return assets;
+                msg.IsSuccess = true;
+                msg.Data= assets;
             }
-            else { msg.ReturnMessage = " no match found";  }
+            else {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " no match found";  
+            }
 
             return Ok(msg);
 
@@ -73,9 +77,13 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var response = await _repository.GetById(id);
             if (response.Count>0) {
-                return response;
+                msg.IsSuccess = true;
+                msg.Data=response;
             }
-            else { msg.ReturnMessage = "no id found"; }
+            else {
+                msg.IsSuccess = false;
+                
+                msg.ReturnMessage = "no id found"; }
             return Ok(msg);
         }
 
@@ -89,14 +97,18 @@ namespace AmsApi.Controllers
             bool success = _repository.IsSuccess;
             if (exists is true)
             {
+                msg.ItExists = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "  entry already exists";
             }
             else if(success is true)
                 {
+                msg.IsSuccess = true;
                     msg.ReturnMessage = " new branch succesfullly registered";
                 }
               
             else{
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "registeration unscessfull";// mostly server side error 500 series or other reasons
             }
             return Ok(msg);
