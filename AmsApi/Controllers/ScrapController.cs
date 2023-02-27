@@ -28,7 +28,8 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var scrap = await _repository.GetAllScrap(PageNumber, PageSize);
-            if (scrap.Count>0) { msg.IsSuccess = true;
+            if (scrap.Count>0) { 
+                msg.IsSuccess = true;
                 msg.Data = scrap;
             }
             else
@@ -47,7 +48,8 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, empId);
-            if (Scrap.Count>0) { msg.IsSuccess = true;
+            if (Scrap.Count>0) { 
+                msg.IsSuccess = true;
                 msg.Data = Scrap;
             }
             else
@@ -87,14 +89,18 @@ namespace AmsApi.Controllers
 
             if (exists is true)
             {
+                msg.ItExists = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "item already registered";
             }
             else if (success is true)
             {
+                msg.IsSuccess = true;
                 msg.ReturnMessage = " new entry succesfully registered";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "registeration unscessfull";
             }
             return Ok(msg);
@@ -113,16 +119,18 @@ namespace AmsApi.Controllers
 
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = "values updated successfully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = " update unsuccessfull";
                 }
             }
             else
             {
-
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "No  entry found";
 
             }
@@ -141,10 +149,12 @@ namespace AmsApi.Controllers
             if (GetScrap.Count > 0)
             {
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "succesfully removed";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "removal unsuccessfull";
             }
             return Ok(msg);

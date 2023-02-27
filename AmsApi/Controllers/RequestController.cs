@@ -29,7 +29,7 @@ namespace AmsApi.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
 
-        [Authorize("Admin")]
+      //  [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
         
         public async Task<ActionResult<IEnumerable<RequestModel>>> GetAllRequests([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
@@ -46,7 +46,7 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
-        [Authorize("Admin")]
+       // [Authorize("Admin")]
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int searchTerm =0,string searchString=null,[FromQuery]int reqId=0,[FromQuery]int assetId=0,[FromQuery]int statId=0)
         {
@@ -56,12 +56,13 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = true;
                 msg.Data = requests; } else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = " no match found";
             }
             return Ok(msg);
         }
         // GET api/values/5
-        [Authorize("Admin,User")]
+       // [Authorize("Admin,User")]
         [HttpGet("Getbyid/{id}")]
         public async Task<ActionResult<RequestModel>> Get(int id = 0)
         {
@@ -86,7 +87,7 @@ namespace AmsApi.Controllers
         return BadRequest(ModelState);
     }
 */
-        [Authorize("User")]
+        //[Authorize("User")]
         // POST api/values
         [HttpPost("CreateNew")]
         public async Task<IActionResult> Post([FromBody] RequestModel request)
@@ -136,7 +137,7 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [Authorize("Admin,User")]
+       // [Authorize("Admin,User")]
         [HttpPut("UpdateRequest/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] RequestModel request)
         {
@@ -168,7 +169,7 @@ namespace AmsApi.Controllers
         }
 
         // DELETE api/values/5
-        [Authorize("Admin,User")]
+       // [Authorize("Admin,User")]
         [HttpDelete("DeleteRequest/{id}")]
         public async Task<IActionResult> Delete(int id =0)
         {

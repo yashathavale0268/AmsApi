@@ -33,7 +33,10 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var dep = await _repository.GetAllDep(PageNumber, PageSize);
-            if (dep.Count>0) { msg.Data = dep; } else { msg.ReturnMessage = "No values found"; }
+            if (dep.Count>0) { msg.IsSuccess = true;
+                msg.Data = dep; } else {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "No values found"; }
             return Ok(msg);
             
         }
@@ -48,7 +51,9 @@ namespace AmsApi.Controllers
             var assets = await _repository.SearchDepartment(pageNumber, pageSize, searchTerm,Dep);
             if (assets.Count > 0) {
                 msg.IsSuccess = true;
-                msg.Data = assets; }else{ msg.ReturnMessage = "No id found"; }
+                msg.Data = assets; }else{
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "No id found"; }
 
             return Ok(msg);
         }
@@ -121,6 +126,7 @@ namespace AmsApi.Controllers
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no value found";
 
             }
@@ -138,10 +144,12 @@ namespace AmsApi.Controllers
             {
 
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "Succesfully Deleted";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found";
             }
 
