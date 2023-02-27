@@ -33,18 +33,28 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var type = await _repository.GetAllTypes(PageNumber, PageSize);
-            if (type == null) {
+            if (type.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = type;
+            }
+            else
+            {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no types found";
-                return Ok(msg); }
-            return type;
+            }
+            return Ok(msg);
         }
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<AssettypeModel>>> SearchTypes([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery]int typeid =0)
         {
             var msg = new Message();
-            var assets = await _repository.SearchTypes(pageNumber, pageSize, searchTerm,typeid);
-            if (assets.Count>0) {  return assets; } else
+            var type = await _repository.SearchTypes(pageNumber, pageSize, searchTerm,typeid);
+            if (type.Count>0) {
+                msg.IsSuccess = true;
+                msg.Data=type; } else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no types found";
             }
             
@@ -80,15 +90,18 @@ namespace AmsApi.Controllers
             bool success = _repository.IsSuccess;
             if (exists is true)
             {
+                msg.ItExists = true;
+                msg.IsSuccess = false;
                     msg.ReturnMessage = "value already exists";
             }
             else if(success is true)
             {
-               
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "successfully submitted";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "unsccessfull insert";
             }
             return Ok(msg);
@@ -106,16 +119,19 @@ namespace AmsApi.Controllers
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = " updated successfully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = " update unsuccessfull";
                 }
 
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no type found";
             }
 
@@ -135,10 +151,12 @@ namespace AmsApi.Controllers
             {
 
                 await _repository.DeletetypeById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "Succesfully Deleted";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found";
             }
             return Ok(msg);

@@ -46,7 +46,9 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var assets = await _repository.SearchDepartment(pageNumber, pageSize, searchTerm,Dep);
-            if (assets.Count > 0) { msg.Data = assets; }else{ msg.ReturnMessage = "No id found"; }
+            if (assets.Count > 0) {
+                msg.IsSuccess = true;
+                msg.Data = assets; }else{ msg.ReturnMessage = "No id found"; }
 
             return Ok(msg);
         }
@@ -78,14 +80,18 @@ namespace AmsApi.Controllers
 
             if (exists is true)
             {
+                msg.ItExists = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "Item alredy registered";
             }
             else if (success is true)
             {
+                msg.IsSuccess = true;
                 msg.ReturnMessage = " new asset succesfully registered";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "registeration unscessfull";
             }
             return Ok(msg);
@@ -103,10 +109,12 @@ namespace AmsApi.Controllers
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = " updated succefully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = "  update unsuccessfull ";
                 }
                

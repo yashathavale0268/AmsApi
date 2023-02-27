@@ -148,15 +148,18 @@ namespace AmsApi.Controllers
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = "request updated successfully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = "updated unsuccessfull";
                 }
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no id found";
             }
            
@@ -183,6 +186,7 @@ namespace AmsApi.Controllers
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found";
             }
 
