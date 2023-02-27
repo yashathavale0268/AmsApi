@@ -53,7 +53,7 @@ namespace AmsApi.Controllers
             }
             else
             {
-                msg.IsSuccess = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = " no vendors registered";
             }
             return Ok(msg);

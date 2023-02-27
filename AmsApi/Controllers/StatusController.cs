@@ -41,7 +41,7 @@ namespace AmsApi.Controllers
             }
             else
             {
-                msg.IsSuccess = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no status updated yet";
             }
             return Ok(msg);
@@ -102,7 +102,7 @@ namespace AmsApi.Controllers
             if (exists is true)
             {
                 msg.ItExists = true;
-                msg.IsSuccess = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "status already updated";
             }
             else if (success is true)
@@ -112,7 +112,7 @@ namespace AmsApi.Controllers
             }
             else
             {
-                msg.IsSuccess = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "update unscessfull";
             }
             return Ok(msg);

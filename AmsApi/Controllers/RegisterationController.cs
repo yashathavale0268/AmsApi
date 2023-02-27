@@ -191,17 +191,16 @@ namespace AmsApi.Controllers
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
             var Users = await _repository.GetAllUser(PageNumber, PageSize);
-            if (Users == null) {
+            if (Users.Count>0) {
                
-                msg.ReturnMessage = "no user found";
-
-            }
-            else if(Users.Count>0)
-            {
-                msg.Data = Users;
                 msg.IsSuccess = true;
-              
-
+                msg.Data = Users;
+     
+            }
+            else 
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no user found";
             }
             return Ok(msg);
         }
@@ -215,7 +214,7 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var Users = await _repository.SearchUsers(pageNumber,pageSize,searchTerm,User);
-            if (Users == null) {
+            if (Users.) {
                 
                 msg.ReturnMessage = "no match found";
             }

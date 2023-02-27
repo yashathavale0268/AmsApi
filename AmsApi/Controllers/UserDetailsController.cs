@@ -33,8 +33,15 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var GetDets = await _repository.GetAllDetails(PageNumber, PageSize);
-            if (GetDets.Count > 0) { msg.IsSuccess = true; msg.Data = GetDets; }
-            else{ msg.ReturnMessage = "novalues fiung";
+            if (GetDets.Count > 0) 
+            { 
+                msg.IsSuccess = true; 
+                msg.Data = GetDets; 
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values found";
             }
             return Ok(msg);
 
@@ -65,7 +72,8 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var response = await _repository.GetById(id);
-               if (response.Count>0) { 
+               if (response.Count>0) 
+            { 
                 msg.IsSuccess = true;
                 msg.Data = response;
             }

@@ -18,10 +18,10 @@ namespace AmsApi.Models
         public string InvoiceNo { get; set; }
 
         [DataMember(Name = "InvoiceDate")]
-        public DateTime InvoiceDate { get; set; } 
+        public DateTime? InvoiceDate { get; set; } 
 
         [DataMember(Name = "Warranty_Till")]
-        public DateTime Warranty_Till { get; set; }
+        public DateTime? Warranty_Till { get; set; }
         
         [DataMember(Name = "active")]
         public bool active { get; set; }

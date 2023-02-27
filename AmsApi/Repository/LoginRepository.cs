@@ -230,7 +230,7 @@ namespace AmsApi.Repository
             return response;
         }
 
-        public async Task<UserModel> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User)
+        public async Task<List<UserModel>> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -241,15 +241,15 @@ namespace AmsApi.Repository
                 cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
                 cmd.Parameters.AddWithValue("@User", User);
 
-
-                UserModel response = new();
+                var response = new List<UserModel>();
+               // UserModel response = new();
                 await sql.OpenAsync();
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        response= MapToValue(reader);
+                        response.Add(MapToValue(reader));
                     }
                 }
 
@@ -445,6 +445,7 @@ namespace AmsApi.Repository
                 
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    //new Claim(ClaimTypes.Sid, userSessions.Userid.ToString()),
                     new Claim(ClaimTypes.Name, userSessions.Username.ToString()),
                     new Claim(ClaimTypes.Email, userSessions.Email.ToString()),
                     new Claim(ClaimTypes.Role,userSessions.Role.ToString()),

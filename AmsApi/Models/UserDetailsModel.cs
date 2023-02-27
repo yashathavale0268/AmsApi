@@ -23,14 +23,14 @@ namespace AmsApi.Models
         [DataMember(Name = "Last_name")]
         public string Last_name { get; set; }
         [DataMember(Name = "Department")]
-        public int Department {get; set; }
+        public int? Department {get; set; }
 
         [DataMember(Name = "Branch")]
-        public int Branch { get; set; }
+        public int? Branch { get; set; }
         [DataMember(Name = "Floor")]
-        public int Floor { get; set; }
+        public int? Floor { get; set; }
         [DataMember(Name = "Company")]
-        public int Company { get; set; }
+        public int? Company { get; set; }
 
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; } = DateTime.Now;
