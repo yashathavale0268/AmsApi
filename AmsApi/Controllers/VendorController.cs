@@ -37,7 +37,7 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = true;
                 msg.Data = Vendors;
                   }
-            else { msg.IsSuccess = true; 
+            else { msg.IsSuccess = false; 
                 msg.ReturnMessage=" no vendors registered"; }
             return Ok(msg);
         }
@@ -88,14 +88,18 @@ namespace AmsApi.Controllers
 
             if (exists is true)
             {
+                msg.ItExists = true;
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "vendor already registered";
             }
             else if (success is true)
             {
+                msg.IsSuccess = true;
                 msg.ReturnMessage = " new entry succesfully registered";
             }
             else
             {
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "registeration unscessfull";
             }
             return Ok(msg);
@@ -115,16 +119,19 @@ namespace AmsApi.Controllers
                 
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = "values updated successfully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
+                   
                     msg.ReturnMessage = " update unsuccessfull";
                 }
             }
             else
             {
-
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "No Vendor entries found";
 
             }
@@ -143,10 +150,12 @@ namespace AmsApi.Controllers
             if (GetVendors.Count > 0)
             {
                 await _repository.DeletevendorById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "succesfully removed";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "removal unsuccessfull";
             }
             return Ok(msg);
