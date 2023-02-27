@@ -165,41 +165,46 @@ namespace AmsApi.Repository
 
         public async Task Insert(UserModel user)
         {
-            
-            // string hashedPassword = Argon2.Hash(password);
-            string password = user.Password;
-            string hashedpassword = HashPassword(password);
-            using (SqlConnection sql = new(_connectionString))
+            try
             {
-                await sql.OpenAsync();
-                using (SqlCommand cmd = new("sp_register_user", sql))
+                // string hashedPassword = Argon2.Hash(password);
+                string password = user.Password;
+                string hashedpassword = HashPassword(password);
+                using (SqlConnection sql = new(_connectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@Username", user.Username));
-                    cmd.Parameters.Add(new SqlParameter("@Email", user.Email));
-                    cmd.Parameters.Add(new SqlParameter("@Password", hashedpassword));
-                    cmd.Parameters.Add(new SqlParameter("@active", 1));
+                    await sql.OpenAsync();
+                    using (SqlCommand cmd = new("sp_register_user", sql))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@Username", user.Username));
+                        cmd.Parameters.Add(new SqlParameter("@Email", user.Email));
+                        cmd.Parameters.Add(new SqlParameter("@Password", hashedpassword));
+                        cmd.Parameters.Add(new SqlParameter("@active", 1));
 
-                    // returncode = new SqlParameter("@ReturnCode", SqlDbType.NVarChar) { Direction = ParameterDirection.Output };
-                    //cmd.Parameters.Add(returncode);
-                    var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                    cmd.Parameters.Add(returncode);
-                    var returnnote = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                    cmd.Parameters.Add(returnnote);
+                        // returncode = new SqlParameter("@ReturnCode", SqlDbType.NVarChar) { Direction = ParameterDirection.Output };
+                        //cmd.Parameters.Add(returncode);
+                        var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returncode);
+                        var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returnnote);
 
 
-                    
-                    await cmd.ExecuteNonQueryAsync();
-                  await  sql.CloseAsync();
-                    
-                    bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
-                    bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
-                   
-                    Itexists = itexists;
-                    IsSuccess = successfull;
-                    
-                    return;
+
+                        await cmd.ExecuteNonQueryAsync();
+                        await sql.CloseAsync();
+
+                        bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                        bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
+
+                        Itexists = itexists;
+                        IsSuccess = successfull;
+
+                        return;
+                    }
                 }
+            }
+            catch (Exception) 
+            { 
             }
         }
 

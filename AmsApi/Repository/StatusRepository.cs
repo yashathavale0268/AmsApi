@@ -69,6 +69,7 @@ namespace AmsApi.Repository
             return new StatusModel()
             {
                Statusid = (int)reader["Statusid"],
+               Status =reader["Status"].ToString(),
                 Empid = (int)reader["Empid"],
                 Assetid = (int)reader["Assetid"],
                 Requestid = (int)reader["Requestid"],

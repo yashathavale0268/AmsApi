@@ -171,16 +171,18 @@ namespace AmsApi
                     //,ValidAudience = Configuration["JWT:ValidAudience"],
                     //ValidIssuer = Configuration["JWT:ValidIssuer"],
                     //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
-                    
-                };
-            //    ValidateIssuer = true,
-            //ValidIssuer = jwtBearerTokenSettings.Issuer,
-            //ValidateAudience = true,
-            //ValidAudience = jwtBearerTokenSettings.Audience,
-            //ValidateIssuerSigningKey = true,
-            //IssuerSigningKey = new SymmetricSecurityKey(key),
-            //ValidateLifetime = true,
-            //ClockSkew = TimeSpan.Zero
+                   
+               
+            };
+                options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(jwtBearerTokenSettings.ExpiryTimeInMinutes);
+                //    ValidateIssuer = true,
+                //ValidIssuer = jwtBearerTokenSettings.Issuer,
+                //ValidateAudience = true,
+                //ValidAudience = jwtBearerTokenSettings.Audience,
+                //ValidateIssuerSigningKey = true,
+                //IssuerSigningKey = new SymmetricSecurityKey(key),
+                //ValidateLifetime = true,
+                //ClockSkew = TimeSpan.Zero
             });
             services.AddAuthorization(options =>
             {
