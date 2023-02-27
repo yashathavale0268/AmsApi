@@ -89,7 +89,7 @@ namespace AmsApi.Controllers
             if (exists is true)
             {
                 msg.ItExists = true;
-                msg.IsSuccess = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "vendor already registered";
             }
             else if (success is true)
@@ -99,7 +99,7 @@ namespace AmsApi.Controllers
             }
             else
             {
-                msg.IsSuccess = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "registeration unscessfull";
             }
             return Ok(msg);

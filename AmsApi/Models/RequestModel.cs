@@ -23,7 +23,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Justify")]
         public string Justify { get; set; }
         [DataMember(Name = "Status")]
-        public int Status { get; set; }
+        public string Status { get; set; }
         [DataMember(Name = "active")]
         public bool active { get; set; }
 
