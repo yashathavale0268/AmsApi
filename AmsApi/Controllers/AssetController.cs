@@ -44,6 +44,9 @@ namespace AmsApi.Controllers
             {
                 msg.IsSuccess = true;
                 msg.Data = assets;
+<<<<<<<<< Temporary merge branch 1
+                
+
             }
             
             else {
