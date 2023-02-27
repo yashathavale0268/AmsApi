@@ -35,11 +35,16 @@ namespace AmsApi.Controllers
             var branch = await _repository.GetAllBranch(PageNumber, PageSize);
             if (branch.Count > 0)
             {
-                return branch;
+                msg.IsSuccess = true;
+                msg.Data = branch;
+                
             }
-            else {
+            else 
+            {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no brnaces found";
-                }
+               
+            }
             return Ok(msg);
 
         }
@@ -53,12 +58,7 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var assets = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
             if (assets.Count > 0) {
-                msg.IsSuccess = true;
-                msg.Data= assets;
-            }
-            else {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = " no match found";  
+                return assets;
             }
 
             return Ok(msg);
