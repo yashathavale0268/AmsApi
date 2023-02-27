@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AmsApi.Controllers
 {
+    [AllowAnonymous]
     [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -51,7 +52,9 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var requests = await _repository.SearchRequests(pageNumber, pageSize, searchTerm,searchString,reqId,assetId,statId);
-            if (requests.Count>0){ msg.Data = requests; } else
+            if (requests.Count>0){
+                msg.IsSuccess = true;
+                msg.Data = requests; } else
             {
                 msg.ReturnMessage = " no match found";
             }
@@ -145,15 +148,18 @@ namespace AmsApi.Controllers
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = "request updated successfully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = "updated unsuccessfull";
                 }
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no id found";
             }
            
@@ -180,6 +186,7 @@ namespace AmsApi.Controllers
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found";
             }
 

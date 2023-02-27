@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AmsApi.Controllers
 {
+    [AllowAnonymous]
     [Authorize(Roles = "Admin")]
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -38,8 +39,9 @@ namespace AmsApi.Controllers
             }
             else {
                 msg.ReturnMessage = "no brnaces found";
-                return Ok(msg); }
-           
+                }
+            return Ok(msg);
+
         }
         //public async Task<ActionResult<IEnumerable<BranchModel>>> Get()
         //{
@@ -51,9 +53,13 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var assets = await _repository.SearchBranches(pageNumber, pageSize, searchTerm, brcid);
             if (assets.Count > 0) {
-                return assets;
+                msg.IsSuccess = true;
+                msg.Data= assets;
             }
-            else { msg.ReturnMessage = " no match found";  }
+            else {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " no match found";  
+            }
 
             return Ok(msg);
 
@@ -66,9 +72,13 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var response = await _repository.GetById(id);
             if (response.Count>0) {
-                return response;
+                msg.IsSuccess = true;
+                msg.Data=response;
             }
-            else { msg.ReturnMessage = "no id found"; }
+            else {
+                msg.IsSuccess = false;
+                
+                msg.ReturnMessage = "no id found"; }
             return Ok(msg);
         }
 
@@ -82,14 +92,18 @@ namespace AmsApi.Controllers
             bool success = _repository.IsSuccess;
             if (exists is true)
             {
+                msg.ItExists = true;
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "  entry already exists";
             }
             else if(success is true)
                 {
+                msg.IsSuccess = true;
                     msg.ReturnMessage = " new branch succesfullly registered";
                 }
               
             else{
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "registeration unscessfull";// mostly server side error 500 series or other reasons
             }
             return Ok(msg);
@@ -108,12 +122,14 @@ namespace AmsApi.Controllers
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = " updated successfully";
                 }
                
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no brance found";
             }
 
@@ -131,10 +147,12 @@ namespace AmsApi.Controllers
             if (GetBranch.Count> 0)
             {
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "succesfully removed";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "removal unsuccessfull";
             }
             return Ok(msg);
