@@ -62,7 +62,7 @@ namespace AmsApi
           },  
                     new RateLimitRule
                    {
-           Endpoint = "POST:/api/Registeration/Login",
+           Endpoint = "POST:/api/Registeration/NewUser",
             Period = "1s",
             Limit = 5,
 
