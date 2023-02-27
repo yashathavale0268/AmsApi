@@ -35,8 +35,16 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var status = await _repository.GetAllStatus(PageNumber, PageSize);
-            if (status.Count>0) { msg.Data=status; }
-            return status;
+            if (status.Count>0) {
+                msg.IsSuccess = true;
+                msg.Data=status;
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "no status updated yet";
+            }
+            return Ok(msg);
         }
         //public async Task<ActionResult<IEnumerable<StatusModel>>> Get()
         //{
@@ -49,11 +57,20 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<StatusModel>> Get(int id)
         {
             var msg = new Message();
-            var response = 
-                await _repository.GetStatusById(id);
-         //  if (response == null) { return NotFound(); }
-         //   return response;
-            return Ok();
+            var response = await _repository.GetStatusById(id);
+            if (response.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = response;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage="no status found";
+            }
+
+        
+            return Ok(msg);
         }
         [Authorize(Roles = "Admin,User")]
         [HttpGet("Search")]
@@ -61,14 +78,45 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var requests = await _repository.SearchStatus(pageNumber,pageSize, searchTerm,Userid,Assetid,Requestid,Statid);
-            if (requests == null) { return NotFound(); }
+            if (requests.Count>0) { msg.IsSuccess=true;
+                msg.Data = requests;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage="no match found";
+            }
             return requests;
         }
         // POST api/values
         [HttpPost("NewStatus")]
-        public async Task NewStatus([FromBody] StatusModel company)
+        public async Task<IActionResult> NewStatus([FromBody] StatusModel stat)
         {
-            await _repository.Insert(company);
+           
+
+            var msg = new Message();
+            await _repository.Insert(stat);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.ItExists = true;
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "status already updated";
+            }
+            else if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " new entry succesfully updated";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "update unscessfull";
+            }
+            return Ok(msg);
+
         }
 
         // PUT api/values/5
@@ -90,6 +138,7 @@ namespace AmsApi.Controllers
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = " update unsuccessfull";
                 }
             }
@@ -114,10 +163,12 @@ namespace AmsApi.Controllers
             if (GetStatus.Count > 0)
             {
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
                 msg.ReturnMessage = "succesfully removed";
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "removal unsuccessfull";
             }
             return Ok(msg);

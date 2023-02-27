@@ -107,26 +107,7 @@ namespace AmsApi.Controllers
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " new request succesfully registered";
-                // update from api side or stored procedure side
-                //var GetRequest = await _repository.GetRequestId(id);
-                //if (GetRequest.Count > 0)
-                //{
-                //    await _repository.UpdateRequest(request, id);
-                //    bool success = _repository.IsSuccess;
-                //    if (success is true)
-                //    {
-                //        msg.ReturnMessage = "request updated successfully";
-                //    }
-                //    else
-                //    {
-                //        msg.ReturnMessage = "updated unsuccessfull";
-                //    }
-                //}
-                //else
-                //{
-                //    msg.ReturnMessage = "no id found";
-                //}
-                //msg.Data= response
+                
             }
             else
             {
