@@ -252,17 +252,18 @@ namespace AmsApi.Controllers
            
             if (exists is true)
             {
-             
+                msg.IsSuccess = false;
                 msg.ReturnMessage = " Same Credential Already exists try  with another Credentials ";
             }
             else if (success is true)
             {
-                
+                msg.IsSuccess = true;
                 msg.ReturnMessage = " New  Registeration  is Success";
                 
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = " Registeration is unsuccessful";
             }
 
