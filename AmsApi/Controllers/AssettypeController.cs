@@ -58,8 +58,11 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var response =
             await _repository.GettypeById(id);
-            if (response.Count>0) { return response; } else
+            if (response.Count>0) {
+                msg.IsSuccess = true;
+                msg.Data=response; } else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no types found";
             }
 

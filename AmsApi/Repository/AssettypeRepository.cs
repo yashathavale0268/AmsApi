@@ -131,6 +131,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(returnpart);
             await sql.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
+            await sql.CloseAsync();
 
             bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
             bool  isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;

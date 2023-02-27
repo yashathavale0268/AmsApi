@@ -40,14 +40,15 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var assets = await _repository.GetAllAssets_Paginated(pageNumber, pageSize);
-            if (assets == null)
+            if (assets.Count>0)
             {
-                msg.ReturnMessage = "no values found";
-
-            }
-            else {
                 msg.IsSuccess = true;
-                msg.Data= assets; 
+                msg.Data = assets;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values found";
             }
             return Ok(msg);
         }

@@ -33,11 +33,14 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var Comp = await _repository.GetAllComp(PageNumber, PageSize);
-            if (Comp.Count>0) { msg.IsSuccess=true;
+            if (Comp.Count>0)
+            {
+                msg.IsSuccess=true;
                 msg.Data = Comp;
             }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no values found";
             }
             return Ok(msg);
