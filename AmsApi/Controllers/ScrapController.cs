@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AmsApi.Controllers
 {
+    [AllowAnonymous]
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]

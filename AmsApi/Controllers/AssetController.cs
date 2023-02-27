@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AmsApi.Controllers
 {
+    [AllowAnonymous]
     [Authorize(Roles ="Admin")]//AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme
     [Produces("application/json")]
     [Route("api/[controller]")]

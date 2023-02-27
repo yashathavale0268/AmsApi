@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AmsApi.Controllers
 {
+    [AllowAnonymous]
     [Authorize(Roles = "Admin")]
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -34,12 +35,18 @@ namespace AmsApi.Controllers
             var branch = await _repository.GetAllBranch(PageNumber, PageSize);
             if (branch.Count > 0)
             {
-                return branch;
+                msg.IsSuccess = true;
+                msg.Data = branch;
+                
             }
-            else {
+            else 
+            {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no brnaces found";
-                return Ok(msg); }
-           
+               
+            }
+            return Ok(msg);
+
         }
         //public async Task<ActionResult<IEnumerable<BranchModel>>> Get()
         //{
