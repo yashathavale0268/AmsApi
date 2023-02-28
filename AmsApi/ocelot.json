@@ -1,6 +1,7 @@
 {
+  "$schema": "https://json.schemastore.org/global.json",
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5021"
+    "BaseUrl": "http://localhost:5001"
   },
   "Routes": [
     {
