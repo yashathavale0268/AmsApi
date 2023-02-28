@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace AmsApi.Controllers
 {
@@ -30,7 +31,7 @@ namespace AmsApi.Controllers
         private readonly LoginRepository _repository;
         private readonly AmsRepository _common;
       //  private readonly string key;
-        public RegisterationController(LoginRepository repository,AmsRepository common)
+        public RegisterationController(LoginRepository repository,AmsRepository common, ILogger<RegisterationController> logger)
         {
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
            

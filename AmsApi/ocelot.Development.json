@@ -1,7 +1,23 @@
 {
+  "$schema": "https://json.schemastore.org/global.json",
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5001"
+  },
   "Routes": [
     {
-      "DownstreamPathTemplate": "/Registeration/{everything}",
+      "DownstreamPathTemplate": "/Registeration",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Registeration/NewUser",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Registeration",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,8 +25,8 @@
           "Port": 5002
         }
       ],
-      "UpstreamPathTemplate": "/api/Registeration/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamPathTemplate": "/api/Registeration/Login",
+      "UpstreamHttpMethod": [ "POST" ]
     },
     {
       "DownstreamPathTemplate": "/Asset/{everything}",
@@ -36,11 +52,9 @@
       "UpstreamPathTemplate": "/api/Request/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
-    
-  ],
-  "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5021,https://localhost:44377"
-  }
+
+  ]
+}
   //"ReRoutes": [
   //  {
   //    "DownstreamPathTemplate": "/api/{version}/{everything}",
@@ -78,5 +92,3 @@
   //  //"RequestIdKey": "OcRequestId",
   //  //"AdministrationPath": "/administration"
   //}
-
-}

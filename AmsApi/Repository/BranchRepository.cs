@@ -179,7 +179,7 @@ namespace AmsApi.Repository
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add(new SqlParameter("@Name", branch.Name));
-            cmd.Parameters.Add(new SqlParameter("@Created_at", branch.Created_at));
+           // cmd.Parameters.Add(new SqlParameter("@Created_at", branch.Created_at));
             cmd.Parameters.Add(new SqlParameter("@active", 1));
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);

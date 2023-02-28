@@ -5,7 +5,7 @@
   },
   "Routes": [
     {
-      "DownstreamPathTemplate": "/Registeration/{everything}",
+      "DownstreamPathTemplate": "/Registeration",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -13,8 +13,20 @@
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/api/Registeration/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamPathTemplate": "/api/Registeration/NewUser",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Registeration",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Registeration/Login",
+      "UpstreamHttpMethod": [ "POST" ]
     },
     {
       "DownstreamPathTemplate": "/Asset/{everything}",
@@ -22,7 +34,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5002
+          "Port": 5003
         }
       ],
       "UpstreamPathTemplate": "/api/Asset/{everything}",
@@ -34,7 +46,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5003
+          "Port": 5004
         }
       ],
       "UpstreamPathTemplate": "/api/Request/{everything}",
