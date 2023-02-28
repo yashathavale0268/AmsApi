@@ -214,15 +214,17 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var Users = await _repository.SearchUsers(pageNumber,pageSize,searchTerm,User);
-            if (Users.) {
-                
-                msg.ReturnMessage = "no match found";
-            }
-            else {
+            if (Users.Count>0) {
+
                 msg.IsSuccess = true;
                 msg.Data = Users;
+              
             }
-            return NotFound(msg);
+            else {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no match found";
+            }
+            return Ok(msg);
         }
         [Authorize(Roles = "Admin")]
         [HttpGet("Searchbyid/{id}")]
@@ -231,13 +233,18 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var response = await _repository.GetById(id);
-            if(response.Userid>0) { return response;}
+            if(response.Userid>0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = response;
+            }
             else
             {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no id found";
-                return NotFound(msg);
+                
             }
-           
+            return Ok(msg);
         }
 
         [AllowAnonymous]
@@ -314,11 +321,12 @@ namespace AmsApi.Controllers
                 if (msg.IsSuccess is true)
                 {
 
-
+                    msg.IsSuccess = true;
                     msg.ReturnMessage = " User is Updated Successfully";
                 }
                 else
                 {
+                    msg.IsSuccess = false;
                     msg.ReturnMessage = " User is Update is unsuccessfull";
                 }
             }
