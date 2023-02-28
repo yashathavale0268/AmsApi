@@ -256,7 +256,7 @@ namespace AmsApi
             {
                 endpoints.MapControllers();
             });
-            app.UseOcelot().Wait();
+           // app.UseOcelot().Wait();
         }
     }
 
