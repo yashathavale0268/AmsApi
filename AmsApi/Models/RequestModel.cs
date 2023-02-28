@@ -19,7 +19,7 @@ namespace AmsApi.Models
      //   public string Assets { get; set; }
         public int Assetid { get; set; }
         [DataMember(Name = "Created_at")]
-        public DateTime Created_at { get; set; }
+        public DateTime Created_at { get; set; } = DateTime.Now;
         [DataMember(Name = "Justify")]
         public string Justify { get; set; }
         [DataMember(Name = "Status")]
