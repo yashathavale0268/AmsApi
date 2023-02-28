@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 namespace AmsApi.Models
 {
     [DataContract]
-    public class UserAuth : IdentityUser
+    public class UserAuth  
     {
         [DataMember(Name = "UserName")]
         public string UserName { get; set; }

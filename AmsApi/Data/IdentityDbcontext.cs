@@ -8,21 +8,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AmsApi.Data
 {
-    public class IdentityDbcontext:IdentityDbContext<UserAuth>
-{
-    public IdentityDbcontext(DbContextOptions<IdentityDbcontext> options)
-        : base(options)
-    {
-    }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+//    public class //IdentityDbcontext:IdentityDbContext<UserModel>
+//{
+//    public IdentityDbcontext(DbContextOptions<IdentityDbcontext> options)
+//        : base(options)
+//    {
+//    }
+//        protected override void OnModelCreating(ModelBuilder modelBuilder)
+//        {
+//            base.OnModelCreating(modelBuilder);
 
          
-        }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("MainCon");
-        //}
-    }
+//        }
+//        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        //{
+//        //    optionsBuilder.UseSqlServer("MainCon");
+//        //}
+//    }
 }

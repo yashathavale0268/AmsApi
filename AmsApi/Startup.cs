@@ -26,6 +26,8 @@ using AmsApi.Controllers;
 using AmsApi.Configuration;
 using System.Security.Claims;
 using AspNetCoreRateLimit;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
 namespace AmsApi
 {
@@ -43,32 +45,41 @@ namespace AmsApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-
+            
             services.Configure<IpRateLimitOptions>(options =>
             {
+
                 options.EnableEndpointRateLimiting = true;
                 options.StackBlockedRequests = false;
                 options.HttpStatusCode = 429;
                 options.RealIpHeader = "X-Real-IP";
                 options.ClientIdHeader = "X-ClientId";
                 options.GeneralRules = new List<RateLimitRule>
-                    {
+                {
                         new RateLimitRule
                         {
-           Endpoint = "POST:/api/Registeration/Login",
-            Period = "1s",
-            Limit = 5,
+                               Endpoint = "POST:/api/Registeration/Login",
+                                Period = "1s",
+                                Limit = 5,
 
-          },  
-                    new RateLimitRule
-                   {
-           Endpoint = "POST:/api/Registeration/NewUser",
-            Period = "1s",
-            Limit = 5,
+                        },  
+                        new RateLimitRule
+                        {
+                               Endpoint = "POST:/api/Registeration/NewUser",
+                                Period = "1s",
+                                Limit = 5,
 
-          }
-        };
-            }  );
+                        },
+                        new RateLimitRule
+                        {
+                               Endpoint = "POST:/api/Request/CreateNew",
+                                Period = "1s",
+                                Limit = 5,
+
+                        }
+                };
+            
+            });
 
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
@@ -105,22 +116,23 @@ namespace AmsApi
            // services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
            // services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
            // services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            services.AddIdentity<UserAuth, IdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.Password.RequireDigit = true;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 8;
-            })
-                    .AddEntityFrameworkStores<IdentityDbcontext>()
-                    .AddDefaultTokenProviders();
+           //-----
+            //services.AddIdentity<UserAuth, IdentityRole>(options =>
+            //{
+            //    options.User.RequireUniqueEmail = true;
+            //    options.Password.RequireDigit = true;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireUppercase = true;
+            //    options.Password.RequiredLength = 8;
+            //})
+            //      //  .AddEntityFrameworkStores<IdentityDbcontext>()
+            //        .AddDefaultTokenProviders();
 
            
             
             services.AddTransient<RegisterationController>();
             services.AddHttpContextAccessor();
-
+            services.AddOcelot();
             //services.AddIdentity<UserModel, IdentityRole>()
             //    .AddEntityFrameworkStores<IdentityDbcontext>()
             //    .AddDefaultTokenProviders();
@@ -213,8 +225,8 @@ namespace AmsApi
           
             services.AddMvc();
           // services.Configure<DbContext>(Configuration.GetSection("Maincon"));
-            services.AddDbContext<IdentityDbcontext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("MainCon")));
+           // services.AddDbContext<IdentityDbcontext>(options => 
+           // options.UseSqlServer(Configuration.GetConnectionString("MainCon")));
             
             services.AddSwaggerGen(c =>
             {
@@ -239,11 +251,12 @@ namespace AmsApi
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
-          
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            app.UseOcelot().Wait();
         }
     }
 

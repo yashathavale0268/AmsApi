@@ -11,7 +11,7 @@ namespace AmsApi.Data
     public class CustomAuthorizeAttribute: AuthorizeAttribute
     {
             private readonly string _requiredRole;
-            private readonly string _registercontrll;
+            //private readonly string _registercontrll;
 
         public CustomAuthorizeAttribute( string requiredRole)
         {

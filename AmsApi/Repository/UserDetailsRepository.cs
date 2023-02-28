@@ -109,7 +109,7 @@ namespace AmsApi.Repository
                     Branch=(int)reader["Branch"],
                     Floor=(int)reader["Floor"],
                     Company=(int)reader["Company"],
-                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]): DateTime.MinValue,
                 active =(bool)reader["active"],
                 };
             
@@ -188,7 +188,7 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", comp.Companyid);
-                    cmd.Parameters.AddWithValue("@User", details.Users);
+                  //  cmd.Parameters.AddWithValue("@User", details.Users);
                     cmd.Parameters.AddWithValue("@First_name", details.First_name);
                     cmd.Parameters.AddWithValue("@Last_name", details.Last_name);
                     cmd.Parameters.AddWithValue("@Dep", details.Department);

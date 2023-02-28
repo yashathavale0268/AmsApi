@@ -1,0 +1,82 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/Registeration/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Registeration/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Asset/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Asset/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Request/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Request/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    }
+    
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5021,https://localhost:44377"
+  }
+  //"ReRoutes": [
+  //  {
+  //    "DownstreamPathTemplate": "/api/{version}/{everything}",
+  //    "DownstreamScheme": "http",
+  //    "DownstreamHostAndPorts": [
+  //      {
+  //        "Host": "catalog-api",
+  //        "Port": 80
+  //      }
+  //    ],
+  //    "UpstreamPathTemplate": "/api/{version}/c/{everything}",
+  //    "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+  //  },
+  //  {
+  //    "DownstreamPathTemplate": "/api/{version}/{everything}",
+  //    "DownstreamScheme": "http",
+  //    "DownstreamHostAndPorts": [
+  //      {
+  //        "Host": "basket-api",
+  //        "Port": 80
+  //      }
+  //    ],
+  //    "UpstreamPathTemplate": "/api/{version}/b/{everything}",
+  //    "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+  //    "AuthenticationOptions": {
+  //      "AuthenticationProviderKey": "IdentityApiKey",
+  //      "AllowedScopes": []
+  //    }
+  //  }
+
+  //],
+  //"GlobalConfiguration": {
+  //  "BaseUrl": ""
+  //  //,
+  //  //"RequestIdKey": "OcRequestId",
+  //  //"AdministrationPath": "/administration"
+  //}
+
+}

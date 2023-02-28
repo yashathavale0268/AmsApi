@@ -8,10 +8,10 @@ using AmsApi.Models;
 using CoreApiAdoDemo.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-
+using AmsApi.Interfaces;
 namespace AmsApi.Repository
 {
-    public class AssetRepository
+    public class AssetRepository//:IAssetRepository
     {
         private readonly string _connectionString;
 

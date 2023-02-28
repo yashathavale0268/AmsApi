@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using AmsApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using AmsApi.Interfaces;
 
 namespace AmsApi.Repository
 {
-    public class AssettypeRepository
+    public class AssettypeRepository//:IAssettypeRepository
     {
         private readonly string _connectionString;
 

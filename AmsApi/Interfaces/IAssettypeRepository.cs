@@ -9,12 +9,12 @@ namespace AmsApi.Interfaces
 {
     public interface IAssettypeRepository
     {
-        Task<ActionResult<IEnumerable<AssettypeModel>>> GetAllTypes(int PageNumber, int PageSize);
-        Task<ActionResult<IEnumerable<AssettypeModel>>> SearchTypes(int pageNumber = 1, int pageSize = 5, string searchTerm = null, int typeid = 0);
-        Task<AssettypeModel> GettypeById(int id);
-        Task Insert(AssettypeModel type);
-        Task UpdateType(AssettypeModel branch, int id);
-        Task DeletetypeById(int id);
+        public Task<ActionResult<IEnumerable<AssettypeModel>>> GetAllTypes( int PageNumber = 1,int PageSize = 5);
+        public Task<ActionResult<IEnumerable<AssettypeModel>>> SearchTypes(int pageNumber = 1, int pageSize = 5, string searchTerm = null, int typeid = 0);
+        public Task<ActionResult<IEnumerable<AssettypeModel>>> Get(int id);
+        public Task<IActionResult> Post([FromBody] AssettypeModel type);
+        public Task<IActionResult> Update([FromBody] AssettypeModel type, int id = 0);
+        public Task<IActionResult> Delete(int id = 0);
     }
 }
 
