@@ -87,17 +87,17 @@ namespace AmsApi.Controllers
             {
                 msg.ItExists = true;
                 msg.IsSuccess = false;
-                msg.ReturnMessage = "Item alredy registered";
+                msg.ReturnMessage = "Entry alredy registered";
             }
             else if (success is true)
             {
                 msg.IsSuccess = true;
-                msg.ReturnMessage = " new asset succesfully registered";
+                msg.ReturnMessage = " New Entry succesfully registered";
             }
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = "registeration unscessfull";
+                msg.ReturnMessage = "Registeration unscessfull";
             }
             return Ok(msg);
         }
