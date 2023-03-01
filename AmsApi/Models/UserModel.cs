@@ -28,6 +28,20 @@ namespace AmsApi.Models
         //ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character")]
         [DataMember(Name = "Password")]
         public string Password { get; set; }
+        
+        [DataMember(Name = "First_name")]
+        public string First_name { get; set; }
+        [DataMember(Name = "Last_name")]
+        public string Last_name { get; set; }
+        [DataMember(Name = "Department")]
+        public int? Department { get; set; }
+
+        [DataMember(Name = "Branch")]
+        public int? Branch { get; set; }
+        [DataMember(Name = "Floor")]
+        public int? Floor { get; set; }
+        [DataMember(Name = "Company")]
+        public int? Company { get; set; }
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; } = DateTime.Now;
         [DataMember(Name = "active")]

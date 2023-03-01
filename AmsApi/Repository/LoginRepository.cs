@@ -179,6 +179,12 @@ namespace AmsApi.Repository
                         cmd.Parameters.Add(new SqlParameter("@Username", user.Username));
                         cmd.Parameters.Add(new SqlParameter("@Email", user.Email));
                         cmd.Parameters.Add(new SqlParameter("@Password", hashedpassword));
+                        cmd.Parameters.Add(new SqlParameter("@First_name", user.First_name));
+                        cmd.Parameters.Add(new SqlParameter("@Last_name", user.Last_name));
+                        cmd.Parameters.Add(new SqlParameter("@Dep", user.Department));
+                        cmd.Parameters.Add(new SqlParameter("@Branch", user.Branch));
+                        cmd.Parameters.Add(new SqlParameter("@Floor", user.Floor));
+                        cmd.Parameters.Add(new SqlParameter("@Comp", user.Company));
                         cmd.Parameters.Add(new SqlParameter("@active", 1));
 
                         // returncode = new SqlParameter("@ReturnCode", SqlDbType.NVarChar) { Direction = ParameterDirection.Output };

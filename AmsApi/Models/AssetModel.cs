@@ -84,7 +84,7 @@ namespace AmsApi.Models
         public String Remarks { get; set; }
 
         [DataMember(Name = "Created_at")]
-        public DateTime Created_at { get; set; }
+        public DateTime Created_at { get; set; } = DateTime.Now;
         
         [DataMember(Name = "active")]
 
