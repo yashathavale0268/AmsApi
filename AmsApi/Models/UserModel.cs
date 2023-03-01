@@ -19,8 +19,11 @@ namespace AmsApi.Models
         [Required]
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         //[RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", ErrorMessage = "Invalid email address.")]
+
+       
         public string Email { get; set; }
         [DataMember(Name = "Username")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Invalid input")]
         public string Username { get; set; }
         [Required]
         [DataType(DataType.Password)]
@@ -30,8 +33,10 @@ namespace AmsApi.Models
         public string Password { get; set; }
         
         [DataMember(Name = "First_name")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string First_name { get; set; }
         [DataMember(Name = "Last_name")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Last_name { get; set; }
         [DataMember(Name = "Department")]
         public int? Department { get; set; }
