@@ -319,6 +319,35 @@ namespace AmsApi.Repository
             }
 
         }
+
+        internal object GenerateToken(UserModel userSessions)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    //new Claim(ClaimTypes.Sid, userSessions.Userid.ToString()),
+                    new Claim(ClaimTypes.Name, userSessions.Username.ToString()),
+                    new Claim(ClaimTypes.Email, userSessions.Email.ToString()),
+                    new Claim(ClaimTypes.Role,userSessions.Role.ToString()),
+
+                }),
+
+                Expires = DateTime.Now.AddMinutes(jwtBearerTokenSettings.ExpiryTimeInMinutes),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Audience = jwtBearerTokenSettings.ValidAudience,
+                Issuer = jwtBearerTokenSettings.ValidIssuer
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+
+        }
         private UserModel getuserbyname(SqlDataReader reader)
 
         {
@@ -435,35 +464,9 @@ namespace AmsApi.Repository
             }
            
         }
-        internal object GenerateToken(UserModel userSessions)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    //new Claim(ClaimTypes.Sid, userSessions.Userid.ToString()),
-                    new Claim(ClaimTypes.Name, userSessions.Username.ToString()),
-                    new Claim(ClaimTypes.Email, userSessions.Email.ToString()),
-                    new Claim(ClaimTypes.Role,userSessions.Role.ToString()),
-
-                }),
-
-                Expires = DateTime.Now.AddMinutes(jwtBearerTokenSettings.ExpiryTimeInMinutes),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                Audience = jwtBearerTokenSettings.ValidAudience,
-                Issuer = jwtBearerTokenSettings.ValidIssuer
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-           
-            return tokenHandler.WriteToken(token);
-
-        }
-
+        
+        #endregion
+        #region decode the token ?
         //internal string DecodeJwtPayload(string tokenval)
         //{
         //    //JwtBearerTokenSettings tokenstats = new();
@@ -483,36 +486,40 @@ namespace AmsApi.Repository
         //    var jwtPayLoad = JsonConvert.DeserializeObject<JwtPayLoad>(payload);
         //    return payload;
         //}
-        public JwtPayLoad DecodeJwtPayload(string token)
-        {
-            var parts = token.Split('.');
-            var payload = parts[1];
-            var payloadBytes = Convert.FromBase64String(Pad(payload));
-            var jsonPayload = Encoding.UTF8.GetString(payloadBytes);
-            var jwtPayload = JsonConvert.DeserializeObject<JwtPayLoad>(jsonPayload);
-            return jwtPayload;
 
-        }
+        //------------------------------------------------------------------------------
+        // working decoder
+        //---------------------------------------------------------------------------
+        //public JwtPayLoad DecodeJwtPayload(string token)
+        //{
+        //    var parts = token.Split('.');
+        //    var payload = parts[1];
+        //    var payloadBytes = Convert.FromBase64String(Pad(payload));
+        //    var jsonPayload = Encoding.UTF8.GetString(payloadBytes);
+        //    var jwtPayload = JsonConvert.DeserializeObject<JwtPayLoad>(jsonPayload);
+        //    return jwtPayload;
+
+        //}
 
         // helper function to pad the base64 string
-        private static string Pad(string base64)
-        {
-            switch (base64.Length % 4)
-            {
-                case 0:
-                    return base64;
-                case 2:
-                    return base64 + "==";
-                case 3:
-                    return base64 + "=";
-                default:
-                    throw new Exception("Illegal base64url string!");
-            }
-        }
+        //private static string Pad(string base64)
+        //{
+        //    switch (base64.Length % 4)
+        //    {
+        //        case 0:
+        //            return base64;
+        //        case 2:
+        //            return base64 + "==";
+        //        case 3:
+        //            return base64 + "=";
+        //        default:
+        //            throw new Exception("Illegal base64url string!");
+        //    }
+        //}
 
         // JwtPayload class
-        
         #endregion
+
     }
 }
 
