@@ -17,10 +17,12 @@ namespace AmsApi.Models
       [DataMember(Name ="Depid")]
         public int Depid { get; set; }
         [DataMember(Name = "Name")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Name { get; set; }
         [DataMember(Name = "active")]
         public  bool active { get; set; }
         [DataMember(Name = "Remarks")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Remarks { get; set; }
         [FromQuery]
         [DataMember(Name = "Created_at")]

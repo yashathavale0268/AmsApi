@@ -14,6 +14,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Branchid")]
         public int Branchid { get; set; }
         [DataMember(Name = "Name")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Name { get; set; }
         [DataMember(Name = "Created_at")]
         public DateTime? Created_at { get; set; } = DateTime.Now;

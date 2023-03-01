@@ -21,6 +21,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; } = DateTime.Now;
         [DataMember(Name = "Justify")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Justify { get; set; }
         [DataMember(Name = "Status")]
         public string Status { get; set; }

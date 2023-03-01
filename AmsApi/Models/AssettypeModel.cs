@@ -14,6 +14,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Typeid")]
         public int Typeid { get; set; }
         [DataMember(Name = "Name")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Name { get; set; }
         [DataMember(Name = "Remerks")]
         public string Remarks { get; set; }

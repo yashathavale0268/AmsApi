@@ -12,9 +12,11 @@ namespace AmsApi.Models
         public int Vendorid { get; set; }
 
         [DataMember(Name = "Name")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Name { get; set; }
 
         [DataMember(Name = "InvoiceNo")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string InvoiceNo { get; set; }
 
         [DataMember(Name = "InvoiceDate")]

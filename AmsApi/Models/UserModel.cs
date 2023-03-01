@@ -23,7 +23,7 @@ namespace AmsApi.Models
        
         public string Email { get; set; }
         [DataMember(Name = "Username")]
-        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Invalid input")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Username { get; set; }
         [Required]
         [DataType(DataType.Password)]
