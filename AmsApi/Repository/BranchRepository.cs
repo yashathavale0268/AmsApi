@@ -164,7 +164,7 @@ namespace AmsApi.Repository
             var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             command.Parameters.Add(returnpart);
             await command.ExecuteNonQueryAsync();
-
+            await sql.CloseAsync();
           //  bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
             bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
            // Itexists = itExists;
