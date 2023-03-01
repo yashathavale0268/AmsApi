@@ -27,8 +27,8 @@ namespace AmsApi.Repository
         private readonly string _connectionString;
         private readonly JwtBearerTokenSettings jwtBearerTokenSettings;
        // private readonly JwtSecurityTokenHandler tokenHandler;
-        public bool Itexists { get; private set; }
-        public bool IsSuccess { get; private set; }
+        public bool Itexists { get; set; }
+        public bool IsSuccess { get;  set; }
         Message msg = new();
         public LoginRepository(IConfiguration configuration, IOptions<JwtBearerTokenSettings> jwtTokenOptions)
         {
@@ -165,39 +165,37 @@ namespace AmsApi.Repository
 
         public async Task Insert(UserModel user)
         {
-            try
-            {
                 // string hashedPassword = Argon2.Hash(password);
                 string password = user.Password;
                 string hashedpassword = HashPassword(password);
                 using (SqlConnection sql = new(_connectionString))
                 {
-                    await sql.OpenAsync();
+                  
                     using (SqlCommand cmd = new("sp_register_user", sql))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@Username", user.Username));
-                        cmd.Parameters.Add(new SqlParameter("@Email", user.Email));
-                        cmd.Parameters.Add(new SqlParameter("@Password", hashedpassword));
-                        cmd.Parameters.Add(new SqlParameter("@First_name", user.First_name));
-                        cmd.Parameters.Add(new SqlParameter("@Last_name", user.Last_name));
-                        cmd.Parameters.Add(new SqlParameter("@Dep", user.Department));
-                        cmd.Parameters.Add(new SqlParameter("@Branch", user.Branch));
-                        cmd.Parameters.Add(new SqlParameter("@Floor", user.Floor));
-                        cmd.Parameters.Add(new SqlParameter("@Comp", user.Company));
-                        cmd.Parameters.Add(new SqlParameter("@active", 1));
-
+                        cmd.Parameters.AddWithValue("@Username", user.Username);
+                        cmd.Parameters.AddWithValue("@Email", user.Email);
+                        cmd.Parameters.AddWithValue("@Password", hashedpassword);
+                        cmd.Parameters.AddWithValue("@First_name", user.First_name);
+                        cmd.Parameters.AddWithValue("@Last_name", user.Last_name);
+                        cmd.Parameters.AddWithValue("@Dep", user.Department);
+                        cmd.Parameters.AddWithValue("@Branch", user.Branch);
+                        cmd.Parameters.AddWithValue("@Floor", user.Floor);
+                        cmd.Parameters.AddWithValue("@Comp", user.Company);
+                        cmd.Parameters.AddWithValue("@active", 1);
+                        await sql.OpenAsync();
                         // returncode = new SqlParameter("@ReturnCode", SqlDbType.NVarChar) { Direction = ParameterDirection.Output };
                         //cmd.Parameters.Add(returncode);
-                        var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                         cmd.Parameters.Add(returncode);
-                        var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        var returnnote = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                         cmd.Parameters.Add(returnnote);
 
 
 
                         await cmd.ExecuteNonQueryAsync();
-                        await sql.CloseAsync();
+                       
 
                         bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
                         bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
@@ -208,11 +206,9 @@ namespace AmsApi.Repository
                         return;
                     }
                 }
-            }
-            catch (Exception) 
-            { 
-            }
         }
+            
+        
 
         internal async Task<List<UserModel>> GetAllUser(int pageNumber, int pageSize)
         {
@@ -404,7 +400,7 @@ namespace AmsApi.Repository
 
 
 
-        #region update for users
+      
         internal async Task<UserModel> GetUserById(int id)
         {
             using (SqlConnection sql = new(_connectionString))
@@ -454,7 +450,7 @@ namespace AmsApi.Repository
 
                     //var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     //command.Parameters.Add(returncode);
-                    var returnnote = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     command.Parameters.Add(returnnote);
                     await command.ExecuteNonQueryAsync();
 
@@ -471,7 +467,7 @@ namespace AmsApi.Repository
            
         }
         
-        #endregion
+       
         #region decode the token ?
         //internal string DecodeJwtPayload(string tokenval)
         //{

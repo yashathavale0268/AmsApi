@@ -129,14 +129,14 @@ namespace AmsApi.Repository
         internal async Task<List<BranchModel>> GetBranchById(int id)
         {
             using SqlConnection sql = new(_connectionString);
-            await sql.OpenAsync();
+           
             using (SqlCommand command = new("sp_GetAllBranch", sql))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@id", id);
 
                 var response = new List<BranchModel>();
-               
+                await sql.OpenAsync();
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -145,7 +145,7 @@ namespace AmsApi.Repository
                         response.Add(MapToValue(reader));
                     }
                 }
-
+                await sql.CloseAsync();
                 return response;
             }
         }
@@ -181,13 +181,14 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@Name", branch.Name));
             cmd.Parameters.Add(new SqlParameter("@Created_at", branch.Created_at));
             cmd.Parameters.Add(new SqlParameter("@active", 1));
-            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);
             var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returnpart);
 
             await sql.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
+            await sql.CloseAsync();
             bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
             bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
             Itexists = itExists;
@@ -214,7 +215,8 @@ namespace AmsApi.Repository
                    
                     await sql.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
-                   // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    await sql.CloseAsync();
+                    // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
                     bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
                   //  Itexists = itExists;
                     IsSuccess = isSuccess;
@@ -236,6 +238,7 @@ namespace AmsApi.Repository
 
             await sql.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
+            await sql.CloseAsync();
             return;
         }
     }

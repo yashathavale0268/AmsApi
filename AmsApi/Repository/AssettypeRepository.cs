@@ -141,39 +141,7 @@ namespace AmsApi.Repository
             return;
         }
 
-        //public async Task GetbyObj(AssettypeMaster user, bool isAuth, bool Admin)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection sql = new SqlConnection(_connectionString))
-        //        {
-        //            await sql.OpenAsync();
-
-        //            using (var command = new SqlCommand("login_user", sql))
-        //            {
-        //                command.CommandType = CommandType.StoredProcedure;
-        //                command.Parameters.AddWithValue("@UserName", user.Email);
-        //                command.Parameters.AddWithValue("@Password", user.Password);
-
-        //                var isAuthenticatedParam = new SqlParameter("@isAuthenticated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-        //                command.Parameters.Add(isAuthenticatedParam);
-        //                var isAdmin = new SqlParameter("@isAdmin", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-        //                command.Parameters.Add(isAdmin);
-        //                await sql.OpenAsync();
-        //                await command.ExecuteNonQueryAsync();
-        //                sql.Close();
-        //                isAuth = (bool)isAuthenticatedParam.Value;
-        //                Admin = (bool)isAdmin.Value;
-
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //    }
-        //}
-
+       
        
         public async Task UpdateType([FromBody] AssettypeModel type, int id)
         {

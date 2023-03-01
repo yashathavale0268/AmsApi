@@ -131,12 +131,17 @@ namespace AmsApi.Controllers
                     msg.IsSuccess = true;
                     msg.ReturnMessage = " updated successfully";
                 }
+                else
+                {
+                    msg.IsSuccess = false;
+                    msg.ReturnMessage = " updated unsuccessfull";
+                }
                
             }
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = "no brance found";
+                msg.ReturnMessage = "no branch found";
             }
 
             

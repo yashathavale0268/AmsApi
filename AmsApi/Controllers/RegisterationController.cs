@@ -318,8 +318,8 @@ namespace AmsApi.Controllers
                 msg.Data = User;
                 
                  await _repository.UpdateUser(user, id);
-
-                if (msg.IsSuccess is true)
+                bool success = _repository.IsSuccess;
+                if (success is true)
                 {
 
                     msg.IsSuccess = true;
@@ -328,7 +328,7 @@ namespace AmsApi.Controllers
                 else
                 {
                     msg.IsSuccess = false;
-                    msg.ReturnMessage = " User is Update is unsuccessfull";
+                    msg.ReturnMessage = " User update unsuccessfull";
                 }
             }
             return Ok(msg);
