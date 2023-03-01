@@ -105,39 +105,31 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = true;
                 msg.ReturnMessage = "Successful Login";
 
-                if (userSessions.Userid>0)
-                {
+                string token = (string)_repository.GenerateToken(userSessions); //null;//
+                                                                                //string secretKey = key;
+                                                                                //string tokenkey = secretKey;
+                                                                                //msg.Data =tokenkey;
+                msg.Data = token;
+                
 
+                
 
-
-                    string token =(string)_repository.GenerateToken(userSessions); //null;//
-                    //string secretKey = key;
-                    //string tokenkey = secretKey;
-                    //msg.Data =tokenkey;
-                    msg.Data = token;
-                    
                     //var validatedtoken = _repository.Validatetoken(token, tokenkey);
                     //msg.Data = validatedtoken;
                     
                     ////---if want to decode the token later---
                     //tokenvalues = _repository.DecodeJwtPayload((validatedtoken).ToString());
 
-
-                    
-
-
                 }
                 else
                 {
-                    msg.IsSuccess = false;
-                    msg.ReturnMessage = " no user found";
-                    //throw new ArgumentNullException(nameof(userSessions));
-
-
-
-                }
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " no user found";
+                //throw new ArgumentNullException(nameof(userSessions));
 
             }
+
+            
            
             return Ok(msg); 
         }
