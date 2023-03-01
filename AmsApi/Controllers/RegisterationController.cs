@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AmsApi.Controllers
 {
-   // [AllowAnonymous]
+    [AllowAnonymous]
     [Authorize]
    
     [Route("api/[controller]")]
