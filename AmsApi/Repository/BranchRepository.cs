@@ -136,7 +136,7 @@ namespace AmsApi.Repository
                 command.Parameters.AddWithValue("@id", id);
 
                 var response = new List<BranchModel>();
-                await sql.OpenAsync();
+               
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {
