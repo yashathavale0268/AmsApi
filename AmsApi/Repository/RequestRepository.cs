@@ -83,9 +83,10 @@ namespace AmsApi.Repository
                 Empid = (int)reader["Empid"],
 
            //     List<int> Assets = new List<int> {},
-          //  Assets = reader["Assets"].ToString(),
+           //Assets = reader["Assets"].ToString(),
            Assetid = (int)reader["Assetid"],
-                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+             Asset = (string)reader["Asset"],
+            Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Justify = reader["Justify"].ToString(),
                 Status = reader["Status"].ToString(),
                 active = (bool)reader["active"],

@@ -13,10 +13,12 @@ namespace AmsApi.Models
         public int Requestid { get; set; }
         [DataMember(Name = "Empid")]
         public int Empid { get; set; }
-        //[DataMember(Name = "Assets")]
-      [DataMember(Name = "Assetid")]
+
+        [DataMember(Name = "Asset")]
+        public string Asset { get; set; }
+        [DataMember(Name = "Assetid")]
       //  public List<int> Assets { get; set; }
-     //   public string Assets { get; set; }
+     
         public int Assetid { get; set; }
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; } = DateTime.Now;
