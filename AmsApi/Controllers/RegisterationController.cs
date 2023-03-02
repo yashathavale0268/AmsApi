@@ -105,7 +105,7 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = true;
                 msg.ReturnMessage = "Successful Login";
 
-                string token = (string)_repository.GenerateToken(userSessions); //null;//
+                var token = _repository.GenerateToken(userSessions); //null;//
                                                                                 //string secretKey = key;
                                                                                 //string tokenkey = secretKey;
                                                                                 //msg.Data =tokenkey;
