@@ -160,7 +160,7 @@ namespace AmsApi.Repository
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.Parameters.AddWithValue("@Empid", request.Empid);
-                        cmd.Parameters.AddWithValue("@Assets", request.Assetid);
+                        cmd.Parameters.AddWithValue("@Assetid", request.Assetid);
                         cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                         cmd.Parameters.AddWithValue("@Justify", request.Justify);
                         cmd.Parameters.AddWithValue("@Status", request.Status);
@@ -189,7 +189,7 @@ namespace AmsApi.Repository
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                using (SqlCommand cmd = new("sp_DeleteRequest", sql))
+                using (SqlCommand cmd = new("sp_DeleteRequests", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@id", id));

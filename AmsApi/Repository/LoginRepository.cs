@@ -177,12 +177,12 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@Username", user.Username);
                         cmd.Parameters.AddWithValue("@Email", user.Email);
                         cmd.Parameters.AddWithValue("@Password", hashedpassword);
-                        cmd.Parameters.AddWithValue("@First_name", user.First_name);
-                        cmd.Parameters.AddWithValue("@Last_name", user.Last_name);
-                        cmd.Parameters.AddWithValue("@Dep", user.Department);
-                        cmd.Parameters.AddWithValue("@Branch", user.Branch);
-                        cmd.Parameters.AddWithValue("@Floor", user.Floor);
-                        cmd.Parameters.AddWithValue("@Comp", user.Company);
+                        //cmd.Parameters.AddWithValue("@First_name", user.First_name);
+                        //cmd.Parameters.AddWithValue("@Last_name", user.Last_name);
+                        //cmd.Parameters.AddWithValue("@Dep", user.Department);
+                        //cmd.Parameters.AddWithValue("@Branch", user.Branch);
+                        //cmd.Parameters.AddWithValue("@Floor", user.Floor);
+                        //cmd.Parameters.AddWithValue("@Comp", user.Company);
                         cmd.Parameters.AddWithValue("@active", 1);
                         await sql.OpenAsync();
                         // returncode = new SqlParameter("@ReturnCode", SqlDbType.NVarChar) { Direction = ParameterDirection.Output };

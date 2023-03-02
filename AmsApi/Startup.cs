@@ -248,7 +248,7 @@ namespace AmsApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AmsApi v1"));
             }
-            app.UseIpRateLimiting();
+            //app.UseIpRateLimiting();
             app.UseHsts();
             app.UseHttpsRedirection();
 

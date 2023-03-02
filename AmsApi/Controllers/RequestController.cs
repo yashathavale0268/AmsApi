@@ -155,7 +155,7 @@ namespace AmsApi.Controllers
         public async Task<IActionResult> Delete(int id =0)
         {
             var msg = new Message();
-            await _repository.DeleteById(id);
+            //await _repository.DeleteById(id);
          
             var GetComp = await _repository.GetRequestId(id);
 
