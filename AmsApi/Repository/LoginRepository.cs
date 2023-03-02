@@ -332,7 +332,7 @@ namespace AmsApi.Repository
 
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    //new Claim(ClaimTypes.Sid, userSessions.Userid.ToString()),
+                    new Claim(ClaimTypes.PrimarySid, userSessions.Userid.ToString()),
                     new Claim(ClaimTypes.Name, userSessions.Username.ToString()),
                     new Claim(ClaimTypes.Email, userSessions.Email.ToString()),
                     new Claim(ClaimTypes.Role,userSessions.Role.ToString()),

@@ -44,42 +44,46 @@ namespace AmsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             services.AddMemoryCache();
+            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+            //services.Configure<IpRateLimitOptions>(options =>
+            //{
+
+            //    options.EnableEndpointRateLimiting = true;
+            //    options.StackBlockedRequests = true;
+            //    options.HttpStatusCode = 429;
+            //    options.RealIpHeader = "X-Real-IP";
+            //    options.ClientIdHeader = "X-ClientId";
+            //    options.GeneralRules = new List<RateLimitRule>
+            //    {
+            //            new RateLimitRule
+            //            {
+            //                   Endpoint = "POST:/api/Registeration/Login",
+            //                    Period = "1s",
+            //                    Limit = 5,
+            //                    //DelayMs= 0,
+            //                    //Randomized= true
+
+            //            },  
+            //            new RateLimitRule
+            //            {
+            //                   Endpoint = "POST:/api/Registeration/NewUser",
+            //                    Period = "1s",
+            //                    Limit = 5,
+
+            //            },
+            //            new RateLimitRule
+            //            {
+            //                   Endpoint = "POST:/api/Request/CreateNew",
+            //                    Period = "1s",
+            //                    Limit = 5,
+
+            //            }
+            //    };
             
-            services.Configure<IpRateLimitOptions>(options =>
-            {
-
-                options.EnableEndpointRateLimiting = true;
-                options.StackBlockedRequests = false;
-                options.HttpStatusCode = 429;
-                options.RealIpHeader = "X-Real-IP";
-                options.ClientIdHeader = "X-ClientId";
-                options.GeneralRules = new List<RateLimitRule>
-                {
-                        new RateLimitRule
-                        {
-                               Endpoint = "POST:/api/Registeration/Login",
-                                Period = "1s",
-                                Limit = 5,
-
-                        },  
-                        new RateLimitRule
-                        {
-                               Endpoint = "POST:/api/Registeration/NewUser",
-                                Period = "1s",
-                                Limit = 5,
-
-                        },
-                        new RateLimitRule
-                        {
-                               Endpoint = "POST:/api/Request/CreateNew",
-                                Period = "1s",
-                                Limit = 5,
-
-                        }
-                };
-            
-            });
+            //});
 
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
@@ -133,6 +137,7 @@ namespace AmsApi
             services.AddTransient<RegisterationController>();
             services.AddHttpContextAccessor();
             services.AddOcelot();
+
             //services.AddIdentity<UserModel, IdentityRole>()
             //    .AddEntityFrameworkStores<IdentityDbcontext>()
             //    .AddDefaultTokenProviders();
@@ -244,6 +249,7 @@ namespace AmsApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AmsApi v1"));
             }
             app.UseIpRateLimiting();
+            app.UseHsts();
             app.UseHttpsRedirection();
 
             app.UseRouting();
