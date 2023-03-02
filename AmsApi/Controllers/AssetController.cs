@@ -35,6 +35,12 @@ namespace AmsApi.Controllers
         //    return await _repository.GetAll();
 
         //}
+        [HttpGet("GetAllTables")]
+        public IActionResult GetAllTables()
+        {
+            var result = _repository.GetAllTables();
+            return Ok(result);
+        }
         [HttpGet("GetAllAssets")]
         public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
         {

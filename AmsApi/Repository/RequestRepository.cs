@@ -88,7 +88,8 @@ namespace AmsApi.Repository
              Asset = (string)reader["Asset"],
             Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Justify = reader["Justify"].ToString(),
-                Status = reader["Status"].ToString(),
+                Status =(int)reader["Status"],
+                CurrentStatus = reader["CurrentStatus"].ToString(),
                 active = (bool)reader["active"],
             };
 

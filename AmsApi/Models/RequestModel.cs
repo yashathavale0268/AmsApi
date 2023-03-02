@@ -25,8 +25,13 @@ namespace AmsApi.Models
         [DataMember(Name = "Justify")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Justify { get; set; }
+
         [DataMember(Name = "Status")]
-        public string Status { get; set; }
+        public int Status { get; set; }
+
+        [DataMember(Name = "CurrentStatus")]
+        public string CurrentStatus { get; set; }
+
         [DataMember(Name = "active")]
         public bool active { get; set; }
 

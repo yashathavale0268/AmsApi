@@ -239,7 +239,14 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
-
+        //}
+        [AllowAnonymous]
+        [HttpGet("GetAllTables")]
+        public IActionResult GetAllTables()
+        {
+            var result = _repository.GetAllTables();
+            return Ok(result);
+        }
         [AllowAnonymous]
         [HttpPost]
         [Route("NewUser")]

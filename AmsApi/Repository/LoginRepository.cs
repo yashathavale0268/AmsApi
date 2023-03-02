@@ -35,7 +35,23 @@ namespace AmsApi.Repository
             _connectionString = configuration.GetConnectionString("MainCon");
             jwtBearerTokenSettings = jwtTokenOptions.Value;
         }
-        public async Task<List<UserModel>> GetAll()
+
+        public DataSet GetAllTables()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAll", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
+        }
+        public async Task<List<UserModel>> GetAllUserstable()
         {
             using (SqlConnection sql = new(_connectionString))
             {

@@ -69,12 +69,13 @@ namespace AmsApi.Repository
             return new StatusModel()
             {
                Statusid = (int)reader["Statusid"],
-               Status =reader["Status"].ToString(),
+               Status =(int)reader["Status"],
                 Empid = (int)reader["Empid"],
                 Assetid = (int)reader["Assetid"],
                 Requestid = (int)reader["Requestid"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 active = (bool)reader["active"],
+                StatusNow = (string)reader["StatusNow"],
             };
         }
 
