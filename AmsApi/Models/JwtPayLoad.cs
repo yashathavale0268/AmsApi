@@ -7,7 +7,7 @@ namespace AmsApi.Models
 {
     public class JwtPayLoad
     {
-        public string userid { get; set; }
+        public string Userid{ get; set; }
         public string unique_name { get; set; }
         public string email { get; set; }
 

@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AmsApi.Controllers
 {
     [AllowAnonymous]
-    [Authorize]
+    //[Authorize]
     
     [Produces("application/json")]
     [Route("api/[controller]")]

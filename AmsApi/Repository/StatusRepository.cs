@@ -70,7 +70,7 @@ namespace AmsApi.Repository
             {
                Statusid = (int)reader["Statusid"],
                Status =(int)reader["Status"],
-                Empid = (int)reader["Empid"],
+                Userid = (int)reader["Userid"],
                 Assetid = (int)reader["Assetid"],
                 Requestid = (int)reader["Requestid"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
@@ -89,7 +89,7 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
                     cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
-                    cmd.Parameters.AddWithValue("@Empid", Userid);
+                    cmd.Parameters.AddWithValue("@Userid", Userid);
                     cmd.Parameters.AddWithValue("@Assetid", Assetid);
                     cmd.Parameters.AddWithValue("@Requestid", Requestid);
                     cmd.Parameters.AddWithValue("@Statid", Statid);
@@ -142,7 +142,7 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", stat.Statusid);
-                    cmd.Parameters.AddWithValue("@Empid", stat.Empid);
+                    cmd.Parameters.AddWithValue("@Userid", stat.Empid);
                     cmd.Parameters.AddWithValue("@Assetid", stat.Assetid);
                     cmd.Parameters.AddWithValue("@Requestid", stat.Requestid);
                     cmd.Parameters.AddWithValue("@Creat_at", stat.Created_at);
@@ -190,7 +190,7 @@ namespace AmsApi.Repository
                          {
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddWithValue("@id", id);
-                                cmd.Parameters.AddWithValue("@Empid", stat.Empid);
+                                cmd.Parameters.AddWithValue("@Userid", stat.Empid);
                                 cmd.Parameters.AddWithValue("@Assetid", stat.Assetid);
                                 cmd.Parameters.AddWithValue("@Requestid", stat.Requestid);
                                 cmd.Parameters.AddWithValue("@Creat_at", stat.Created_at);

@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AmsApi.Controllers
 {
     [AllowAnonymous]
-    [Authorize]
+   // [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -29,7 +29,7 @@ namespace AmsApi.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
 
-      //  [Authorize("Admin")]
+      [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
         
         public async Task<ActionResult<IEnumerable<RequestModel>>> GetAllRequests([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
@@ -46,7 +46,7 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
-       // [Authorize("Admin")]
+       [Authorize("Admin")]
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int searchTerm =0,string searchString=null,[FromQuery]int reqId=0,[FromQuery]int assetId=0,[FromQuery]int statId=0)
         {

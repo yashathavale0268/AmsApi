@@ -348,11 +348,11 @@ namespace AmsApi.Repository
 
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.PrimarySid, userSessions.Userid.ToString()),
+                    new Claim("Userid", userSessions.Userid.ToString()),
                     new Claim(ClaimTypes.Name, userSessions.Username.ToString()),
                     new Claim(ClaimTypes.Email, userSessions.Email.ToString()),
                     new Claim(ClaimTypes.Role,userSessions.Role.ToString()),
-
+                    new Claim("FullName",userSessions.FullName.ToString()),
                 }),
 
                 Expires = DateTime.Now.AddMinutes(jwtBearerTokenSettings.ExpiryTimeInMinutes),
@@ -375,7 +375,7 @@ namespace AmsApi.Repository
                 Email = reader["Email"].ToString(),
                 Username = reader["Username"].ToString(),
                 Role = reader["Role"].ToString(),
-               
+                FullName = reader["FullName"].ToString(),
             };
         }
     
@@ -463,7 +463,12 @@ namespace AmsApi.Repository
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@Password", hashedpassword);
-
+                    command.Parameters.AddWithValue("@First_name", user.First_name);
+                    command.Parameters.AddWithValue("@Last_name", user.Last_name);
+                    command.Parameters.AddWithValue("@Dep", user.Department);
+                    command.Parameters.AddWithValue("@Branch", user.Branch);
+                    command.Parameters.AddWithValue("@Floor", user.Floor);
+                    command.Parameters.AddWithValue("@Comp", user.Company);
                     //var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     //command.Parameters.Add(returncode);
                     var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -482,8 +487,8 @@ namespace AmsApi.Repository
             }
            
         }
-        
-       
+
+
         #region decode the token ?
         //internal string DecodeJwtPayload(string tokenval)
         //{
@@ -508,32 +513,32 @@ namespace AmsApi.Repository
         //------------------------------------------------------------------------------
         // working decoder
         //---------------------------------------------------------------------------
-        //public JwtPayLoad DecodeJwtPayload(string token)
-        //{
-        //    var parts = token.Split('.');
-        //    var payload = parts[1];
-        //    var payloadBytes = Convert.FromBase64String(Pad(payload));
-        //    var jsonPayload = Encoding.UTF8.GetString(payloadBytes);
-        //    var jwtPayload = JsonConvert.DeserializeObject<JwtPayLoad>(jsonPayload);
-        //    return jwtPayload;
+        public JwtPayLoad DecodeJwtPayload(string token)
+        {
+            var parts = token.Split('.');
+            var payload = parts[1];
+            var payloadBytes = Convert.FromBase64String(Pad(payload));
+            var jsonPayload = Encoding.UTF8.GetString(payloadBytes);
+            var jwtPayload = JsonConvert.DeserializeObject<JwtPayLoad>(jsonPayload);
+            return jwtPayload;
 
-        //}
+        }
 
-        // helper function to pad the base64 string
-        //private static string Pad(string base64)
-        //{
-        //    switch (base64.Length % 4)
-        //    {
-        //        case 0:
-        //            return base64;
-        //        case 2:
-        //            return base64 + "==";
-        //        case 3:
-        //            return base64 + "=";
-        //        default:
-        //            throw new Exception("Illegal base64url string!");
-        //    }
-        //}
+       // helper function to pad the base64 string
+        private static string Pad(string base64)
+        {
+            switch (base64.Length % 4)
+            {
+                case 0:
+                    return base64;
+                case 2:
+                    return base64 + "==";
+                case 3:
+                    return base64 + "=";
+                default:
+                    throw new Exception("Illegal base64url string!");
+            }
+        }
 
         // JwtPayload class
         #endregion

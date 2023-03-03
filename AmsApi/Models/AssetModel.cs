@@ -10,7 +10,7 @@ namespace AmsApi.Models
     public class AssetModel
     {
         [Key]
-
+        
         [DataMember(Name = "Assetid")]
         public int Assetid { get; set; } = 0;
         
@@ -20,6 +20,7 @@ namespace AmsApi.Models
         
         [DataMember(Name = "Branch")]
         public int Branch { get; set; }
+
         
         [DataMember(Name = "Brand")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
@@ -92,7 +93,23 @@ namespace AmsApi.Models
         [DataMember(Name = "active")]
 
         public bool active { get; set; }
-       
+
+       /// 
+       /// tables join columns~
+       /// 
+
+        [DataMember(Name = "Branches")]
+        public string Branches { get; set; }
+
+        [DataMember(Name = "TypeName")]
+        public string TypeName { get; set; }
+        [DataMember(Name = "Statuses")]
+        public string Statuses { get; set; }
+        [DataMember(Name = "Vendors")]
+        public string Vendors { get; set; }
+
+        [DataMember(Name = "Lastuser")]
+        public string Lastuser { get; set; }
 
 
 
@@ -113,12 +130,9 @@ namespace AmsApi.Models
 
 
 
-        
-               
-               
-                
-                
-               
+
+
+
 
     }
 }

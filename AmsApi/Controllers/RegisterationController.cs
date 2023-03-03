@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 namespace AmsApi.Controllers
 {
     [AllowAnonymous]
-    [Authorize]
+    //[Authorize]
    
     [Route("api/[controller]")]
     [ApiController]
@@ -96,7 +96,7 @@ namespace AmsApi.Controllers
             //throw new ArgumentNullException(nameof(userSessions));
             ////,key //var tokendecode = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),your - 256 - bit - secret) //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
             UserModel userSessions = new();
-           // JwtPayLoad tokenvalues = new();
+            JwtPayLoad tokenvalues = new();
             userSessions =  await _repository.GetbyObj(user);
            
 
@@ -109,7 +109,7 @@ namespace AmsApi.Controllers
                                                                                 //string secretKey = key;
                                                                                 //string tokenkey = secretKey;
                                                                                 //msg.Data =tokenkey;
-                msg.Data = token;
+                msg.Data = (token, userSessions);
                 
 
                 
@@ -118,9 +118,9 @@ namespace AmsApi.Controllers
                     //msg.Data = validatedtoken;
                     
                     ////---if want to decode the token later---
-                    //tokenvalues = _repository.DecodeJwtPayload((validatedtoken).ToString());
-
-                }
+                  //  tokenvalues = _repository.DecodeJwtPayload((token).ToString());
+             //   msg.Data = tokenvalues;
+            }
                 else
                 {
                 msg.IsSuccess = false;

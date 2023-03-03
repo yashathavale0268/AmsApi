@@ -232,7 +232,7 @@ namespace AmsApi.Repository
         public async Task DeleteById(int id)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_DeteteBranch", sql);
+            using SqlCommand cmd = new("sp_DeleteBranch", sql);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@id", id));
 

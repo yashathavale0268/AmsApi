@@ -91,6 +91,11 @@ namespace AmsApi.Repository
                Created_at= (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
               
             active = (bool)reader["active"],
+                Branches = reader["Branches"].ToString(),
+                TypeName = reader["TypeName"].ToString(),
+                Statuses = reader["Statuses"].ToString(),
+                Vendors = reader["Vendors"].ToString(),
+                Lastuser = reader["Lastuser"].ToString(),
             };
         }
 

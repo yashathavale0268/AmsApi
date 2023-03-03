@@ -31,7 +31,11 @@ namespace AmsApi.Models
         //ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character")]
         [DataMember(Name = "Password")]
         public string Password { get; set; }
+
+        [DataMember(Name = "FullName")]
         
+        public string FullName { get; set; }
+
         [DataMember(Name = "First_name")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string First_name { get; set; }
@@ -51,7 +55,7 @@ namespace AmsApi.Models
         public DateTime Created_at { get; set; } = DateTime.Now;
         [DataMember(Name = "active")]
         public bool Active { get; set; }
-
+        
         [DataMember(Name = "Role")]
         public string Role { get; internal set; }
 
