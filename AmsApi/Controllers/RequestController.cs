@@ -64,7 +64,7 @@ namespace AmsApi.Controllers
         // GET api/values/5
        // [Authorize("Admin,User")]
         [HttpGet("Getbyid/{id}")]
-        public async Task<ActionResult<RequestModel>> Get(int id = 0)
+        public async Task<ActionResult<RequestModel>> Get(int id = 0)//will be used to display all the request done in by the user
         {
             var msg = new Message();
             var response = await _repository.GetRequestId(id);
@@ -92,6 +92,7 @@ namespace AmsApi.Controllers
         [HttpPost("CreateNew")]
         public async Task<IActionResult> Post([FromBody] RequestModel request)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
             await _repository.Insert(request);
             bool exists = _repository.Itexists;
@@ -122,6 +123,7 @@ namespace AmsApi.Controllers
         [HttpPut("UpdateRequest/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] RequestModel request)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count>0)
@@ -155,7 +157,7 @@ namespace AmsApi.Controllers
         public async Task<IActionResult> Delete(int id =0)
         {
             var msg = new Message();
-            await _repository.DeleteById(id);
+          //  await _repository.DeleteById(id);
          
             var GetComp = await _repository.GetRequestId(id);
 

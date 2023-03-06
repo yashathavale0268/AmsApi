@@ -166,23 +166,23 @@ namespace AmsApi.Repository
             }
         }
 
-        public object Validatetoken(string token, string tokenkey)
-        {
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey));
-            //var key = Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey);
-            var tokenHandler = new JwtSecurityTokenHandler();
+        //public object Validatetoken(string token, string tokenkey)
+        //{
+        //    var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey));
+        //    //var key = Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey);
+        //    var tokenHandler = new JwtSecurityTokenHandler();
 
            
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                }, out SecurityToken validatedToken);
-            string SecurityToken = tokenHandler.WriteToken(validatedToken);
-            return SecurityToken;
-        }
+        //        tokenHandler.ValidateToken(token, new TokenValidationParameters
+        //        {
+        //            ValidateIssuerSigningKey = true,
+        //            IssuerSigningKey = key,
+        //            ValidateIssuer = false,
+        //            ValidateAudience = false
+        //        }, out SecurityToken validatedToken);
+        //    string SecurityToken = tokenHandler.WriteToken(validatedToken);
+        //    return SecurityToken;
+        //}
 
         internal Task GetUserRole(UserModel user)
         {
@@ -450,9 +450,9 @@ namespace AmsApi.Repository
                 Email = reader["Email"].ToString(),
                 Username = reader["Username"].ToString(),
                 Role = reader["Role"].ToString(),
-                First_name=reader["First_name"].ToString(),
-                Last_name=reader["Last_name"].ToString(),
-                FullName = reader["FullName"].ToString(),
+                //First_name=reader["First_name"].ToString(),
+                //Last_name=reader["Last_name"].ToString(),
+                Full_name = reader["Full_name"].ToString(),
             };
         }
     

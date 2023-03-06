@@ -14,8 +14,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Userid")]
         public int Userid { get; set; }
 
-        [DataMember(Name = "Asset")]
-        public string Asset { get; set; }
+        
         [DataMember(Name = "Assetid")]
       //  public List<int> Assets { get; set; }
      
@@ -29,18 +28,22 @@ namespace AmsApi.Models
         [DataMember(Name = "Status")]
         public int Status { get; set; }
 
-        [DataMember(Name = "CurrentStatus")]
-        public string CurrentStatus { get; set; }
+       
 
         [DataMember(Name = "active")]
         public bool active { get; set; }
 
-        
-                    
-                    
-                    
-                   
-                    
+        [DataMember(Name = "Asset")]
+        public string Asset { get; set; }
+        [DataMember(Name = "CurrentStatus")]
+        public string CurrentStatus { get; set; }
+        [DataMember(Name = "UserName")]
+        public string UserName { get; set; }
+
+
+
+
+
 
     }
 }

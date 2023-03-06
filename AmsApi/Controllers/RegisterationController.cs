@@ -95,9 +95,9 @@ namespace AmsApi.Controllers
             // ,bool Admin//,Admin
             //throw new ArgumentNullException(nameof(userSessions));
             ////,key //var tokendecode = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),your - 256 - bit - secret) //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
-            UserModel userSessions = new();
-            JwtPayLoad tokenvalues = new();
-            userSessions = await _repository.GetbyObj(user);
+          //  UserModel userSessions = new();
+           // JwtPayLoad tokenvalues = new();
+           var userSessions = await _repository.GetbyObj(user);
 
 
             if (userSessions.Userid > 0)
@@ -256,6 +256,7 @@ namespace AmsApi.Controllers
         [Route("NewUser")]
         public async Task<ActionResult<UserModel>> Post([FromBody] UserModel user)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
             await _repository.Insert(user);
             bool exists = _repository.Itexists;
@@ -281,7 +282,7 @@ namespace AmsApi.Controllers
             return Ok(msg);
 
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("SetRole/{id}")]
         public async Task<IActionResult> SetRole([FromQuery] string Role = "N/A", int id = 0)
         {
@@ -310,16 +311,13 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] UserModel user, int id = 0)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
             var User = await _repository.GetById(id);
-            if (User == null)
+           
+             if (User.Userid > 0)
             {
-                msg.ReturnMessage = " no user found";
-
-            }
-            else if (User.Userid > 0)
-            {
-                msg.Data = User;
+               // msg.Data = User;
 
                 await _repository.UpdateUser(user, id);
                 bool success = _repository.IsSuccess;
@@ -335,8 +333,16 @@ namespace AmsApi.Controllers
                     msg.ReturnMessage = " User update unsuccessfull";
                 }
             }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " no user found";
+
+            }
             return Ok(msg);
         }
+
+
         [HttpPut("UpdatePassword/{id}")]
         public async Task<IActionResult> UpdatePassword([FromBody] UserModel user, int id = 0)
         {
@@ -385,10 +391,12 @@ namespace AmsApi.Controllers
 
             if (Users.Userid> 0)
             {
-                msg.IsSuccess = true;
-                msg.Data = Users;
-
+               
+                // msg.Data = Users;
+               
                 await _repository.DeleteById(id);
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " values deleted";
             }
             else
             {

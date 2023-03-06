@@ -122,6 +122,7 @@ namespace AmsApi.Controllers
         [HttpPost("AddNew")]
         public async Task<IActionResult> Post([FromBody] AssetModel asset)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
             await _repository.Insert(asset);
             bool exists = _repository.Itexists;
@@ -148,6 +149,7 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] AssetModel asset, int id=0)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
           
            

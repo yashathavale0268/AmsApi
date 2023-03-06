@@ -85,14 +85,31 @@ namespace AmsApi.Repository
            //     List<int> Assets = new List<int> {},
            //Assets = reader["Assets"].ToString(),
            Assetid = (int)reader["Assetid"],
-             Asset = (string)reader["Asset"],
             Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Justify = reader["Justify"].ToString(),
                 Status =(int)reader["Status"],
-                CurrentStatus = reader["CurrentStatus"].ToString(),
                 active = (bool)reader["active"],
+                Asset = (string)reader["Asset"],
+                CurrentStatus = reader["CurrentStatus"].ToString(),
+                UserName=(string)reader["UserName"],
             };
 
+        }
+
+        public DataSet GetAllTables()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAll", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
         }
 
         internal async Task Insert(RequestModel request)
@@ -153,8 +170,7 @@ namespace AmsApi.Repository
 
         internal async Task UpdateRequest(RequestModel request, int id)
         {
-            try
-            {
+           
                 using (SqlConnection sql = new(_connectionString))
                 {
                     using (SqlCommand cmd = new("sp_RequestCreate", sql))
@@ -162,36 +178,34 @@ namespace AmsApi.Repository
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.Parameters.AddWithValue("@Userid", request.Userid);
-                        cmd.Parameters.AddWithValue("@Assets", request.Assetid);
+                        cmd.Parameters.AddWithValue("@Assetid", request.Assetid);
                         cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                         cmd.Parameters.AddWithValue("@Justify", request.Justify);
                         cmd.Parameters.AddWithValue("@Status", request.Status);
                         cmd.Parameters.AddWithValue("@active", 1);
                         await sql.OpenAsync();
-                        var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                       // var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                         //  cmd.Parameters.Add(returncode);
-                        var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                         cmd.Parameters.Add(returnpart);
                         await cmd.ExecuteNonQueryAsync();
-                        //     bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                           // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
                         bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
-                        //  Itexists = itExists;
+                       //  Itexists = itExists;
                         IsSuccess = isSuccess;
-                        return;
+                        
                     }
-                }
+                
             }
-            catch (Exception)
-            {
 
-            }
+            return;
         }
 
         internal async Task DeleteById(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                using (SqlCommand cmd = new("sp_DeleteRequest", sql))
+                using (SqlCommand cmd = new("sp_DeleteRequests", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@id", id));
