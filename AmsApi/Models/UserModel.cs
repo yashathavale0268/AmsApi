@@ -57,7 +57,19 @@ namespace AmsApi.Models
         public bool Active { get; set; }
         
         [DataMember(Name = "Role")]
-        public string Role { get; internal set; }
+        public string Role { get;  set; }
+
+        [DataMember(Name = "DepartmentName ")]
+        public string DepartmentName { get; set; }
+
+        [DataMember(Name = "BranchName")]
+        public string BranchName { get; set; }
+
+        [DataMember(Name = " CompanyName")]
+        public string CompanyName { get; set; }
+
+
+       
 
     }
 }

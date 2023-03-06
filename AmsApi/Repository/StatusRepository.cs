@@ -142,7 +142,7 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", stat.Statusid);
-                    cmd.Parameters.AddWithValue("@Userid", stat.Empid);
+                    cmd.Parameters.AddWithValue("@Userid", stat.Userid);
                     cmd.Parameters.AddWithValue("@Assetid", stat.Assetid);
                     cmd.Parameters.AddWithValue("@Requestid", stat.Requestid);
                     cmd.Parameters.AddWithValue("@Creat_at", stat.Created_at);
@@ -190,7 +190,7 @@ namespace AmsApi.Repository
                          {
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddWithValue("@id", id);
-                                cmd.Parameters.AddWithValue("@Userid", stat.Empid);
+                                cmd.Parameters.AddWithValue("@Userid", stat.Userid);
                                 cmd.Parameters.AddWithValue("@Assetid", stat.Assetid);
                                 cmd.Parameters.AddWithValue("@Requestid", stat.Requestid);
                                 cmd.Parameters.AddWithValue("@Creat_at", stat.Created_at);

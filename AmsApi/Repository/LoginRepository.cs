@@ -82,7 +82,17 @@ namespace AmsApi.Repository
                 Userid = (int)reader["UserId"],
                 Email = reader["Email"].ToString(),
                 Username = reader["Username"].ToString(),
+                First_name = reader["First_name"].ToString(),
+                Last_name = reader["Last_name"].ToString(),
+                Department = (int)reader["Department"],
+                Branch = (int)reader["Branch"],
+                Floor = (int)reader["Floor"],
+                Company = (int)reader["Company"],
                 Role = reader["Role"].ToString(),
+                DepartmentName= reader["DepartmentName"].ToString(),
+                CompanyName = reader["CompanyName"].ToString(),
+                BranchName = reader["BranchName"].ToString(),
+
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Active = (bool)reader["active"],
             };
@@ -338,6 +348,70 @@ namespace AmsApi.Repository
 
         }
 
+        internal async Task ChangePassword(UserModel user, int id)
+        {
+            string password = user.Password;
+            string hashedpassword = HashPassword(password);
+            using (SqlConnection sql = new(_connectionString))
+            {
+                await sql.OpenAsync();
+                using (SqlCommand command = new("sp_ChangePassword", sql))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Password", hashedpassword);
+                    var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    command.Parameters.Add(returncode);
+                    var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    command.Parameters.Add(returnnote);
+                    await command.ExecuteNonQueryAsync();
+
+                    bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
+
+                    Itexists = itexists;
+                    IsSuccess = successfull;
+
+
+                    return;
+                }
+            }
+        }
+
+        internal async Task GetIDForCheck(UserModel user,int id)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                await sql.OpenAsync();
+                using (SqlCommand command = new("sp_GetPassword", sql))
+                {
+                    string password = user.Password;
+                    string hashedpassword = HashPassword(password);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Username", user.Username);
+                    command.Parameters.AddWithValue("@Email", user.Email);
+                    command.Parameters.AddWithValue("@Password", hashedpassword);
+                    //command.Parameters.AddWithValue("@Password", user.Password);
+                    //command.Parameters.AddWithValue("@Password", hashedpassword);
+                    var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    command.Parameters.Add(returncode);
+                    //var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    //command.Parameters.Add(returnnote);
+                    await command.ExecuteNonQueryAsync();
+
+                    bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                  //  bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
+
+                    Itexists = itexists;
+                    //IsSuccess = successfull;
+
+
+                    return;
+                }
+            }
+        }
+
         internal object GenerateToken(UserModel userSessions)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -352,7 +426,8 @@ namespace AmsApi.Repository
                     new Claim(ClaimTypes.Name, userSessions.Username.ToString()),
                     new Claim(ClaimTypes.Email, userSessions.Email.ToString()),
                     new Claim(ClaimTypes.Role,userSessions.Role.ToString()),
-                    new Claim("FullName",userSessions.FullName.ToString()),
+                    new Claim("First_name",userSessions.First_name.ToString()),
+                    new Claim("Last_name",userSessions.Last_name.ToString()),
                 }),
 
                 Expires = DateTime.Now.AddMinutes(jwtBearerTokenSettings.ExpiryTimeInMinutes),
@@ -375,6 +450,8 @@ namespace AmsApi.Repository
                 Email = reader["Email"].ToString(),
                 Username = reader["Username"].ToString(),
                 Role = reader["Role"].ToString(),
+                First_name=reader["First_name"].ToString(),
+                Last_name=reader["Last_name"].ToString(),
                 FullName = reader["FullName"].ToString(),
             };
         }
@@ -422,7 +499,7 @@ namespace AmsApi.Repository
             using (SqlConnection sql = new(_connectionString))
             {
                 await sql.OpenAsync();
-                using (SqlCommand command = new("sp_SearchUsers", sql))
+                using (SqlCommand command = new("sp_GetAllUsers", sql))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@id", id);
@@ -432,11 +509,12 @@ namespace AmsApi.Repository
                     {
                         return new UserModel
                         {
-                            Userid = reader.GetInt32(0),
                             Username = reader.GetString(1),
                             Email = reader.GetString(2),
-                            Password = reader.GetString(3),
                             Role = reader.GetString(4),
+                            First_name=reader.GetString(5),
+                            Last_name=reader.GetString(6),
+                         
 
 
 
@@ -451,8 +529,8 @@ namespace AmsApi.Repository
         internal async Task UpdateUser(UserModel user, int id)
         {
             //string hashedPassword = BCrypt.HashPassword(password);
-            string password = user.Password;
-            string hashedpassword = HashPassword(password);
+           // string password = user.Password;
+           // string hashedpassword = HashPassword(password);
             using (SqlConnection sql = new(_connectionString))
             {
                 await sql.OpenAsync();
@@ -462,7 +540,8 @@ namespace AmsApi.Repository
                     command.Parameters.AddWithValue("@Id", id);
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@Password", hashedpassword);
+                    //command.Parameters.AddWithValue("@Password", user.Password);
+                    //command.Parameters.AddWithValue("@Password", hashedpassword);
                     command.Parameters.AddWithValue("@First_name", user.First_name);
                     command.Parameters.AddWithValue("@Last_name", user.Last_name);
                     command.Parameters.AddWithValue("@Dep", user.Department);

@@ -80,7 +80,7 @@ namespace AmsApi.Repository
             {
                 Requestid = (int)reader["Requestid"],
 
-                Empid = (int)reader["Empid"],
+                Userid = (int)reader["Userid"],
 
            //     List<int> Assets = new List<int> {},
            //Assets = reader["Assets"].ToString(),
@@ -104,7 +104,7 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", comp.Companyid);
-                    cmd.Parameters.AddWithValue("@Empid", request.Empid);
+                    cmd.Parameters.AddWithValue("@Userid", request.Userid);
                     cmd.Parameters.AddWithValue("@Assetid",request.Assetid);
                     cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                     cmd.Parameters.AddWithValue("@Justify", request.Justify);
@@ -161,7 +161,7 @@ namespace AmsApi.Repository
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", id);
-                        cmd.Parameters.AddWithValue("@Empid", request.Empid);
+                        cmd.Parameters.AddWithValue("@Userid", request.Userid);
                         cmd.Parameters.AddWithValue("@Assets", request.Assetid);
                         cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                         cmd.Parameters.AddWithValue("@Justify", request.Justify);

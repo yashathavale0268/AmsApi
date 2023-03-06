@@ -20,22 +20,22 @@ namespace AmsApi.Controllers
 {
     [AllowAnonymous]
     //[Authorize]
-   
+
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles ={}]
-  //[Authorize]
+    //[Authorize]
     public class RegisterationController : ControllerBase
     {
 
         private readonly LoginRepository _repository;
         private readonly AmsRepository _common;
-      //  private readonly string key;
-        public RegisterationController(LoginRepository repository,AmsRepository common, ILogger<RegisterationController> logger)
+        //  private readonly string key;
+        public RegisterationController(LoginRepository repository, AmsRepository common, ILogger<RegisterationController> logger)
         {
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-           
-            this._common =common ?? throw new ArgumentNullException(nameof(common));
+
+            this._common = common ?? throw new ArgumentNullException(nameof(common));
         }
 
         #region login old
@@ -90,48 +90,49 @@ namespace AmsApi.Controllers
         [Route("Login")]
         public async Task<ActionResult<UserModel>> Userlogin([FromBody] UserModel user)
         {
-            
+
             var msg = new Message();
             // ,bool Admin//,Admin
             //throw new ArgumentNullException(nameof(userSessions));
             ////,key //var tokendecode = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),your - 256 - bit - secret) //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
             UserModel userSessions = new();
             JwtPayLoad tokenvalues = new();
-            userSessions =  await _repository.GetbyObj(user);
-           
+            userSessions = await _repository.GetbyObj(user);
 
-            if (userSessions.Userid>0)
-            { 
+
+            if (userSessions.Userid > 0)
+            {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = "Successful Login";
 
+
                 var token = _repository.GenerateToken(userSessions); //null;//
-                                                                                //string secretKey = key;
-                                                                                //string tokenkey = secretKey;
-                                                                                //msg.Data =tokenkey;
+                                                                     //string secretKey = key;
+                                                                     //string tokenkey = secretKey;
+                                                                     //msg.Data =tokenkey;
                 msg.Data = (token, userSessions);
-                
 
-                
 
-                    //var validatedtoken = _repository.Validatetoken(token, tokenkey);
-                    //msg.Data = validatedtoken;
-                    
-                    ////---if want to decode the token later---
-                  //  tokenvalues = _repository.DecodeJwtPayload((token).ToString());
-             //   msg.Data = tokenvalues;
+
+
+                //var validatedtoken = _repository.Validatetoken(token, tokenkey);
+                //msg.Data = validatedtoken;
+
+                ////---if want to decode the token later---
+                //  tokenvalues = _repository.DecodeJwtPayload((token).ToString());
+                //   msg.Data = tokenvalues;
             }
-                else
-                {
+            else
+            {
                 msg.IsSuccess = false;
                 msg.ReturnMessage = " no user found";
                 //throw new ArgumentNullException(nameof(userSessions));
 
             }
 
-            
-           
-            return Ok(msg); 
+
+
+            return Ok(msg);
         }
 
         #region claims
@@ -177,20 +178,21 @@ namespace AmsApi.Controllers
 
             }
             return Ok(msg);*/
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetAll([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)  //
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
             var Users = await _repository.GetAllUser(PageNumber, PageSize);
-            if (Users.Count>0) {
-               
+            if (Users.Count > 0)
+            {
+
                 msg.IsSuccess = true;
                 msg.Data = Users;
-     
+
             }
-            else 
+            else
             {
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "no user found";
@@ -201,32 +203,34 @@ namespace AmsApi.Controllers
         //{
         //    return await _repository.GetAll();
         //}
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("Search")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int User =0)
+        public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int User = 0)
         {
             var msg = new Message();
-            var Users = await _repository.SearchUsers(pageNumber,pageSize,searchTerm,User);
-            if (Users.Count>0) {
+            var Users = await _repository.SearchUsers(pageNumber, pageSize, searchTerm, User);
+            if (Users.Count > 0)
+            {
 
                 msg.IsSuccess = true;
                 msg.Data = Users;
-              
+
             }
-            else {
+            else
+            {
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "no match found";
             }
             return Ok(msg);
         }
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpGet("Searchbyid/{id}")]
-        
-        public async Task<ActionResult<UserModel>> Get(int id=0)
+
+        public async Task<ActionResult<UserModel>> Get(int id = 0)
         {
             var msg = new Message();
             var response = await _repository.GetById(id);
-            if(response.Userid>0)
+            if (response.Userid > 0)
             {
                 msg.IsSuccess = true;
                 msg.Data = response;
@@ -235,7 +239,7 @@ namespace AmsApi.Controllers
             {
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "no id found";
-                
+
             }
             return Ok(msg);
         }
@@ -256,7 +260,7 @@ namespace AmsApi.Controllers
             await _repository.Insert(user);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
-           
+
             if (exists is true)
             {
                 msg.IsSuccess = false;
@@ -266,7 +270,7 @@ namespace AmsApi.Controllers
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " New  Registeration  is Success";
-                
+
             }
             else
             {
@@ -279,17 +283,18 @@ namespace AmsApi.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost("SetRole/{id}")]
-        public async Task<IActionResult> SetRole([FromQuery] string Role = "N/A",int id = 0 )
+        public async Task<IActionResult> SetRole([FromQuery] string Role = "N/A", int id = 0)
         {
             var msg = new Message();
             var User = await _repository.GetUserById(id);
             if (User == null)
-            { msg.IsSuccess = false;
+            {
+                msg.IsSuccess = false;
                 msg.ReturnMessage = "no user found";
             }
             else if (User is not null)
             {
-                await _repository.SetRoles(Role,id);
+                await _repository.SetRoles(Role, id);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " User is Updated Successfully";
             }
@@ -303,20 +308,20 @@ namespace AmsApi.Controllers
         //}
         // PUT api/values/5
         [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update( [FromBody] UserModel user,int id= 0)
+        public async Task<IActionResult> Update([FromBody] UserModel user, int id = 0)
         {
             var msg = new Message();
-            var User = await _repository.GetUserById(id);
-            if (User == null )
+            var User = await _repository.GetById(id);
+            if (User == null)
             {
                 msg.ReturnMessage = " no user found";
-               
+
             }
-            else if(User.Userid>0)
+            else if (User.Userid > 0)
             {
                 msg.Data = User;
-                
-                 await _repository.UpdateUser(user, id);
+
+                await _repository.UpdateUser(user, id);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
@@ -332,9 +337,46 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
+        [HttpPut("UpdatePassword/{id}")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UserModel user, int id = 0)
+        {
+            var msg = new Message();
+            await _repository.GetIDForCheck(user, id);
+            
+                bool itexists = _repository.Itexists;
+                if (itexists is true)
+                {
+                     await _repository.ChangePassword(user, id);
+                bool exists = _repository.Itexists;   
+                bool success = _repository.IsSuccess;
+                            if (exists is true)
+                            {
+                                msg.IsSuccess = false;
+                                msg.ReturnMessage = "please  enter a different password";
+                            }
+                                        else if (success is true)
+                                        {
+
+                                            msg.IsSuccess = true;
+                                            msg.ReturnMessage = " password is Updated Successfully";
+                                        }
+                             else
+                             {
+                                 msg.IsSuccess = false;
+                                 msg.ReturnMessage = " password update unsuccessfull";
+                             }
+                            }
+                else
+                {
+                    msg.IsSuccess = false;
+                    msg.ReturnMessage = "  no valid credentials found try again ";
+                }
+                return Ok(msg);
+            
+        }
 
         // DELETE api/values/5
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
