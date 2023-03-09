@@ -391,9 +391,9 @@ namespace AmsApi.Controllers
 
             if (Users.Userid> 0)
             {
-               
-                // msg.Data = Users;
-               
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "Delete Successfully";
+
                 await _repository.DeleteById(id);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " values deleted";
