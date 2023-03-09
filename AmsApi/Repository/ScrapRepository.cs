@@ -43,6 +43,22 @@ namespace AmsApi.Repository
             }
         }
 
+        public DataSet GetAllTables()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAll", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
+        }
+
         internal async Task<List<ScrapModel>> GetAllScrap(int pageNumber, int pageSize)
         {
             using SqlConnection sql = new(_connectionString);

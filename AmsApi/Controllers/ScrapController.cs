@@ -22,6 +22,27 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
+
+        [HttpGet("GetAllTables")]
+        public IActionResult GetAllTables()
+        {
+            var result = _repository.GetAllTables();
+            var msg = new Message();
+            if (result is null)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+            }
+
+
+            return Ok(msg);
+        }
+
         [HttpGet("GetAllScrap")]
 
         public async Task<ActionResult<IEnumerable<ScrapModel>>> GetAllScrap([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)

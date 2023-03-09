@@ -88,8 +88,8 @@ namespace AmsApi.Repository
                 Specification=reader["Specification"].ToString(),
                 Vendorid=(int)reader["Vendorid"],
                 Vendors = (string)reader["Vendors"],
-                Status =(int)reader["Status"],
-                Statuses = (string)reader["Statuses"],
+                //Status =(int)reader["Status"],
+                //Statuses = (string)reader["Statuses"],
                 //Allocated_to=(int)reader["Allocated_to"],
 
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
@@ -202,7 +202,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@Nos", asset.Nos));
             cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
             cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
-            cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
+            //cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
             //cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
             cmd.Parameters.Add(new SqlParameter("@Remarks", asset.Remarks));
             cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
@@ -338,7 +338,7 @@ namespace AmsApi.Repository
                 cmd.Parameters.Add(new SqlParameter("@Nos", asset.Nos));
                 cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
                 cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
-                cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
+                //cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
                 //cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
                 cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
                 cmd.Parameters.Add(new SqlParameter("@active", 1));

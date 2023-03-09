@@ -84,7 +84,7 @@ namespace AmsApi.Controllers
         //    }
         //}
         #endregion
-
+      
         [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
@@ -249,15 +249,30 @@ namespace AmsApi.Controllers
         public IActionResult GetAllTables()
         {
             var result = _repository.GetAllTables();
-            return Ok(result);
+            var msg = new Message();
+           if(result is null)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+            }
+        
+           
+            return Ok(msg);
         }
         [AllowAnonymous]
         [HttpPost]
         [Route("NewUser")]
         public async Task<ActionResult<UserModel>> Post([FromBody] UserModel user)
         {
-            var values = _repository.GetAllTables();
+            
             var msg = new Message();
+           
+            
             await _repository.Insert(user);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
@@ -311,7 +326,7 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] UserModel user, int id = 0)
         {
-            var values = _repository.GetAllTables();
+           
             var msg = new Message();
             var User = await _repository.GetById(id);
            
@@ -391,9 +406,9 @@ namespace AmsApi.Controllers
 
             if (Users.Userid> 0)
             {
-               
-                // msg.Data = Users;
-               
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "Delete Successfully";
+
                 await _repository.DeleteById(id);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " values deleted";

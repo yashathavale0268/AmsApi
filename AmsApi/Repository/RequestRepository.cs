@@ -89,6 +89,8 @@ namespace AmsApi.Repository
                 Justify = reader["Justify"].ToString(),
                 Status =(int)reader["Status"],
                 active = (bool)reader["active"],
+                isworking=(bool)reader["isworking"],
+                inuse=(bool)reader["inuse"],
                 Asset = (string)reader["Asset"],
                 CurrentStatus = reader["CurrentStatus"].ToString(),
                 UserName=(string)reader["UserName"],
@@ -143,6 +145,32 @@ namespace AmsApi.Repository
             }
         }
 
+        internal async Task StatusChange(bool isworking, bool inuse, int id)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                //string.Join(","
+                using (SqlCommand cmd = new("sp_StatusChange", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@id", comp.Companyid);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@isworking", isworking);
+                    cmd.Parameters.AddWithValue("@inuse", inuse);
+
+                    var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returnpart);
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    await sql.CloseAsync();
+                    // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    //  Itexists = itExists;
+                    IsSuccess = isSuccess;
+                }
+                return;
+            }
+        }
         internal async Task<List<RequestModel>> GetRequestId(int id)
         {
             using (SqlConnection sql = new(_connectionString))

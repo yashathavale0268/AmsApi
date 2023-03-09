@@ -28,8 +28,26 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
+        [HttpGet("GetAllTables")]
+        public IActionResult GetAllTables()
+        {
+            var result = _repository.GetAllTables();
+            var msg = new Message();
+            if (result is null)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+            }
 
-     // [Authorize("Admin")]
+
+            return Ok(msg);
+        }
+        // [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
         
         public async Task<ActionResult<IEnumerable<RequestModel>>> GetAllRequests([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
@@ -92,7 +110,7 @@ namespace AmsApi.Controllers
         [HttpPost("CreateNew")]
         public async Task<IActionResult> Post([FromBody] RequestModel request)
         {
-            var values = _repository.GetAllTables();
+            
             var msg = new Message();
             await _repository.Insert(request);
             bool exists = _repository.Itexists;
@@ -123,7 +141,7 @@ namespace AmsApi.Controllers
         [HttpPut("UpdateRequest/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] RequestModel request)
         {
-            var values = _repository.GetAllTables();
+            
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count>0)
@@ -150,14 +168,43 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
+        [HttpPost("StatusChange/{id}")]
+        public async Task<IActionResult> StatusChange(int id,[FromQuery] bool isworking=true, [FromQuery] bool inuse=false)
+        {
 
+            var msg = new Message();
+            var GetRequest = await _repository.GetRequestId(id);
+            if (GetRequest.Count > 0)
+            {
+                await _repository.StatusChange(isworking,inuse, id);
+                bool success = _repository.IsSuccess;
+                if (success is true)
+                {
+                    msg.IsSuccess = true;
+                    msg.ReturnMessage = "request updated successfully";
+                }
+                else
+                {
+                    msg.IsSuccess = false;
+                    msg.ReturnMessage = "updated unsuccessfull";
+                }
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no id found";
+            }
+
+
+            return Ok(msg);
+        }
         // DELETE api/values/5
-       // [Authorize("Admin,User")]
+        // [Authorize("Admin,User")]
         [HttpDelete("DeleteRequest/{id}")]
         public async Task<IActionResult> Delete(int id =0)
         {
             var msg = new Message();
-          //  await _repository.DeleteById(id);
+            //await _repository.DeleteById(id);
          
             var GetComp = await _repository.GetRequestId(id);
 

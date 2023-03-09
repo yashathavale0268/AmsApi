@@ -78,8 +78,8 @@ namespace AmsApi.Models
         [DataMember(Name = "Vendorid")]
         public int Vendorid { get; set; }
 
-        [DataMember(Name = "Status")]
-        public int Status { get; set; }
+        //[DataMember(Name = "Status")]
+        //public int Status { get; set; }
         [DataMember(Name = "Remarks")]
         public string Remarks { get; set; }
 
@@ -102,8 +102,8 @@ namespace AmsApi.Models
        
         [DataMember(Name = "Vendors")]
         public string Vendors { get; set; }
-        [DataMember(Name = "Statuses")]
-        public string Statuses { get; set; }
+        //[DataMember(Name = "Statuses")]
+        //public string Statuses { get; set; }
 
 
 

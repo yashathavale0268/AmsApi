@@ -35,11 +35,25 @@ namespace AmsApi.Controllers
         //    return await _repository.GetAll();
 
         //}
+       
         [HttpGet("GetAllTables")]
         public IActionResult GetAllTables()
         {
             var result = _repository.GetAllTables();
-            return Ok(result);
+            var msg = new Message();
+            if (result is null)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+            }
+
+
+            return Ok(msg);
         }
         [HttpGet("GetAllAssets")]
         public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
@@ -122,7 +136,7 @@ namespace AmsApi.Controllers
         [HttpPost("AddNew")]
         public async Task<IActionResult> Post([FromBody] AssetModel asset)
         {
-            var values = _repository.GetAllTables();
+          
             var msg = new Message();
             await _repository.Insert(asset);
             bool exists = _repository.Itexists;
@@ -149,7 +163,7 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] AssetModel asset, int id=0)
         {
-            var values = _repository.GetAllTables();
+            
             var msg = new Message();
           
            
