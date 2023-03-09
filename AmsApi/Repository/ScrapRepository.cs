@@ -100,9 +100,13 @@ namespace AmsApi.Repository
             {
                 Scrapid = (int)reader["Scrapid"],
                 Asset = (int)reader["Asset"],
+                AssetName = (string)reader["AssetName"],
                 Branch = (int)reader["Branch"],
+                BranchName = (string)reader["BranchName"],
                 Last_user = (int)reader["Last_user"],
-                Vendor=(int)reader["Vendor"],
+                LastUser = (string)reader["LastUser"],
+                Vendor =(int)reader["Vendor"],
+                VendorName = (string)reader["VendorName"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
 
                 active = (bool)reader["active"],

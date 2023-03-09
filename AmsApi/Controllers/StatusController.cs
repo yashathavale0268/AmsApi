@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AmsApi.Controllers
 {
     [AllowAnonymous]
-    [Authorize]
+    //[Authorize]
     
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -52,7 +52,7 @@ namespace AmsApi.Controllers
         //}
 
         // GET api/values/5
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("Getid/{id}")]
         public async Task<ActionResult<StatusModel>> Get(int id)
         {
@@ -72,7 +72,7 @@ namespace AmsApi.Controllers
         
             return Ok(msg);
         }
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<StatusModel>>> SearchStatus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Userid = 0, [FromQuery] int Assetid = 0, [FromQuery] int Requestid = 0,[FromQuery] int Statid = 0)
         {
@@ -154,7 +154,7 @@ namespace AmsApi.Controllers
         }
 
         // DELETE api/values/5
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {

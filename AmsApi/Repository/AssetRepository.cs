@@ -22,7 +22,7 @@ namespace AmsApi.Repository
         {
             _connectionString = configuration.GetConnectionString("MainCon");
         }
-         
+
         //public async Task<List<AssetModel>> GetAll()
         //{
         //    using (SqlConnection sql = new SqlConnection(_connectionString))
@@ -45,15 +45,31 @@ namespace AmsApi.Repository
         //        }
         //    }
         //}
+        public DataSet GetAllTables()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAll", sql);
+            {
+               
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
+        }
         public AssetModel MapToValue(SqlDataReader reader)
         {
             return new AssetModel() { 
             Assetid = (int)reader["Assetid"],
                 SerialNo = reader["SerialNo"].ToString(),
                 Branch =(int)reader["Branch"],
+                Branches =(string)reader["Branches"],
                 Brand =reader["Brand"].ToString(),
                 Type = (int)reader["Type"],
+                TypeName =(string)reader["TypeName"],
                 Model =reader["Model"].ToString(),
                 Processor_Type=reader["Processor_Type"].ToString(),
                
@@ -71,16 +87,23 @@ namespace AmsApi.Repository
                 Nos=(int)reader["Nos"],
                 Specification=reader["Specification"].ToString(),
                 Vendorid=(int)reader["Vendorid"],
-                Status=(int)reader["Status"],
-                Allocated_to=(int)reader["Allocated_to"],
-            
-               Created_at= (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+                Vendors = (string)reader["Vendors"],
+                Status =(int)reader["Status"],
+                Statuses = (string)reader["Statuses"],
+                //Allocated_to=(int)reader["Allocated_to"],
+
+                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
               
             active = (bool)reader["active"],
+              
+                
+                
+               
+               // Lastuser = reader["Lastuser"].ToString(),
             };
         }
 
-        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Empid  )//,string ptype,string mtype,string rtype , string btype )
+        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid )//,string ptype,string mtype,string rtype , string btype )
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_SearchAllAssets_Paginated", sql);
@@ -91,18 +114,19 @@ namespace AmsApi.Repository
             cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
             cmd.Parameters.AddWithValue("@Brcid", Brcid);
             cmd.Parameters.AddWithValue("@Typeid", Typeid);
-            cmd.Parameters.AddWithValue("@Empid", Empid);
+          
             //cmd.Parameters.AddWithValue("@ptype", ptype);
             //cmd.Parameters.AddWithValue("@mtype", mtype);
             //cmd.Parameters.AddWithValue("@rtype", rtype);
             //cmd.Parameters.AddWithValue("@btype", btype);
-            var response = new List<AssetModel>();
+           var response = new List<AssetModel>();
             await sql.OpenAsync();
 
             using (var reader = await cmd.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
+                  
                     response.Add(MapToValue(reader));
                 }
             }
@@ -179,7 +203,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
             cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
             cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
-            cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
+            //cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
             cmd.Parameters.Add(new SqlParameter("@Remarks", asset.Remarks));
             cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
             cmd.Parameters.Add(new SqlParameter("@active", 1));
@@ -315,12 +339,12 @@ namespace AmsApi.Repository
                 cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
                 cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
                 cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
-                cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
+                //cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
                 cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
                 cmd.Parameters.Add(new SqlParameter("@active", 1));
 
-                var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                cmd.Parameters.Add(returncode);
+                //var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                //cmd.Parameters.Add(returncode);
                 var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                 cmd.Parameters.Add(returnpart);
                
@@ -328,10 +352,10 @@ namespace AmsApi.Repository
                 await sql.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
 
-                bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+               // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
                 bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
 
-                Itexists = itExists;
+              //  Itexists = itExists;
                 IsSuccess = isSuccess;
                 return;
             }

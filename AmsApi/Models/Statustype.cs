@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace AmsApi.Models
 {
     [DataContract]
-    public class AssettypeModel
+    public class Statustype
     {
-       [Key]
-        [DataMember(Name = "Typeid")]
-        public int Typeid { get; set; }
+            [Key]
+        [DataMember(Name = "Statid")]
+        public int Statid { get; set; }
         [DataMember(Name = "Name")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Name { get; set; }
@@ -20,6 +20,5 @@ namespace AmsApi.Models
         public string Remarks { get; set; }
         [DataMember(Name = "Active")]
         public bool Active { get; set; }
-      
     }
 }

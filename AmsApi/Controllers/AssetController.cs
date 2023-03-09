@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace AmsApi.Controllers
 {
     [AllowAnonymous]
-    [Authorize(Roles ="Admin")]//AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme
+    //[Authorize(Roles ="Admin")]//AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -35,6 +35,12 @@ namespace AmsApi.Controllers
         //    return await _repository.GetAll();
 
         //}
+        [HttpGet("GetAllTables")]
+        public IActionResult GetAllTables()
+        {
+            var result = _repository.GetAllTables();
+            return Ok(result);
+        }
         [HttpGet("GetAllAssets")]
         public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
         {
@@ -87,10 +93,10 @@ namespace AmsApi.Controllers
 
         // POST api/values
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<AssetModel>>> SearchAssets([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Brcid =0 , [FromQuery] int Typeid=0, [FromQuery] int Empid=0)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
+        public async Task<ActionResult<IEnumerable<AssetModel>>> SearchAssets([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Brcid =0 , [FromQuery] int Typeid=0)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
         {
             var msg = new Message();
-            var assets = await _repository.SearchAssets(pageNumber, pageSize, searchTerm, Brcid, Typeid, Empid);//,ptype,mtype,rtype,btype);
+            var assets = await _repository.SearchAssets(pageNumber, pageSize, searchTerm, Brcid, Typeid);//,ptype,mtype,rtype,btype);
             if (assets.Count>0)
             {
                 msg.IsSuccess = true;
@@ -116,6 +122,7 @@ namespace AmsApi.Controllers
         [HttpPost("AddNew")]
         public async Task<IActionResult> Post([FromBody] AssetModel asset)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
             await _repository.Insert(asset);
             bool exists = _repository.Itexists;
@@ -142,6 +149,7 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] AssetModel asset, int id=0)
         {
+            var values = _repository.GetAllTables();
             var msg = new Message();
           
            
