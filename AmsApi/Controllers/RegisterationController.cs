@@ -251,15 +251,17 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var result = _repository.GetAllTables();
            
-           if(result is null)
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no values available";
-            }
-            else
+           if(result.Tables.Count>0)
             {
                 msg.IsSuccess = true;
                 msg.Data = result;
+               
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+
             }
         
            
