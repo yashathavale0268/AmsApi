@@ -89,12 +89,12 @@ namespace AmsApi.Repository
                 Floor = (int)reader["Floor"],
                 Company = (int)reader["Company"],
                 Role = reader["Role"].ToString(),
+                //Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+                //active = (bool)reader["active"],
                 DepartmentName = reader["DepartmentName"].ToString(),
                 CompanyName = reader["CompanyName"].ToString(),
                 BranchName = reader["BranchName"].ToString(),
                 Full_name = reader["Full_name"].ToString(),
-                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
-                Active = (bool)reader["active"],
             };
         }
         /* dataset approach
@@ -203,12 +203,12 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@Username", user.Username);
                         cmd.Parameters.AddWithValue("@Email", user.Email);
                         cmd.Parameters.AddWithValue("@Password", hashedpassword);
-                        //cmd.Parameters.AddWithValue("@First_name", user.First_name);
-                        //cmd.Parameters.AddWithValue("@Last_name", user.Last_name);
-                        //cmd.Parameters.AddWithValue("@Dep", user.Department);
-                        //cmd.Parameters.AddWithValue("@Branch", user.Branch);
-                        //cmd.Parameters.AddWithValue("@Floor", user.Floor);
-                        //cmd.Parameters.AddWithValue("@Comp", user.Company);
+                        cmd.Parameters.AddWithValue("@First_name", user.First_name);
+                        cmd.Parameters.AddWithValue("@Last_name", user.Last_name);
+                        cmd.Parameters.AddWithValue("@Dep", user.Department);
+                        cmd.Parameters.AddWithValue("@Branch", user.Branch);
+                        cmd.Parameters.AddWithValue("@Floor", user.Floor);
+                        cmd.Parameters.AddWithValue("@Comp", user.Company);
                         cmd.Parameters.AddWithValue("@active", 1);
                         await sql.OpenAsync();
                         // returncode = new SqlParameter("@ReturnCode", SqlDbType.NVarChar) { Direction = ParameterDirection.Output };

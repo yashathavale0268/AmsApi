@@ -54,7 +54,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; } = DateTime.Now;
         [DataMember(Name = "active")]
-        public bool Active { get; set; }
+        public bool active { get; set; }
         
         [DataMember(Name = "Role")]
         public string Role { get;  set; }

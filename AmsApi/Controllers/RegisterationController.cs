@@ -29,13 +29,13 @@ namespace AmsApi.Controllers
     {
 
         private readonly LoginRepository _repository;
-        private readonly AmsRepository _common;
+      //  private readonly AmsRepository _common;
         //  private readonly string key;
-        public RegisterationController(LoginRepository repository, AmsRepository common, ILogger<RegisterationController> logger)
+        public RegisterationController(LoginRepository repository, /*AmsRepository common,*/ ILogger<RegisterationController> logger)
         {
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
-            this._common = common ?? throw new ArgumentNullException(nameof(common));
+          //  this._common = common ?? throw new ArgumentNullException(nameof(common));
         }
 
         #region login old
@@ -158,7 +158,7 @@ namespace AmsApi.Controllers
         //var claimsIdentity = new ClaimsIdentity();
         //claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
         //HttpContext.User = new ClaimsPrincipal(claimsIdentity);
-        #endregion
+
 
         // [Authorize(Policy = "Adminonly")]
         /*  public async Task<ActionResult<UserModel>> GetAll()  //[FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5
@@ -178,6 +178,8 @@ namespace AmsApi.Controllers
 
             }
             return Ok(msg);*/
+
+        #endregion
         // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllUsers")]
@@ -306,16 +308,17 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var User = await _repository.GetUserById(id);
-            if (User == null)
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no user found";
-            }
-            else if (User is not null)
+            if (User.Userid>0)
             {
                 await _repository.SetRoles(Role, id);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " User is Updated Successfully";
+                
+            }
+            else 
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no user found";
             }
             return Ok(msg);
         }
