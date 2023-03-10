@@ -110,7 +110,7 @@ namespace AmsApi.Controllers
                                                                      //string secretKey = key;
                                                                      //string tokenkey = secretKey;
                                                                      //msg.Data =tokenkey;
-                msg.Data = (token, userSessions);
+                msg.Data = (/*token,*/ userSessions);
 
 
 
