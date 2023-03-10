@@ -32,9 +32,6 @@ namespace AmsApi.Models
         [DataMember(Name = "Password")]
         public string Password { get; set; }
 
-         [DataMember(Name = "Full_name")]
-
-          public string Full_name { get; set; }
 
         [DataMember(Name = "First_name")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
@@ -58,6 +55,10 @@ namespace AmsApi.Models
         
         [DataMember(Name = "Role")]
         public string Role { get;  set; }
+
+        [DataMember(Name = "Full_name")]
+
+        public string Full_name { get; set; }
 
         [DataMember(Name = "DepartmentName ")]
         public string DepartmentName { get; set; }
