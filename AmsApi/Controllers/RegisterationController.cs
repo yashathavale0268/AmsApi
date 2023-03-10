@@ -248,8 +248,9 @@ namespace AmsApi.Controllers
         [HttpGet("GetAllTables")]
         public IActionResult GetAllTables()
         {
-            var result = _repository.GetAllTables();
             var msg = new Message();
+            var result = _repository.GetAllTables();
+           
            if(result is null)
             {
                 msg.IsSuccess = false;
