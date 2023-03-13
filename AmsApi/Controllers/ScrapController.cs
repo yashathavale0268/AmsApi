@@ -23,25 +23,25 @@ namespace AmsApi.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        [HttpGet("GetAllTables")]
-        public IActionResult GetAllTables()
-        {
-            var result = _repository.GetAllTables();
-            var msg = new Message();
-            if (result is null)
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no values available";
-            }
-            else
-            {
-                msg.IsSuccess = true;
-                msg.Data = result;
-            }
+        //[HttpGet("GetAllTables")]
+        //public IActionResult GetAllTables()
+        //{
+        //    var result = _repository.GetAllTables();
+        //    var msg = new Message();
+        //    if (result is null)
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no values available";
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = true;
+        //        msg.Data = result;
+        //    }
 
 
-            return Ok(msg);
-        }
+        //    return Ok(msg);
+        //}
 
         [HttpGet("GetAllScrap")]
 
