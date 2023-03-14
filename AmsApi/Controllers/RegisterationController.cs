@@ -29,13 +29,13 @@ namespace AmsApi.Controllers
     {
 
         private readonly LoginRepository _repository;
-      //  private readonly AmsRepository _common;
+        //  private readonly AmsRepository _common;
         //  private readonly string key;
         public RegisterationController(LoginRepository repository, /*AmsRepository common,*/ ILogger<RegisterationController> logger)
         {
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
-          //  this._common = common ?? throw new ArgumentNullException(nameof(common));
+            //  this._common = common ?? throw new ArgumentNullException(nameof(common));
         }
 
         #region login old
@@ -84,7 +84,7 @@ namespace AmsApi.Controllers
         //    }
         //}
         #endregion
-      
+
         [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
@@ -95,9 +95,9 @@ namespace AmsApi.Controllers
             // ,bool Admin//,Admin
             //throw new ArgumentNullException(nameof(userSessions));
             ////,key //var tokendecode = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),your - 256 - bit - secret) //return Ok(new { Token = tokenvalues, Message = "Success" });//tokenvalues
-          //  UserModel userSessions = new();
-           // JwtPayLoad tokenvalues = new();
-           var userSessions = await _repository.GetbyObj(user);
+            //  UserModel userSessions = new();
+            // JwtPayLoad tokenvalues = new();
+            var userSessions = await _repository.GetbyObj(user);
 
 
             if (userSessions.Userid > 0)
@@ -252,12 +252,12 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var result = _repository.GetAllTables();
-           
-           if(result.Tables.Count>0)
+
+            if (result.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
                 msg.Data = result;
-               
+
             }
             else
             {
@@ -265,8 +265,8 @@ namespace AmsApi.Controllers
                 msg.ReturnMessage = "no values available";
 
             }
-        
-           
+
+
             return Ok(msg);
         }
         [AllowAnonymous]
@@ -274,10 +274,10 @@ namespace AmsApi.Controllers
         [Route("NewUser")]
         public async Task<ActionResult<UserModel>> Post([FromBody] UserModel user)
         {
-            
+
             var msg = new Message();
-           
-            
+
+
             await _repository.Insert(user);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
@@ -308,14 +308,14 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var User = await _repository.GetUserById(id);
-            if (User.Userid>0)
+            if (User.Userid > 0)
             {
                 await _repository.SetRoles(Role, id);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " User is Updated Successfully";
-                
+
             }
-            else 
+            else
             {
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "no user found";
@@ -332,13 +332,13 @@ namespace AmsApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] UserModel user, int id = 0)
         {
-           
+
             var msg = new Message();
             var User = await _repository.GetById(id);
-           
-             if (User.Userid > 0)
+
+            if (User.Userid > 0)
             {
-               // msg.Data = User;
+                // msg.Data = User;
 
                 await _repository.UpdateUser(user, id);
                 bool success = _repository.IsSuccess;
@@ -369,41 +369,132 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             await _repository.GetIDForCheck(user, id);
-            
-                bool itexists = _repository.Itexists;
-                if (itexists is true)
-                {
-                     await _repository.ChangePassword(user, id);
-                bool exists = _repository.Itexists;   
-                bool success = _repository.IsSuccess;
-                            if (exists is true)
-                            {
-                                msg.IsSuccess = false;
-                                msg.ReturnMessage = "please  enter a different password";
-                            }
-                                        else if (success is true)
-                                        {
 
-                                            msg.IsSuccess = true;
-                                            msg.ReturnMessage = " password is Updated Successfully";
-                                        }
-                             else
-                             {
-                                 msg.IsSuccess = false;
-                                 msg.ReturnMessage = " password update unsuccessfull";
-                             }
-                            }
+            bool itexists = _repository.Itexists;
+            if (itexists is true)
+            {
+                await _repository.ChangePassword(user, id);
+                bool exists = _repository.Itexists;
+                bool success = _repository.IsSuccess;
+                if (exists is true)
+                {
+                    msg.IsSuccess = false;
+                    msg.ReturnMessage = "please  enter a different password";
+                }
+                else if (success is true)
+                {
+
+                    msg.IsSuccess = true;
+                    msg.ReturnMessage = " password is Updated Successfully";
+                }
                 else
                 {
                     msg.IsSuccess = false;
-                    msg.ReturnMessage = "  no valid credentials found try again ";
+                    msg.ReturnMessage = " password update unsuccessfull";
                 }
-                return Ok(msg);
-            
-        }
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "  no valid credentials found try again ";
+            }
+            return Ok(msg);
 
+        }
+        [HttpPost]
+        [Route("password-reset")]
+        public async Task<IActionResult> PasswordReset([FromBody] PasswordReset model)
+        {
+            var msg = new Message();
+            //    // Create a connection to the database
+            //    using (var connection = new SqlConnection("YourConnectionString"))
+            //    {
+            //        // Open the connection
+            //        await connection.OpenAsync();
+
+            await _repository.GetByemail(model.Email);
+            // Create a command to check if the email exists in the database
+            bool itexists = _repository.Itexists;
+            if (itexists is true)
+            {
+                msg.ItExists = true;
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " email found";
+                var token = _repository.GeneratePasswordResetToken();
+
+                await _repository.SendPasswordResetEmail(model.Email, token);
+
+                msg.Data = (model.Email, token);
+            }
+
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " email not found";
+            }
+        
+    
+                return Ok(msg);
+        // Generate a password reset token and store it in the database
+        }
+                // Send the password reset email
+                
+ 
+        [HttpPost]
+        [Route("password-reset-confirm")]
+        public async Task<IActionResult> PasswordResetConfirm([FromBody] PasswordResetConfirm model)
+        {
+            var msg = new Message();
+            //// Create a connection to the database
+            //using (var connection = new SqlConnection("YourConnectionString"))
+            //{
+            //    // Open the connection
+            //    await connection.OpenAsync();
+
+            //    // Create a command to find the user by email and password reset token
+            //    using (var command = new SqlCommand("SELECT * FROM Users WHERE Email = @Email AND PasswordResetToken = @Token", connection))
+            //    {
+            //        command.Parameters.AddWithValue("@Email", model.Email);
+            //        command.Parameters.AddWithValue("@Token", model.Token);
+            //        using (var reader = await command.ExecuteReaderAsync())
+            //        {
+            //            if (!reader.HasRows)
+            //            {
+            //                return BadRequest("Invalid email or token");
+            //            }
+            //        }
+            //    }
+
+            //    // Update the user's password in the database
+            //    using (var command = new SqlCommand("UPDATE Users SET PasswordHash = @PasswordHash, PasswordResetToken = NULL WHERE Email = @Email", connection))
+            //    {
+            //        var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            //        command.Parameters.AddWithValue("@PasswordHash", passwordHash);
+            //        command.Parameters.AddWithValue("@Email", model.Email);
+            //        var result = await command.ExecuteNonQueryAsync();
+            //        if (result != 1)
+            //        {
+            //            return BadRequest("Failed to update password");
+            //        }
+            //    }
+            //}
+            var sessionToken = HttpContext.Session.GetString("PasswordResetToken");
+            if (sessionToken != model.Token)
+            {
+                msg.IsSuccess = false;
+                msg.ItExists = false;
+                msg.ReturnMessage="Invalid token";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.ItExists = true;
+                msg.ReturnMessage = "valid token";
+            }
+            return Ok(msg);
+        }
         // DELETE api/values/5
-       // [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {

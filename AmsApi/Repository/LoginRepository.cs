@@ -12,12 +12,15 @@ using System.Threading.Tasks;
 using AmsApi.Configuration;
 using AmsApi.Models;
 using CoreApiAdoDemo.Model;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
 using Newtonsoft.Json;
 
 namespace AmsApi.Repository
@@ -166,13 +169,58 @@ namespace AmsApi.Repository
             }
         }
 
+        internal string GeneratePasswordResetToken()
+        {
+            var token = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(token);
+                return Convert.ToBase64String(token);
+            }
+        }
+        internal async Task SendPasswordResetEmail(string email, string token)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Erik Reynolds", "erik.reynolds@ethereal.email"));
+            message.To.Add(new MailboxAddress("User",email));
+            message.Subject = "Password Reset";
+            message.Body = new TextPart("plain")
+            {
+                Text = $"To reset your password, please click the following link: https://your-api.com/reset?email={email}&token={token}"
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync("erik.reynolds@ethereal.email", "awDq63ZJVr9p9trG8p");
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+            }
+        }
+//         using (var command = new SqlCommand("UPDATE Users SET PasswordResetToken = @Token WHERE Email = @Email", connection))
+//                {
+//                    command.Parameters.AddWithValue("@Token", token);
+//                    command.Parameters.AddWithValue("@Email", model.Email);
+//                    var result = await command.ExecuteNonQueryAsync();
+//                    if (result != 1)
+//                    {
+//                        return BadRequest("Failed to generate reset token");
+//}
+//                }
+
+                                
+//            }
+
+//            return Ok();
+//        }
         //public object Validatetoken(string token, string tokenkey)
         //{
         //    var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey));
         //    //var key = Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey);
         //    var tokenHandler = new JwtSecurityTokenHandler();
 
-           
+
         //        tokenHandler.ValidateToken(token, new TokenValidationParameters
         //        {
         //            ValidateIssuerSigningKey = true,
@@ -346,6 +394,33 @@ namespace AmsApi.Repository
 
             }
 
+        }
+
+        internal Task PasswordRecoveryToken(string email, string token)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal async Task GetByemail(string email)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            using (SqlCommand cmd = new("sp_checkemail", sql))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Email", email);
+
+                var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                cmd.Parameters.Add(returncode);
+                await sql.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+                await sql.CloseAsync();
+
+                bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                
+                Itexists = itexists;
+                
+            }
+            return;
         }
 
         internal async Task ChangePassword(UserModel user, int id)

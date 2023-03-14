@@ -18,9 +18,10 @@ namespace AmsApi.Models
         
         [DataMember(Name = "Branch")]
         public int Branch { get; set; }
-        
-       
-       
+
+        //[DataMember(Name = "Location")]
+        //public int Location { get; set; }
+
         [DataMember(Name = "Last_user")]
         public int Last_user { get; set; }
       
