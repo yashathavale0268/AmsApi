@@ -396,31 +396,48 @@ namespace AmsApi.Repository
 
         }
 
+        
+
+        internal object GenerateemailToken(UserModel email)
+        {
+            throw new NotImplementedException();
+        }
+
         internal Task PasswordRecoveryToken(string email, string token)
         {
             throw new NotImplementedException();
         }
 
-        internal async Task GetByemail(string email)
+        internal async Task<UserModel> GetByemail(PasswordReset email)
         {
             using (SqlConnection sql = new(_connectionString))
             using (SqlCommand cmd = new("sp_checkemail", sql))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@Email", email.Email);
 
                 var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                 cmd.Parameters.Add(returncode);
                 await sql.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
+                UserModel response = new();
+                // var response = new List<AssetModel>();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response = getnamebyemail(reader);
+                    }
+                }
                 await sql.CloseAsync();
 
                 bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
                 
                 Itexists = itexists;
-                
+
+
+                return response;
             }
-            return;
+            
         }
 
         internal async Task ChangePassword(UserModel user, int id)
@@ -541,7 +558,21 @@ namespace AmsApi.Repository
                 Full_name = reader["Full_name"].ToString(),
             };
         }
-    
+        private UserModel getnamebyemail(SqlDataReader reader)
+
+        {
+            return new UserModel()
+            {
+                Userid = (int)reader["UserId"],
+                Email = reader["Email"].ToString(),
+                Username = reader["Username"].ToString(),
+                First_name = reader["First_name"].ToString(),
+                Last_name = reader["Last_name"].ToString(),
+                
+                Full_name = reader["Full_name"].ToString(),
+            };
+        }
+
         //-----------Role Update and set
         public async Task SetRoles(String Role,int id)
         { 

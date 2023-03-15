@@ -49,7 +49,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<DataSet> GetCompanyReport(int comp)
+        internal async Task<DataSet> GetCompanyviseReport(int comp)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAssetType_total_Report", sql);

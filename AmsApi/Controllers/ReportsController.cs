@@ -45,26 +45,66 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
-        //[HttpGet]
-        //[Route("AssetReport")]
-        //public async Task<ActionResult> GetAssetReport([FromQuery] , [FromQuery], [FromQuery], [FromQuery])  //
-        //{                                                    //GetAllUser(int pageNumber, int pageSize)
-        //    var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-        //    var AssetReport = await _repository.GetAssetReport();
-        //    if (AssetReport is not null)
-        //    {
+        [HttpGet]
+        [Route("BranchReport")]
+        public async Task<ActionResult> GetBranchReport([FromQuery] int brch=0)  //, [FromQuery], [FromQuery], [FromQuery]
+        {                                                    //GetAllUser(int pageNumber, int pageSize)
+            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+            var AssetReport = await _repository.GetBranchviseReport(brch);
+            if (AssetReport is not null)
+            {
 
-        //        msg.IsSuccess = true;
-        //        msg.Data = AssetReport;
+                msg.IsSuccess = true;
+                msg.Data = AssetReport;
 
-        //    }
-        //    else
-        //    {
-        //        msg.IsSuccess = false;
-        //        msg.ReturnMessage = "no user found";
-        //    }
-        //    return Ok(msg);
-        //}
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no user found";
+            }
+            return Ok(msg);
+        }
+        [HttpGet]
+        [Route("CompanyReport")]
+        public async Task<ActionResult> GetCompanyReport([FromQuery] int comp = 0)  //, [FromQuery], [FromQuery], [FromQuery]
+        {                                                    //GetAllUser(int pageNumber, int pageSize)
+            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+            var AssetReport = await _repository.GetCompanyviseReport(comp);
+            if (AssetReport is not null)
+            {
+
+                msg.IsSuccess = true;
+                msg.Data = AssetReport;
+
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no user found";
+            }
+            return Ok(msg);
+        }
+        [HttpGet]
+        [Route("DepartmentReport")]
+        public async Task<ActionResult> GetDepartmentReport([FromQuery] int dep = 0)  //, [FromQuery], [FromQuery], [FromQuery]
+        {                                                    //GetAllUser(int pageNumber, int pageSize)
+            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+            var AssetReport = await _repository.GetDepartmentviseReport(dep);
+            if (AssetReport is not null)
+            {
+
+                msg.IsSuccess = true;
+                msg.Data = AssetReport;
+
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no user found";
+            }
+            return Ok(msg);
+        }
         //[HttpGet]
         //[Route("AssetReport")]
         //public async Task<ActionResult> GetAssetReport()  //

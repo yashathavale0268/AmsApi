@@ -403,7 +403,7 @@ namespace AmsApi.Controllers
         }
         [HttpPost]
         [Route("password-reset")]
-        public async Task<IActionResult> PasswordReset([FromBody] PasswordReset model)
+        public async Task<ActionResult<UserModel>> PasswordReset([FromBody] PasswordReset model)
         {
             var msg = new Message();
             //    // Create a connection to the database
@@ -411,8 +411,9 @@ namespace AmsApi.Controllers
             //    {
             //        // Open the connection
             //        await connection.OpenAsync();
-
-            await _repository.GetByemail(model.Email);
+            UserModel email = new();
+             email = await _repository.GetByemail(model);
+           
             // Create a command to check if the email exists in the database
             bool itexists = _repository.Itexists;
             if (itexists is true)
@@ -420,17 +421,20 @@ namespace AmsApi.Controllers
                 msg.ItExists = true;
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " email found";
-                var token = _repository.GeneratePasswordResetToken();
+                var token = _repository.GenerateemailToken(email);
+                //var token = _repository.GeneratePasswordResetToken();
 
-                await _repository.SendPasswordResetEmail(model.Email, token);
+                await _repository.SendPasswordResetEmail(model.Email, token.ToString());
 
-                msg.Data = (model.Email, token);
+                msg.Data = (model.Email, token.ToString());
             }
 
             else
             {
+                msg.ItExists = false;
                 msg.IsSuccess = false;
                 msg.ReturnMessage = " email not found";
+                msg.Data = null;
             }
         
     

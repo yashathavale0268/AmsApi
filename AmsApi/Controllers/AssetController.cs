@@ -104,7 +104,7 @@ namespace AmsApi.Controllers
                 msg.IsSuccess =false;
                 msg.ReturnMessage="no asset found";
             }
-            return response;
+            return Ok(msg);
         }
 
         // POST api/values
