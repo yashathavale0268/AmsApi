@@ -70,12 +70,12 @@ namespace AmsApi.Controllers
         public async Task<ActionResult> GetCompanyReport([FromQuery] int comp = 0)  //, [FromQuery], [FromQuery], [FromQuery]
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var AssetReport = await _repository.GetCompanyviseReport(comp);
-            if (AssetReport is not null)
+            var CompReport = await _repository.GetCompanyviseReport(comp);
+            if (CompReport is not null)
             {
 
                 msg.IsSuccess = true;
-                msg.Data = AssetReport;
+                msg.Data = CompReport;
 
             }
             else
@@ -90,12 +90,12 @@ namespace AmsApi.Controllers
         public async Task<ActionResult> GetDepartmentReport([FromQuery] int dep = 0)  //, [FromQuery], [FromQuery], [FromQuery]
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var AssetReport = await _repository.GetDepartmentviseReport(dep);
-            if (AssetReport is not null)
+            var DepReport = await _repository.GetDepartmentviseReport(dep);
+            if (DepReport is not null)
             {
 
                 msg.IsSuccess = true;
-                msg.Data = AssetReport;
+                msg.Data = DepReport;
 
             }
             else

@@ -36,11 +36,11 @@ namespace AmsApi.Repository
         internal async Task<DataSet> GetBranchviseReport(int brch)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAssetType_total_Report", sql);
+            using SqlCommand cmd = new("sp_GetBranchSpecific_total_Report ", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@typ", brch);
+                cmd.Parameters.AddWithValue("@brch", brch);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet);
@@ -52,11 +52,11 @@ namespace AmsApi.Repository
         internal async Task<DataSet> GetCompanyviseReport(int comp)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAssetType_total_Report", sql);
+            using SqlCommand cmd = new("sp_GetCompanySpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@typ", comp);
+                cmd.Parameters.AddWithValue("@comp", comp);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet);
@@ -68,11 +68,11 @@ namespace AmsApi.Repository
         internal async Task<DataSet> GetDepartmentviseReport(int dep)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAssetType_total_Report", sql);
+            using SqlCommand cmd = new("sp_GetDepartmentSpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@typ", dep);
+                cmd.Parameters.AddWithValue("@dep", dep);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet);
