@@ -200,7 +200,7 @@ namespace AmsApi.Controllers
 
         // DELETE api/values/5
         [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> Delete([FromQuery] int id = 0)
+        public async Task<IActionResult> Delete(int id=0)
         {
             var msg = new Message();
 
