@@ -15,8 +15,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Status")]
         public int Status { get; set; }
 
-        [DataMember(Name = "StatusNow")]
-        public string StatusNow { get; set; }
+       
         
         [DataMember(Name = "Userid")]
         public int Userid { get; set; }
@@ -33,5 +32,14 @@ namespace AmsApi.Models
 
         [DataMember(Name = "active")]
         public bool active { get; set; }
+
+        [DataMember(Name = "StatusNow")]
+        public string StatusNow { get; set; }
+        [DataMember(Name = "Request")]
+        public string Request { get; set; }
+        [DataMember(Name = "Asset")]
+        public string Asset { get; set; }
+        [DataMember(Name = "UserName")]
+        public string UserName { get; set; }
     }
 }

@@ -227,6 +227,7 @@ namespace AmsApi
             services.AddScoped<StatusRepository>();
             services.AddScoped<RequestRepository>();
             services.AddScoped<ScrapRepository>();
+            services.AddScoped<LocationRepository>();
             services.AddScoped<ReportsRepository>();
           
             services.AddMvc();
