@@ -78,7 +78,7 @@ namespace AmsApi.Repository
                 StatusNow = (string)reader["StatusNow"],
                 Asset = (string)reader["Asset"],
                 Request = (string)reader["Request"],
-                UserName = (string)reader["UserName "],
+                UserName = (string)reader["UserName"],
             };
         }
 
