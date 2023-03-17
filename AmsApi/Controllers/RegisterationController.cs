@@ -269,6 +269,8 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
+
+        //new users
         [AllowAnonymous]
         [HttpPost]
         [Route("NewUser")]

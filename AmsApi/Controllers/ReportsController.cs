@@ -23,8 +23,29 @@ namespace AmsApi.Controllers
 
             //  this._common = common ?? throw new ArgumentNullException(nameof(common));
         }
+        //Get Dashbord values
+        [HttpGet]
+        [Route("DashbordValues")]
+        public async Task<ActionResult> GetDashbordValues()  //
+        {                                                    //GetAllUser(int pageNumber, int pageSize)
+            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+            var DashbordValues = await _repository.GetDashbordValues();
+            if (DashbordValues is not null)
+            {
 
+                msg.IsSuccess = true;
+                msg.Data = DashbordValues;
 
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values found";
+            }
+            return Ok(msg);
+        }
+
+        // report for assets
         [HttpGet]
         [Route("AssetReport")]
         public async Task<ActionResult> GetAssetReport([FromQuery] int typ=0)  //
@@ -45,6 +66,7 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
+        //reports for branches
         [HttpGet]
         [Route("BranchReport")]
         public async Task<ActionResult> GetBranchReport([FromQuery] int brch=0)  //, [FromQuery], [FromQuery], [FromQuery]
@@ -65,6 +87,8 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
+
+        //report for companies
         [HttpGet]
         [Route("CompanyReport")]
         public async Task<ActionResult> GetCompanyReport([FromQuery] int comp = 0)  //, [FromQuery], [FromQuery], [FromQuery]
@@ -85,6 +109,7 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
+        // reports for departments
         [HttpGet]
         [Route("DepartmentReport")]
         public async Task<ActionResult> GetDepartmentReport([FromQuery] int dep = 0)  //, [FromQuery], [FromQuery], [FromQuery]

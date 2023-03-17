@@ -17,7 +17,21 @@ namespace AmsApi.Repository
             _connectionString = configuration.GetConnectionString("MainCon");
         }
 
-        
+        internal async Task<DataSet> GetDashbordValues()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllReportqueries", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return await Task.FromResult(dataSet);
+            }
+        }
         internal async Task<DataSet> GetAssetReport(int typ)
         {
             using SqlConnection sql = new(_connectionString);
