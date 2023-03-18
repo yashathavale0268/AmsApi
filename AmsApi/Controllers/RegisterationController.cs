@@ -423,8 +423,11 @@ namespace AmsApi.Controllers
                 msg.ItExists = true;
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " email found";
-                var token = _repository.GenerateemailToken(email);
+                
+                 var emailtoken = _repository.GenerateemailToken(email);
                 //var token = _repository.GeneratePasswordResetToken();
+                PasswordResetConfirm token = new();
+                token.Token = emailtoken.ToString();
 
                 await _repository.SendPasswordResetEmail(model.Email, token.ToString());
 
@@ -451,6 +454,7 @@ namespace AmsApi.Controllers
         public async Task<IActionResult> PasswordResetConfirm([FromBody] PasswordResetConfirm model)
         {
             var msg = new Message();
+            #region extra
             //// Create a connection to the database
             //using (var connection = new SqlConnection("YourConnectionString"))
             //{
@@ -484,7 +488,8 @@ namespace AmsApi.Controllers
             //        }
             //    }
             //}
-            var sessionToken = HttpContext.Session.GetString("PasswordResetToken");
+            #endregion
+            var sessionToken =  HttpContext.Session.GetString("PasswordResetToken");
             if (sessionToken != model.Token)
             {
                 msg.IsSuccess = false;

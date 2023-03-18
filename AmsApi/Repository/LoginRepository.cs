@@ -400,7 +400,30 @@ namespace AmsApi.Repository
 
         internal object GenerateemailToken(UserModel email)
         {
-            throw new NotImplementedException();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(jwtBearerTokenSettings.SecretKey);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("Userid", email.Userid.ToString()),
+                    new Claim(ClaimTypes.Name, email.Username.ToString()),
+                    new Claim(ClaimTypes.Email, email.Email.ToString()),
+                    new Claim(ClaimTypes.Role,email.Role.ToString()),
+               
+                }),
+
+                Expires = DateTime.Now.AddMinutes(jwtBearerTokenSettings.ExpiryTimeInMinutes),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Audience = jwtBearerTokenSettings.ValidAudience,
+                Issuer = jwtBearerTokenSettings.ValidIssuer
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
 
         internal Task PasswordRecoveryToken(string email, string token)
@@ -566,10 +589,7 @@ namespace AmsApi.Repository
                 Userid = (int)reader["UserId"],
                 Email = reader["Email"].ToString(),
                 Username = reader["Username"].ToString(),
-                First_name = reader["First_name"].ToString(),
-                Last_name = reader["Last_name"].ToString(),
-                
-                Full_name = reader["Full_name"].ToString(),
+                Role= reader["Role"].ToString()
             };
         }
 
