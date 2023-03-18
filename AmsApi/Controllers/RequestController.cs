@@ -28,25 +28,7 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet("GetAllTables")]
-        public IActionResult GetAllTables()
-        {
-            var result = _repository.GetAllTables();
-            var msg = new Message();
-            if (result is null)
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no values available";
-            }
-            else
-            {
-                msg.IsSuccess = true;
-                msg.Data = result;
-            }
-
-
-            return Ok(msg);
-        }
+        
         // [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
         
@@ -105,6 +87,25 @@ namespace AmsApi.Controllers
         return BadRequest(ModelState);
     }
 */
+        [HttpGet("AssetDropdown/{id}")]
+        public IActionResult Getdropdownid(int id = 0)//will be used to display all the request done in by the user
+        {
+            var msg = new Message();
+            var response = _repository.Getassetdropdown(id);
+            if (response is null)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.Data = response;
+            }
+
+
+            return Ok(msg);
+        }
         //[Authorize("User")]
         // POST api/values
         [HttpPost("CreateNew")]

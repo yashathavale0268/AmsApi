@@ -98,14 +98,14 @@ namespace AmsApi.Repository
 
         }
 
-        public DataSet GetAllTables()
+        internal DataSet Getassetdropdown(int id)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAll", sql);
+            using SqlCommand cmd = new("sp_GetDropDownByType", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-
+                cmd.Parameters.AddWithValue("@typ",id);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet);
@@ -113,6 +113,8 @@ namespace AmsApi.Repository
                 return dataSet;
             }
         }
+
+        
 
         internal async Task Insert(RequestModel request)
         {
