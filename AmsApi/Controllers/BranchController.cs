@@ -28,31 +28,31 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet("GetAllBranch")]
-        public async Task<ActionResult<IEnumerable<BranchModel>>> GetAllBranch([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
-        {
-            var msg = new Message();
-            var branch = await _repository.GetAllBranch(PageNumber, PageSize);
-            if (branch.Count > 0)
-            {
-                msg.IsSuccess = true;
-                msg.Data = branch;
+        //[HttpGet("GetAllBranch")]
+        //public async Task<ActionResult<IEnumerable<BranchModel>>> GetAllBranch([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
+        //{
+        //    var msg = new Message();
+        //    var branch = await _repository.GetAllBranch(PageNumber, PageSize);
+        //    if (branch.Count > 0)
+        //    {
+        //        msg.IsSuccess = true;
+        //        msg.Data = branch;
                 
-            }
-            else 
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no brnaces found";
+        //    }
+        //    else 
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no brnaces found";
                
-            }
-            return Ok(msg);
+        //    }
+        //    return Ok(msg);
 
-        }
+        //}
         //public async Task<ActionResult<IEnumerable<BranchModel>>> Get()
         //{
         //    return await _repository.GetAll();
         //}
-        [HttpGet("Search")]
+        [HttpGet("GetAllBranch")]
         public async Task<ActionResult<IEnumerable<BranchModel>>> SearchBranch([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int brcid = 0)
         {
             var msg = new Message();
