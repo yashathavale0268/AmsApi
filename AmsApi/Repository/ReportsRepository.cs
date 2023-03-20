@@ -32,13 +32,17 @@ namespace AmsApi.Repository
                 return await Task.FromResult(dataSet);
             }
         }
-        internal async Task<DataSet> GetAssetReport(int typ)
+        internal async Task<DataSet> GetAssetReport(int brch, int comp, int dep, int typ)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAssetType_total_Report", sql);
+            using SqlCommand cmd = new("sp_GetSpecificTotalReport", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@brch", brch);
+                cmd.Parameters.AddWithValue("@comp", comp);
+                cmd.Parameters.AddWithValue("@dep", dep);
                 cmd.Parameters.AddWithValue("@typ", typ);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();

@@ -72,7 +72,7 @@ namespace AmsApi.Controllers
         
             return Ok(msg);
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("GetAllStatus")]
         public async Task<ActionResult<IEnumerable<StatusModel>>> SearchStatus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Userid = 0, [FromQuery] int Assetid = 0, [FromQuery] int Requestid = 0,[FromQuery] int Statid = 0)
         {

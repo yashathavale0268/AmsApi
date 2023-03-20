@@ -79,7 +79,7 @@ namespace AmsApi.Repository
 
             return response;
         }
-            internal async Task<List<ScrapModel>> SearchScrap(int pageNumber, int pageSize, string searchTerm, int searchId, int assetid, int brcid, int vedid, int empid)
+            internal async Task<List<ScrapModel>> SearchScrap(int pageNumber, int pageSize, string searchTerm, int searchId, int assetid, int brcid, int vedid, int userid)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -93,7 +93,7 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@Assetid", assetid);
                     cmd.Parameters.AddWithValue("@Brcid", brcid);
                     cmd.Parameters.AddWithValue("@Vedid", vedid);
-                    cmd.Parameters.AddWithValue("@Empid", empid);
+                    cmd.Parameters.AddWithValue("@Userid", userid);
                     var response = new List<ScrapModel>();
                     await sql.OpenAsync();
 
