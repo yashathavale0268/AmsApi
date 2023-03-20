@@ -29,23 +29,23 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [Authorize(Roles = "Admin")]
-        [HttpGet("GetAllStatus")]
-        public async Task<ActionResult<IEnumerable<StatusModel>>> GetAllStatus([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
-        {
-            var msg = new Message();
-            var status = await _repository.GetAllStatus(PageNumber, PageSize);
-            if (status.Count>0) {
-                msg.IsSuccess = true;
-                msg.Data=status;
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no status updated yet";
-            }
-            return Ok(msg);
-        }
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet("GetAllStatus")]
+        //public async Task<ActionResult<IEnumerable<StatusModel>>> GetAllStatus([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
+        //{
+        //    var msg = new Message();
+        //    var status = await _repository.GetAllStatus(PageNumber, PageSize);
+        //    if (status.Count>0) {
+        //        msg.IsSuccess = true;
+        //        msg.Data=status;
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no status updated yet";
+        //    }
+        //    return Ok(msg);
+        //}
         //public async Task<ActionResult<IEnumerable<StatusModel>>> Get()
         //{
         //    return await _repository.GetAllStatus();
@@ -73,7 +73,7 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         [Authorize(Roles = "Admin")]
-        [HttpGet("Search")]
+        [HttpGet("GetAllStatus")]
         public async Task<ActionResult<IEnumerable<StatusModel>>> SearchStatus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Userid = 0, [FromQuery] int Assetid = 0, [FromQuery] int Requestid = 0,[FromQuery] int Statid = 0)
         {
             var msg = new Message();

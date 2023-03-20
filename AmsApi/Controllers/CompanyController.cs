@@ -28,28 +28,28 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet("GetAllComp")]
-        public async Task<ActionResult<IEnumerable<CompanyModel>>> GetAllComp([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
-        {
-            var msg = new Message();
-            var Comp = await _repository.GetAllComp(PageNumber, PageSize);
-            if (Comp.Count>0)
-            {
-                msg.IsSuccess=true;
-                msg.Data = Comp;
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no values found";
-            }
-            return Ok(msg);
-        }
+        //[HttpGet("GetAllComp")]
+        //public async Task<ActionResult<IEnumerable<CompanyModel>>> GetAllComp([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
+        //{
+        //    var msg = new Message();
+        //    var Comp = await _repository.GetAllComp(PageNumber, PageSize);
+        //    if (Comp.Count>0)
+        //    {
+        //        msg.IsSuccess=true;
+        //        msg.Data = Comp;
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no values found";
+        //    }
+        //    return Ok(msg);
+        //}
         //public async Task<ActionResult<IEnumerable<CompanyModel>>> Get()
         //{
         //    return await _repository.GetAll();
         //}
-        [HttpGet("Search")]
+        [HttpGet("GetAllComp")]
         public async Task<ActionResult<IEnumerable<CompanyModel>>> SearchComp([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]int Comp=0)///[FromQuery]int Comp=0 )
         {
             var msg = new Message();

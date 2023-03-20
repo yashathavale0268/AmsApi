@@ -30,24 +30,24 @@ namespace AmsApi.Controllers
         }
         
         // [Authorize("Admin")]
-        [HttpGet("GetAllRequests")]
+        //[HttpGet("GetAllRequests")]
         
-        public async Task<ActionResult<IEnumerable<RequestModel>>> GetAllRequests([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
-        {
-            var msg = new Message();
-            var request = await _repository.GetAllRequests(pageNumber,pageSize);
-            if(request.Count>0) {
-                msg.IsSuccess = true;
-                msg.Data = request; } 
-            else
-            {
-                msg.IsSuccess =false;
-                msg.ReturnMessage = "no request found";
-            }
-            return Ok(msg);
-        }
-    //   [Authorize("Admin")]
-        [HttpGet("Search")]
+        //public async Task<ActionResult<IEnumerable<RequestModel>>> GetAllRequests([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
+        //{
+        //    var msg = new Message();
+        //    var request = await _repository.GetAllRequests(pageNumber,pageSize);
+        //    if(request.Count>0) {
+        //        msg.IsSuccess = true;
+        //        msg.Data = request; } 
+        //    else
+        //    {
+        //        msg.IsSuccess =false;
+        //        msg.ReturnMessage = "no request found";
+        //    }
+        //    return Ok(msg);
+        //}
+        //   [Authorize("Admin")]
+        [HttpGet("GetAllRequests")]
         public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int searchTerm =0,string searchString=null,[FromQuery]int reqId=0,[FromQuery]int assetId=0,[FromQuery]int statId=0)
         {
             var msg = new Message();

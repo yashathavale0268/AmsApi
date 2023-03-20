@@ -69,10 +69,10 @@ namespace AmsApi.Controllers
         //reports for branches
         [HttpGet]
         [Route("BranchReport")]
-        public async Task<ActionResult> GetBranchReport([FromQuery] int brch=0)  //, [FromQuery], [FromQuery], [FromQuery]
+        public async Task<ActionResult> GetBranchReport([FromQuery] int brch=0,[FromQuery] int typ = 0)  //, [FromQuery], [FromQuery], [FromQuery]
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var AssetReport = await _repository.GetBranchviseReport(brch);
+            var AssetReport = await _repository.GetBranchviseReport(brch,typ);
             if (AssetReport is not null)
             {
 
@@ -91,10 +91,10 @@ namespace AmsApi.Controllers
         //report for companies
         [HttpGet]
         [Route("CompanyReport")]
-        public async Task<ActionResult> GetCompanyReport([FromQuery] int comp = 0)  //, [FromQuery], [FromQuery], [FromQuery]
+        public async Task<ActionResult> GetCompanyReport([FromQuery] int comp = 0, [FromQuery] int typ = 0)  //, [FromQuery], [FromQuery], [FromQuery]
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var CompReport = await _repository.GetCompanyviseReport(comp);
+            var CompReport = await _repository.GetCompanyviseReport(comp,typ);
             if (CompReport is not null)
             {
 
@@ -112,10 +112,10 @@ namespace AmsApi.Controllers
         // reports for departments
         [HttpGet]
         [Route("DepartmentReport")]
-        public async Task<ActionResult> GetDepartmentReport([FromQuery] int dep = 0)  //, [FromQuery], [FromQuery], [FromQuery]
+        public async Task<ActionResult> GetDepartmentReport([FromQuery] int dep = 0, [FromQuery] int typ = 0)  //, [FromQuery], [FromQuery], [FromQuery]
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var DepReport = await _repository.GetDepartmentviseReport(dep);
+            var DepReport = await _repository.GetDepartmentviseReport(dep,typ);
             if (DepReport is not null)
             {
 

@@ -28,19 +28,19 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet("GetAllVendors")]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> GetAllVendors(int PageNumber=1,int PageSize=5)
-        {
-            var msg = new Message();
-            var Vendors = await _repository.GetAllVendors(PageNumber, PageSize);
-            if (Vendors.Count>0) {
-                msg.IsSuccess = true;
-                msg.Data = Vendors;
-                  }
-            else { msg.IsSuccess = false; 
-                msg.ReturnMessage=" no vendors registered"; }
-            return Ok(msg);
-        }
+        //[HttpGet("GetAllVendors")]
+        //public async Task<ActionResult<IEnumerable<VendorModel>>> GetAllVendors(int PageNumber=1,int PageSize=5)
+        //{
+        //    var msg = new Message();
+        //    var Vendors = await _repository.GetAllVendors(PageNumber, PageSize);
+        //    if (Vendors.Count>0) {
+        //        msg.IsSuccess = true;
+        //        msg.Data = Vendors;
+        //          }
+        //    else { msg.IsSuccess = false; 
+        //        msg.ReturnMessage=" no vendors registered"; }
+        //    return Ok(msg);
+        //}
         [HttpGet("Getid/{id}")]
         public async Task<ActionResult<IEnumerable<VendorModel>>> Get(int id)
         {
@@ -59,7 +59,7 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         // GET api/values/5
-        [HttpGet("Search")]
+        [HttpGet("GetAllVendors")]
         public async Task<ActionResult<IEnumerable<VendorModel>>> SearchVendors([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]String InvDate=null,[FromQuery] String WarryTillDate = null)
         {
             var msg = new Message();

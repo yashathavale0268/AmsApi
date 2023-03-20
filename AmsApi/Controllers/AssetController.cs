@@ -57,23 +57,23 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
-        [HttpGet("GetAllAssets")]
-        public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
-        {
-            var msg = new Message();
-            var assets = await _repository.GetAllAssets_Paginated(pageNumber, pageSize);
-            if (assets.Count>0)
-            {
-                msg.IsSuccess = true;
-                msg.Data = assets;
-            }
+        //[HttpGet("GetAllAssets")]
+        //public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
+        //{
+        //    var msg = new Message();
+        //    var assets = await _repository.GetAllAssets_Paginated(pageNumber, pageSize);
+        //    if (assets.Count>0)
+        //    {
+        //        msg.IsSuccess = true;
+        //        msg.Data = assets;
+        //    }
             
-            else {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no values found";
-            }
-            return Ok(msg);
-        }
+        //    else {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no values found";
+        //    }
+        //    return Ok(msg);
+        //}
 
         //    [HttpGet]
         //public async Task<ActionResult<IPagedList<AssetModel>>> GetAllAssets(int pageNumber = 1, int pageSize = 10)
@@ -108,7 +108,7 @@ namespace AmsApi.Controllers
         }
 
         // POST api/values
-        [HttpGet("search")]
+        [HttpGet("GetAllAssets")]
         public async Task<ActionResult<IEnumerable<AssetModel>>> SearchAssets([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Brcid =0 , [FromQuery] int Typeid=0)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
         {
             var msg = new Message();

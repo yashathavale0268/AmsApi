@@ -43,28 +43,28 @@ namespace AmsApi.Controllers
         //    return Ok(msg);
         //}
 
-        [HttpGet("GetAllScrap")]
+        //[HttpGet("GetAllScrap")]
 
-        public async Task<ActionResult<IEnumerable<ScrapModel>>> GetAllScrap([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
-        {
-            var msg = new Message();
-            var scrap = await _repository.GetAllScrap(PageNumber, PageSize);
-            if (scrap.Count>0) { 
-                msg.IsSuccess = true;
-                msg.Data = scrap;
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no scraps found";
-            }
-            return Ok(msg);
-        }
-        //public async Task<ActionResult<IEnumerable<ScrapModel>>> Get()
+        //public async Task<ActionResult<IEnumerable<ScrapModel>>> GetAllScrap([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
+        //{
+        //    var msg = new Message();
+        //    var scrap = await _repository.GetAllScrap(PageNumber, PageSize);
+        //    if (scrap.Count>0) { 
+        //        msg.IsSuccess = true;
+        //        msg.Data = scrap;
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no scraps found";
+        //    }
+        //    return Ok(msg);
+        //}
+        ////public async Task<ActionResult<IEnumerable<ScrapModel>>> Get()
         //{
         //    return await _repository.GetAllScraps();
         //}
-        [HttpGet("Search")]
+        [HttpGet("GetAllScrap")]
         public async Task<ActionResult<IEnumerable<ScrapModel>>> SearchScrap([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int searchId = 0, [FromQuery] int assetId = 0, [FromQuery] int brcId = 0, [FromQuery] int vedId = 0, [FromQuery] int empId = 0)
         {
             var msg = new Message();

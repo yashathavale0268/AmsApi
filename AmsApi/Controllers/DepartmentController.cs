@@ -28,23 +28,23 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
-        [HttpGet("GetAllDep")]
-        public async Task<ActionResult<IEnumerable<DepartmentModel>>> GetAllDep([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
-        {
-            var msg = new Message();
-            var dep = await _repository.GetAllDep(PageNumber, PageSize);
-            if (dep.Count>0) { msg.IsSuccess = true;
-                msg.Data = dep; } else {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "No values found"; }
-            return Ok(msg);
+        //[HttpGet("GetAllDep")]
+        //public async Task<ActionResult<IEnumerable<DepartmentModel>>> GetAllDep([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
+        //{
+        //    var msg = new Message();
+        //    var dep = await _repository.GetAllDep(PageNumber, PageSize);
+        //    if (dep.Count>0) { msg.IsSuccess = true;
+        //        msg.Data = dep; } else {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "No values found"; }
+        //    return Ok(msg);
             
-        }
+        //}
         //    public async Task<ActionResult<IEnumerable<DepartmentModel>>> Get()
         //{
         //    return await _repository.GetAll();
         //}
-        [HttpGet("Search")]
+        [HttpGet("GetAllDep")]
         public async Task<ActionResult<IEnumerable<DepartmentModel>>> SearchDep([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]int Dep=0)
         {
             var msg = new Message();

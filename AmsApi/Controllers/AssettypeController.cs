@@ -28,24 +28,24 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
         }
+        //[HttpGet("GetAllTypes")]
+        //public async Task<ActionResult<IEnumerable<AssettypeModel>>> GetAllTypes([FromQuery] int PageNumber=1, [FromQuery] int PageSize=5)
+        //{
+        //    var msg = new Message();
+        //    var type = await _repository.GetAllTypes(PageNumber, PageSize);
+        //    if (type.Count > 0)
+        //    {
+        //        msg.IsSuccess = true;
+        //        msg.Data = type;
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no types found";
+        //    }
+        //    return Ok(msg);
+        //}
         [HttpGet("GetAllTypes")]
-        public async Task<ActionResult<IEnumerable<AssettypeModel>>> GetAllTypes([FromQuery] int PageNumber=1, [FromQuery] int PageSize=5)
-        {
-            var msg = new Message();
-            var type = await _repository.GetAllTypes(PageNumber, PageSize);
-            if (type.Count > 0)
-            {
-                msg.IsSuccess = true;
-                msg.Data = type;
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no types found";
-            }
-            return Ok(msg);
-        }
-        [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<AssettypeModel>>> SearchTypes([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery]int typeid =0)
         {
             var msg = new Message();

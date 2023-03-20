@@ -47,7 +47,7 @@ namespace AmsApi.Repository
                 return await Task.FromResult(dataSet); 
             }
         }
-        internal async Task<DataSet> GetBranchviseReport(int brch)
+        internal async Task<DataSet> GetBranchviseReport(int brch,int typ)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetBranchSpecific_total_Report ", sql);
@@ -55,6 +55,7 @@ namespace AmsApi.Repository
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@brch", brch);
+                cmd.Parameters.AddWithValue("@typ", typ);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet);
@@ -63,7 +64,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<DataSet> GetCompanyviseReport(int comp)
+        internal async Task<DataSet> GetCompanyviseReport(int comp,int typ)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetCompanySpecific_total_Report", sql);
@@ -79,7 +80,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<DataSet> GetDepartmentviseReport(int dep)
+        internal async Task<DataSet> GetDepartmentviseReport(int dep,int typ)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetDepartmentSpecific_total_Report", sql);

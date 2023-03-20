@@ -181,32 +181,33 @@ namespace AmsApi.Controllers
 
         #endregion
         // [Authorize(Roles = "Admin")]
-        [HttpGet]
-        [Route("GetAllUsers")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetAll([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)  //
-        {                                                    //GetAllUser(int pageNumber, int pageSize)
-            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var Users = await _repository.GetAllUser(PageNumber, PageSize);
-            if (Users.Count > 0)
-            {
+        //[HttpGet]
+        //[Route("GetAllUsers")]
+        //public async Task<ActionResult<IEnumerable<UserModel>>> GetAll([FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)  //
+        //{                                                    //GetAllUser(int pageNumber, int pageSize)
+        //    var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+        //    var Users = await _repository.GetAllUser(PageNumber, PageSize);
+        //    if (Users.Count > 0)
+        //    {
 
-                msg.IsSuccess = true;
-                msg.Data = Users;
+        //        msg.IsSuccess = true;
+        //        msg.Data = Users;
 
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no user found";
-            }
-            return Ok(msg);
-        }
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no user found";
+        //    }
+        //    return Ok(msg);
+        //}
         //public async Task<ActionResult<IEnumerable<UserModel>>> GetAll()
         //{
         //    return await _repository.GetAll();
         //}
         //[Authorize(Roles = "Admin")]
-        [HttpGet("Search")]
+        [HttpGet]
+        [Route("GetAllUsers")]
         public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int User = 0)
         {
             var msg = new Message();
