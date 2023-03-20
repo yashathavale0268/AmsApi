@@ -57,7 +57,7 @@ namespace AmsApi.Controllers
             if (Company.Count>0)
             {
                 msg.IsSuccess = true;
-                msg.Data = Comp;
+                msg.Data = Company;
             }
             else
             {
