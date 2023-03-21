@@ -43,10 +43,10 @@ namespace AmsApi.Controllers
         //    return Ok(msg);
         //}
         [HttpGet("GetLocations")]
-        public async Task<ActionResult<IEnumerable<LocationModel>>> SearchAllLocations([FromQuery] string Searchterm = null,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int lid = 0, [FromQuery] int aid = 0, [FromQuery] int tid = 0, [FromQuery] int uid = 0, [FromQuery] int bid = 0, [FromQuery] int cid = 0, [FromQuery] int did = 0, [FromQuery] int rid = 0, [FromQuery] int f = 0)
+        public async Task<ActionResult<IEnumerable<LocationModel>>> SearchAllLocations([FromQuery] string Searchterm = null,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int lid = 0, [FromQuery] int aid = 0, [FromQuery] int tid = 0, [FromQuery] int uid = 0, [FromQuery] int bid = 0, [FromQuery] int cid = 0, [FromQuery] int did = 0, [FromQuery] int rid = 0, [FromQuery] int f = 0, [FromQuery] int stat = 0)
         {
             var msg = new Message();
-            var locs = await _repository.SearchAllLocations_Paginated(Searchterm, pageNumber, pageSize, lid, aid, tid, uid, bid, cid, did, rid, f);
+            var locs = await _repository.SearchAllLocations_Paginated(Searchterm, pageNumber, pageSize, lid, aid, tid, uid, bid, cid, did, rid, f,stat);
             if (locs.Count > 0)
             {
                 msg.IsSuccess = true;
