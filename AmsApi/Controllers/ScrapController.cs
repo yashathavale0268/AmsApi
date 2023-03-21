@@ -78,7 +78,7 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "No Matches found ";
             }
-            return Scrap;
+            return Ok(msg); 
         }
         // GET api/values/5
         [HttpGet("Getid/{id}")]

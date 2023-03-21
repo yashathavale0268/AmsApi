@@ -86,7 +86,7 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = false;
                 msg.ReturnMessage="no match found";
             }
-            return requests;
+            return Ok(msg); 
         }
         // POST api/values
         [HttpPost("NewStatus")]

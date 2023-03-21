@@ -64,7 +64,7 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "No match found";
             }
-            return Company;
+            return Ok(msg);
         }
         // GET api/values/5
         //Search/
