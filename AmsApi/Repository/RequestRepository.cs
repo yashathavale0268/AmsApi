@@ -45,7 +45,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<List<RequestModel>> SearchRequests(int pageNumber, int pageSize, int searchTerm,string searchString, int reqId, int assetId, int statId)
+        internal async Task<List<RequestModel>> SearchRequests(int pageNumber, int pageSize,string searchString, int reqId, int assetId, int statId)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
