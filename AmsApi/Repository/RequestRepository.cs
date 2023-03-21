@@ -45,7 +45,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<List<RequestModel>> SearchRequests(int pageNumber, int pageSize,string searchString, int reqId, int assetId, int statId)
+        internal async Task<List<RequestModel>> SearchRequests(int pageNumber, int pageSize,string searchString,int userId ,int reqId, int assetId, int statId)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -54,6 +54,7 @@ namespace AmsApi.Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    cmd.Parameters.AddWithValue("@UserId ", userId);
                     cmd.Parameters.AddWithValue("@ReqId ", reqId);
                     cmd.Parameters.AddWithValue("@AssetId ", assetId);
                     cmd.Parameters.AddWithValue("@StatId ", statId);

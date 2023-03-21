@@ -69,6 +69,8 @@ namespace AmsApi.Repository
                 reqid = (int)reader["reqid"],
                 Extradetails = (string)reader["Extradetails"],
                 active = (bool)reader["active"],
+                isworking = (bool)reader["isworking"],
+                inuse = (bool)reader["inuse"],
                 Assetname = (string)reader["Assetname"],
                 branchname=(string)reader["branchname"],
                 companyname=(string)reader["companyname"],

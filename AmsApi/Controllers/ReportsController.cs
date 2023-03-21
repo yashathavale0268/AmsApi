@@ -48,10 +48,10 @@ namespace AmsApi.Controllers
         // report for assets
         [HttpGet]
         [Route("AssetReport")]
-        public async Task<ActionResult> GetAssetReport([FromQuery] int brch, [FromQuery] int comp = 0, [FromQuery] int dep = 0, [FromQuery] int typ =0)  //
+        public async Task<ActionResult> GetAssetReport([FromQuery] string reportType = null, [FromQuery] int brch=0, [FromQuery] int comp = 0, [FromQuery] int dep = 0, [FromQuery] int typ =0)  //
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var AssetReport = await _repository.GetAssetReport( brch,comp,dep,typ);
+            var AssetReport = await _repository.GetAssetReport( reportType,brch,comp,dep,typ);
             if (AssetReport is not null)
             {
 

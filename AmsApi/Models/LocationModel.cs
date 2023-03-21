@@ -44,6 +44,13 @@ namespace AmsApi.Models
         [DataMember(Name = "active")]
         public bool active { get; set; }
 
+        [DataMember(Name = "isworking")]
+
+        public bool isworking { get; set; }
+
+        [DataMember(Name = "inuse")]
+        public bool inuse { get; set; }
+
         [DataMember(Name = "Users")]
         public string Users { get; set; }
 
