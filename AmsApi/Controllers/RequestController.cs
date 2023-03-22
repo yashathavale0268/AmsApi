@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AmsApi.Controllers
 {
     [AllowAnonymous]
-   // [Authorize]
+    // [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -26,12 +26,12 @@ namespace AmsApi.Controllers
         private readonly RequestRepository _repository;
         public RequestController(RequestRepository repository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository)); 
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        
+
         // [Authorize("Admin")]
         //[HttpGet("GetAllRequests")]
-        
+
         //public async Task<ActionResult<IEnumerable<RequestModel>>> GetAllRequests([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
         //{
         //    var msg = new Message();
@@ -48,11 +48,11 @@ namespace AmsApi.Controllers
         //}
         //   [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
-        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchString=null,[FromQuery]int userId=0,[FromQuery]int reqId=0,[FromQuery]int assetId=0,[FromQuery]int statId=0)
+        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchString = null, [FromQuery] int userId = 0, [FromQuery] int reqId = 0, [FromQuery] int assetId = 0, [FromQuery] int statId = 0)
         {
             var msg = new Message();
-            var requests = await _repository.SearchRequests(pageNumber, pageSize,searchString,userId,reqId,assetId,statId);
-            if (requests.Count>0){
+            var requests = await _repository.SearchRequests(pageNumber, pageSize, searchString, userId, reqId, assetId, statId);
+            if (requests.Count > 0) {
                 msg.IsSuccess = true;
                 msg.Data = requests; } else
             {
@@ -62,16 +62,16 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         // GET api/values/5
-       // [Authorize("Admin,User")]
+        // [Authorize("Admin,User")]
         [HttpGet("Getbyid/{id}")]
         public async Task<ActionResult<RequestModel>> Get(int id = 0)//will be used to display all the request done in by the user
         {
             var msg = new Message();
             var response = await _repository.GetRequestId(id);
-            if (response.Count > 0) 
+            if (response.Count > 0)
             {
                 msg.IsSuccess = true;
-                msg.Data = response; 
+                msg.Data = response;
             }
             else
             {
@@ -111,7 +111,7 @@ namespace AmsApi.Controllers
         [HttpPost("CreateNew")]
         public async Task<IActionResult> Post([FromBody] RequestModel request)
         {
-            
+
             var msg = new Message();
             await _repository.Insert(request);
             bool exists = _repository.Itexists;
@@ -127,7 +127,7 @@ namespace AmsApi.Controllers
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " new request succesfully registered";
-                
+
             }
             else
             {
@@ -138,14 +138,14 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-       // [Authorize("Admin,User")]
+        // [Authorize("Admin,User")]
         [HttpPut("UpdateRequest/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] RequestModel request)
         {
-            
+
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
-            if (GetRequest.Count>0)
+            if (GetRequest.Count > 0)
             {
                 await _repository.UpdateRequest(request, id);
                 bool success = _repository.IsSuccess;
@@ -165,20 +165,20 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "no id found";
             }
-           
+
 
             return Ok(msg);
         }
 
         [HttpGet("StatusChange/{id}")]
-        public async Task<IActionResult> StatusChange(int id,[FromQuery] bool isworking=true, [FromQuery] bool inuse=false)
+        public async Task<IActionResult> StatusChange(int id, [FromQuery] int type=0, [FromQuery] bool isworking=true, [FromQuery] bool inuse=false)
         {
 
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count > 0)
             {
-                await _repository.StatusChange(isworking,inuse, id);
+                await _repository.StatusChange(isworking,inuse,type, id);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {

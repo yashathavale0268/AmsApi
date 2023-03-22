@@ -148,7 +148,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task StatusChange(bool isworking, bool inuse, int id)
+        internal async Task StatusChange(bool isworking, bool inuse, int type, int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -158,6 +158,7 @@ namespace AmsApi.Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", comp.Companyid);
                     cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@type", type);
                     cmd.Parameters.AddWithValue("@isworking", isworking);
                     cmd.Parameters.AddWithValue("@inuse", inuse);
 
