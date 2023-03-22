@@ -171,14 +171,14 @@ namespace AmsApi.Controllers
         }
 
         [HttpPut("StatusChange/{id}")]
-        public async Task<IActionResult> StatusChange(int id,[FromQuery] bool isworking=true, [FromQuery] bool inuse=false)
+        public async Task<IActionResult> StatusChange(int id,RequestModel request)
         {
 
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count > 0)
             {
-                await _repository.StatusChange(isworking,inuse, id);
+                await _repository.StatusChange(request, id);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
