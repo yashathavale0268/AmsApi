@@ -170,7 +170,7 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
-        [HttpGet("StatusChange/{id}")]
+        [HttpPut("StatusChange/{id}")]
         public async Task<IActionResult> StatusChange(int id,[FromQuery] bool isworking=true, [FromQuery] bool inuse=false)
         {
 
