@@ -178,6 +178,53 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
+
+        [HttpGet("GetIsSpareTable")]
+        public IActionResult GetIsSpareTable()
+
+        {
+            var msg = new Message();
+            var result = _repository.GetIsSpareTable();
+
+            if (result.Tables.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+
+            }
+
+
+            return Ok(msg);
+        }
+        [HttpGet("GetIsWorkingTable")]
+        public IActionResult GetIsWorkingTable()
+
+        {
+            var msg = new Message();
+            var result = _repository.GetIsWorkingTable();
+
+            if (result.Tables.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+
+            }
+
+
+            return Ok(msg);
+        }
         //[HttpGet]
         //[Route("AssetReport")]
         //public async Task<ActionResult> GetAssetReport()  //

@@ -109,11 +109,12 @@ namespace AmsApi.Controllers
         //[Authorize("User")]
         // POST api/values
         [HttpPost("CreateNew")]
-        public async Task<IActionResult> Post([FromBody] RequestModel request)
+     //   public async Task<IActionResult> Post([FromBody] RequestModel request)
+        public async Task<IActionResult> Post(int userid,int asset,string justify)
         {
 
             var msg = new Message();
-            await _repository.Insert(request);
+            await _repository.Insert(userid,asset,justify);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 

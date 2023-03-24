@@ -16,19 +16,21 @@ namespace AmsApi.Models
 
         
         [DataMember(Name = "Assetid")]
-      //  public List<int> Assets { get; set; }
+      
      
         public int Assetid { get; set; }
+
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; } = DateTime.Now;
+
+
         [DataMember(Name = "Justify")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Justify { get; set; }
 
+       
         [DataMember(Name = "Status")]
         public int Status { get; set; }
-
-       
 
         [DataMember(Name = "active")]
         public bool active { get; set; }
@@ -39,11 +41,15 @@ namespace AmsApi.Models
 
         [DataMember(Name = "Asset")]
         public string Asset { get; set; }
+        
         [DataMember(Name = "CurrentStatus")]
         public string CurrentStatus { get; set; }
         [DataMember(Name = "UserName")]
         public string UserName { get; set; }
 
+        [DataMember(Name = "totalCount")]
+
+        public int totalCount { get; set; }
 
 
 
