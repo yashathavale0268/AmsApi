@@ -150,10 +150,26 @@ namespace AmsApi.Repository
             }
         }
 
-        public DataSet GetAllTables()
+        public DataSet GetReportTable()
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAll_Table_total_Report", sql);
+            using SqlCommand cmd = new("sp_GetSpecific_total_Report ", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
+        }
+
+        public DataSet GetInUseTable()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllinuseSpecific_total_Report ", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;

@@ -136,7 +136,31 @@ namespace AmsApi.Controllers
             
         {
             var msg = new Message();
-            var result = _repository.GetAllTables();
+            var result = _repository.GetReportTable();
+
+            if (result.Tables.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+
+            }
+
+
+            return Ok(msg);
+
+        }
+        [HttpGet("GetInUseTable")]
+        public IActionResult GetInUseTables()
+
+        {
+            var msg = new Message();
+            var result = _repository.GetInUseTable();
 
             if (result.Tables.Count > 0)
             {
@@ -154,26 +178,26 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
-            //[HttpGet]
-            //[Route("AssetReport")]
-            //public async Task<ActionResult> GetAssetReport()  //
-            //{                                                    //GetAllUser(int pageNumber, int pageSize)
-            //    var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            //    var AssetReport = await _repository.GetAssetReport();
-            //    if (AssetReport is not null)
-            //    {
+        //[HttpGet]
+        //[Route("AssetReport")]
+        //public async Task<ActionResult> GetAssetReport()  //
+        //{                                                    //GetAllUser(int pageNumber, int pageSize)
+        //    var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+        //    var AssetReport = await _repository.GetAssetReport();
+        //    if (AssetReport is not null)
+        //    {
 
-            //        msg.IsSuccess = true;
-            //        msg.Data = AssetReport;
+        //        msg.IsSuccess = true;
+        //        msg.Data = AssetReport;
 
-            //    }
-            //    else
-            //    {
-            //        msg.IsSuccess = false;
-            //        msg.ReturnMessage = "no user found";
-            //    }
-            //    return Ok(msg);
-            //}
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "no user found";
+        //    }
+        //    return Ok(msg);
+        //}
 
-        }
+    }
 }
