@@ -48,10 +48,10 @@ namespace AmsApi.Controllers
         //}
         //   [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
-        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchString = null, [FromQuery] int userId = 0, [FromQuery] int reqId = 0, [FromQuery] int assetId = 0, [FromQuery] int statId = 0)
-        {
+        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string searchString = null, [FromQuery] int userId = 0, [FromQuery] int reqId = 0, [FromQuery] int assetId = 0, [FromQuery] int statId = 0)
+            {
             var msg = new Message();
-            var requests = await _repository.SearchRequests(pageNumber, pageSize, searchString, userId, reqId, assetId, statId);
+             var requests = await _repository.SearchRequests(pageNumber, pageSize, searchString, userId, reqId, assetId, statId);
             if (requests.Count > 0) {
                 msg.IsSuccess = true;
                 msg.Data = requests; } else
@@ -109,11 +109,11 @@ namespace AmsApi.Controllers
         //[Authorize("User")]
         // POST api/values
         [HttpPost("CreateNew")]
-        public async Task<IActionResult> Post([FromBody] RequestModel request)
+        public async Task<IActionResult> Post(Int64 userid,Int64 asset, string justify)
         {
 
             var msg = new Message();
-            await _repository.Insert(request);
+            await _repository.Insert(userid,asset,justify);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 
