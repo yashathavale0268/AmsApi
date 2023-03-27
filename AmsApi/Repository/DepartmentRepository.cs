@@ -99,6 +99,7 @@ namespace AmsApi.Repository
                 Remarks= reader["Remarks"].ToString(),
                 Created_at = (DateTime)reader["Created_at"],
                 active = (bool)reader["active"],
+                totalrecord = (int)reader["totalrecord"],
             };
         }
 
@@ -106,10 +107,10 @@ namespace AmsApi.Repository
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                using (SqlCommand cmd = new("sp_GetAllDep", sql))
+                using (SqlCommand cmd = new("sp_SearchAllDep_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    cmd.Parameters.Add(new SqlParameter("@Dep", id));
                     var response = new List<DepartmentModel>();
                     //DepartmentModel response = null;
                     await sql.OpenAsync();

@@ -100,6 +100,7 @@ namespace AmsApi.Repository
                 Name = reader["Name"].ToString(),
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Active = (bool)reader["active"],
+                totalrecord = (int)reader["totalrecord"],
             };
         }
 
@@ -108,9 +109,9 @@ namespace AmsApi.Repository
         public async Task<List<BranchModel>> GetById(int id)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllBranch", sql);
+            using SqlCommand cmd = new("sp_SearchAllBranches_Paginated", sql);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@id", id));
+            cmd.Parameters.Add(new SqlParameter("@brcid", id));
 
             var response = new List<BranchModel>();
             await sql.OpenAsync();

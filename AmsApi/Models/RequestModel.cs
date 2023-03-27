@@ -47,9 +47,9 @@ namespace AmsApi.Models
         [DataMember(Name = "UserName")]
         public string UserName { get; set; }
 
-        [DataMember(Name = "Count")]
+        [DataMember(Name = "totalrecord")]
 
-        public int Count { get; set; }
+        public int totalrecord { get; set; }
 
 
 

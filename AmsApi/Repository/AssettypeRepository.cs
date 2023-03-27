@@ -93,15 +93,16 @@ namespace AmsApi.Repository
                 Name = reader["Name"].ToString(),
                 Remarks = reader["Remarks"].ToString(),
                 Active = (bool)reader["active"],
+                totalrecord = (int)reader["totalrecord"]
             };
         }
 
         public async Task<List<AssettypeModel>> GettypeById(int Id)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllTypes", sql);
+            using SqlCommand cmd = new("sp_SearchAllType_Paginated", sql);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", Id);
+            cmd.Parameters.AddWithValue("@typeid", Id);
 
             var response = new List<AssettypeModel>();
             await sql.OpenAsync();

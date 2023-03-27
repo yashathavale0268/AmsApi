@@ -47,6 +47,9 @@ namespace AmsApi.Models
         [DataMember(Name = "LastUser")]
         public string LastUser { get; set; }
 
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
+
 
     }
 }

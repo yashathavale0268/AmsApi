@@ -27,5 +27,8 @@ namespace AmsApi.Models
         [FromQuery]
         [DataMember(Name = "Created_at")]
         public DateTime? Created_at { get; set; } = DateTime.Now;
+
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
     }
 }

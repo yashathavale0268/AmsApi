@@ -41,5 +41,8 @@ namespace AmsApi.Models
         public string Asset { get; set; }
         [DataMember(Name = "UserName")]
         public string UserName { get; set; }
+
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
     }
 }

@@ -69,8 +69,9 @@ namespace AmsApi.Models
         [DataMember(Name = " CompanyName")]
         public string CompanyName { get; set; }
 
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
 
-       
 
     }
 }

@@ -104,7 +104,8 @@ namespace AmsApi.Models
         public string Vendors { get; set; }
         //[DataMember(Name = "Statuses")]
         //public string Statuses { get; set; }
-
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
 
 
 

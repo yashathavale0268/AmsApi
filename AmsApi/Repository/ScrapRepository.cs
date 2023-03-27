@@ -130,6 +130,7 @@ namespace AmsApi.Repository
                 BranchName = (string)reader["BranchName"],
                 VendorName = (string)reader["VendorName"],
                 LastUser = (string)reader["LastUser"],
+                totalrecord = (int)reader["totalrecord"]
             };
         }
 
@@ -137,10 +138,10 @@ namespace AmsApi.Repository
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                using (SqlCommand cmd = new("sp_GetAllScrap", sql))
+                using (SqlCommand cmd = new("sp_SearchAllScrap_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    cmd.Parameters.Add(new SqlParameter("@Searchid", id));
                 //    ScrapModel response = null;
                     var response = new List<ScrapModel>();
                     await sql.OpenAsync();

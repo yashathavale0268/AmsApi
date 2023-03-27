@@ -136,6 +136,7 @@ namespace AmsApi.Repository
                 InvoiceDate = (reader["InvoiceDate"] != DBNull.Value) ? Convert.ToDateTime(reader["InvoiceDate"]) : DateTime.MinValue,
                 Warranty_Till = (reader["Warranty_Till"] != DBNull.Value) ? Convert.ToDateTime(reader["Warranty_Till"]) : DateTime.MinValue,
                 active = (bool)reader["active"],
+                totalrecord = (int)reader["totalrecord"]
             };
         }
 

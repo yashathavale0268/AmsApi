@@ -20,6 +20,8 @@ namespace AmsApi.Models
         public DateTime? Created_at { get; set; } = DateTime.Now;
         [DataMember(Name = "active")]
         public bool Active { get; set; }
-        
+
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
     }
 }

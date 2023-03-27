@@ -27,8 +27,9 @@ namespace AmsApi.Models
         
         [DataMember(Name = "active")]
         public bool active { get; set; }
-        
 
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
 
 
 

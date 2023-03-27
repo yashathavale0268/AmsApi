@@ -96,7 +96,7 @@ namespace AmsApi.Repository
                 Asset = (string)reader["Asset"],
                 CurrentStatus = reader["CurrentStatus"].ToString(),
                 UserName=(string)reader["UserName"],
-                Count=(int)reader["Count"],
+                totalrecord = (int)reader["totalrecord"],
             };
 
         }
@@ -181,10 +181,10 @@ namespace AmsApi.Repository
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                using (SqlCommand cmd = new("sp_GetAllRequests", sql))
+                using (SqlCommand cmd = new("sp_SearchAllRequests_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    cmd.Parameters.Add(new SqlParameter("@ReqId", id));
                    // RequestModel response = null;
                     var response = new List<RequestModel>();
                     await sql.OpenAsync();

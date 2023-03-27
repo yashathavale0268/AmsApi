@@ -72,5 +72,8 @@ namespace AmsApi.Models
         [DataMember(Name = "StatusNow")]
         public string StatusNow { get; set; }
 
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
+
     }
 }

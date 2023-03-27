@@ -20,6 +20,8 @@ namespace AmsApi.Models
         public string Remarks { get; set; }
         [DataMember(Name = "Active")]
         public bool Active { get; set; }
-      
+        [DataMember(Name = "totalrecord")]
+        public int totalrecord { get; set; }
+
     }
 }

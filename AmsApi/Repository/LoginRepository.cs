@@ -98,6 +98,7 @@ namespace AmsApi.Repository
                 CompanyName = reader["CompanyName"].ToString(),
                 BranchName = reader["BranchName"].ToString(),
                 Full_name = reader["Full_name"].ToString(),
+                totalrecord = (int)reader["totalrecord"]
             };
         }
         /* dataset approach
@@ -636,10 +637,10 @@ namespace AmsApi.Repository
             using (SqlConnection sql = new(_connectionString))
             {
                 await sql.OpenAsync();
-                using (SqlCommand command = new("sp_GetAllUsers", sql))
+                using (SqlCommand command = new("sp_SearchAllUser_Paginated", sql))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@User", id);
 
                     var reader = await command.ExecuteReaderAsync();
                     if (await reader.ReadAsync())

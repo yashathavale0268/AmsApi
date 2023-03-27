@@ -95,7 +95,7 @@ namespace AmsApi.Repository
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
               
             active = (bool)reader["active"],
-              
+                totalrecord = (int)reader["totalrecord"]
                 
                 
                
@@ -158,7 +158,7 @@ namespace AmsApi.Repository
             public async Task<List<AssetModel>> GetById(int id)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllAssets", sql);
+            using SqlCommand cmd = new("sp_SearchAllAssets_Paginated", sql);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@id", id));
 
