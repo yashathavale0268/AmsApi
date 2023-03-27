@@ -109,7 +109,8 @@ namespace AmsApi.Controllers
         //[Authorize("User")]
         // POST api/values
         [HttpPost("CreateNew")]
-        public async Task<IActionResult> Post(Int64 userid,Int64 asset, string justify)
+     //   public async Task<IActionResult> Post([FromBody] RequestModel request)
+        public async Task<IActionResult> Post(int userid,int asset,string justify)
         {
 
             var msg = new Message();
