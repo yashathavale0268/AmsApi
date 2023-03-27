@@ -15,6 +15,8 @@ namespace AmsApi.Repository
         private readonly string _connectionString;
         public bool Itexists { get; set; }
         public bool IsSuccess { get; set; }
+
+        public int totalCount { get; set; }
         public RequestRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
@@ -61,7 +63,6 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@SearchString", searchString);
                     var response = new List<RequestModel>();
                     await sql.OpenAsync();
-
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -69,7 +70,7 @@ namespace AmsApi.Repository
                             response.Add(MapToValue(reader));
                         }
                     }
-
+                   
                     return response;
                 }
             }
@@ -95,7 +96,7 @@ namespace AmsApi.Repository
                 Asset = (string)reader["Asset"],
                 CurrentStatus = reader["CurrentStatus"].ToString(),
                 UserName=(string)reader["UserName"],
-                totalCount=(int)reader["totalCount"],
+                Count=(int)reader["Count"],
             };
 
         }
