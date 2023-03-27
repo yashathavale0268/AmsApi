@@ -128,12 +128,12 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", comp.Companyid);
-                    cmd.Parameters.AddWithValue("@Userid", userid);
-                    cmd.Parameters.AddWithValue("@assetid", asset);
-                    //cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
-                    cmd.Parameters.AddWithValue("@Justify", justify);
-               //     cmd.Parameters.AddWithValue("@Status", request.Status);// set a station for evry new request to be set 
-                 //   cmd.Parameters.AddWithValue("@active", 1);
+                    cmd.Parameters.AddWithValue("@Userid", request.Userid);
+                    cmd.Parameters.AddWithValue("@Assetid",request.Assetid);
+                    cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
+                    cmd.Parameters.AddWithValue("@Justify", request.Justify);
+                    cmd.Parameters.AddWithValue("@Status", request.Status);// set a station for evry new request to be set 
+                    cmd.Parameters.AddWithValue("@active", 1);
 
                     await sql.OpenAsync();
                     var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };

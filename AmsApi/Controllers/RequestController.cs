@@ -48,10 +48,9 @@ namespace AmsApi.Controllers
         //}
         //   [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
-        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchString = null, [FromQuery] int userId = 0, [FromQuery] int reqId = 0, [FromQuery] int assetId = 0, [FromQuery] int statId = 0)
-        {
+        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string searchString = null, [FromQuery] int userId = 0, [FromQuery] int reqId = 0, [FromQuery] int assetId = 0, [FromQuery] int statId = 0)
+            {
             var msg = new Message();
-            var totalCount = _repository.totalCount;
             var requests = await _repository.SearchRequests(pageNumber, pageSize, searchString, userId, reqId, assetId, statId);
             if (requests.Count > 0) {
                 msg.IsSuccess = true;
