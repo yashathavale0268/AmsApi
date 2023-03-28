@@ -165,7 +165,7 @@ namespace AmsApi.Repository
                 return dataSet;
             }
         }
-
+        //int pageNumber, int pageSize, string searchString, int brcid
         public DataSet GetInUseTable()
         {
             using SqlConnection sql = new(_connectionString);
@@ -173,8 +173,12 @@ namespace AmsApi.Repository
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                //        cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                //        cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                //cmd.Parameters.AddWithValue("@SearchString", searchString);
+                //cmd.Parameters.AddWithValue("@brcid ", brcid);
+                
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet);
 
@@ -184,7 +188,7 @@ namespace AmsApi.Repository
         public DataSet GetIsSpareTable()
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllisSpareSpecific_total_Report ", sql);
+            using SqlCommand cmd = new("sp_GetAllisSpareSpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;

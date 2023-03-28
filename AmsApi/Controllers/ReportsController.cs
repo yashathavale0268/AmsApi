@@ -156,11 +156,11 @@ namespace AmsApi.Controllers
 
         }
         [HttpGet("GetInUseTable")]
-        public IActionResult GetInUseTables()
+        public IActionResult GetInUseTables()//int pageNumber, int pageSize, string searchString, int brcid
 
         {
             var msg = new Message();
-            var result = _repository.GetInUseTable();
+            var result = _repository.GetInUseTable();//pageNumber,pageSize,searchString, brcid
 
             if (result.Tables.Count > 0)
             {
