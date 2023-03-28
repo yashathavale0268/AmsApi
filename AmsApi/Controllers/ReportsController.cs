@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmsApi.Models;
 using AmsApi.Repository;
 using CoreApiAdoDemo.Model;
 using Microsoft.AspNetCore.Http;
@@ -156,13 +157,13 @@ namespace AmsApi.Controllers
 
         }
         [HttpGet("GetInUseTable")]
-        public IActionResult GetInUseTables()//int pageNumber, int pageSize, string searchString, int brcid
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetInUseTables()//int pageNumber, int pageSize, string searchString, int brcid
 
         {
             var msg = new Message();
-            var result = _repository.GetInUseTable();//pageNumber,pageSize,searchString, brcid
+            var result = await _repository.GetInUseTable();//pageNumber,pageSize,searchString, brcid
 
-            if (result.Tables.Count > 0)
+            if (result.Count > 0)
             {
                 msg.IsSuccess = true;
                 msg.Data = result;

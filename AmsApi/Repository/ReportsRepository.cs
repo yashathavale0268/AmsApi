@@ -117,20 +117,45 @@ namespace AmsApi.Repository
         }
 
 
-        internal async Task<DataSet> GetisinuseReport(int inuse)
+        internal async Task<List<ReportModel>> GetisinuseReport()
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAssetType_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@typ", inuse);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet);
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
 
-                return await Task.FromResult(dataSet);
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue(reader));
+                    }
+                }
+
+                return response;
             }
+        }
+        public ReportModel MapToValue(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+                userinfo = (string)reader["userinfo"],
+                branch = (string)reader["Asset"],
+
+                type = (string)reader["type"],
+
+                assetsinUse = (int)reader["assetsinUse"],
+
+                spareassets = (int)reader["spareassets"],
+
+                workingassets = (int)reader["workingassets"],
+
+                status = (string)reader["LastUser"],
+                totalrecord = (int)reader["totalrecord"],
+            };
         }
 
 
@@ -166,23 +191,25 @@ namespace AmsApi.Repository
             }
         }
         //int pageNumber, int pageSize, string searchString, int brcid
-        public DataSet GetInUseTable()
+        public async Task<List<ReportModel>> GetInUseTable()
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllinuseSpecific_total_Report ", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                //        cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-                //        cmd.Parameters.AddWithValue("@PageSize", pageSize);
-                //cmd.Parameters.AddWithValue("@SearchString", searchString);
-                //cmd.Parameters.AddWithValue("@brcid ", brcid);
-                
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet);
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
 
-                return dataSet;
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue(reader));
+                    }
+                }
+
+                return response;
             }
         }
         public DataSet GetIsSpareTable()
