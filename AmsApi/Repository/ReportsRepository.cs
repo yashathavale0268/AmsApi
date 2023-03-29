@@ -131,14 +131,14 @@ namespace AmsApi.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        response.Add(MapToValue(reader));
+                        response.Add(MapToValue_inUse(reader));
                     }
                 }
 
                 return response;
             }
         }
-        public ReportModel MapToValue(SqlDataReader reader)
+        public ReportModel MapToValue_inUse(SqlDataReader reader)
         {
             return new ReportModel()
             {
@@ -149,15 +149,45 @@ namespace AmsApi.Repository
 
                 assetsinUse = (int)reader["assetsinUse"],
 
-                spareassets = (int)reader["spareassets"],
 
-                workingassets = (int)reader["workingassets"],
-
-                status = (string)reader["LastUser"],
+                status = (string)reader["status"],
                 totalrecord = (int)reader["totalrecord"],
             };
         }
+        public ReportModel MapToValue_isSpare(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+                userinfo = (string)reader["userinfo"],
+                branch = (string)reader["branch"],
 
+                type = (string)reader["type"],
+
+                
+
+                spareassets = (int)reader["spareassets"],
+
+              
+
+                status = (string)reader["status"],
+                totalrecord = (int)reader["totalrecord"],
+            };
+        }
+        public ReportModel MapToValue_isWorking(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+                userinfo = (string)reader["userinfo"],
+                branch = (string)reader["branch"],
+
+                type = (string)reader["type"],
+
+                workingassets = (int)reader["workingassets"],
+
+                status = (string)reader["status"],
+                totalrecord = (int)reader["totalrecord"],
+            };
+        }
 
         internal async Task<DataSet> GetscrapReport(int srp)
         {
@@ -205,41 +235,53 @@ namespace AmsApi.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        response.Add(MapToValue(reader));
+                        response.Add(MapToValue_inUse(reader));
                     }
                 }
 
                 return response;
             }
         }
-        public DataSet GetIsSpareTable()
+        public async Task<List<ReportModel>> GetIsSpareTable()
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllisSpareSpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet);
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_isSpare(reader));
+                    }
+                }
 
-                return dataSet;
+                return response;
             }
         }
-        public DataSet GetIsWorkingTable()
+        public async Task<List<ReportModel>> GetIsWorkingTable()
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllisWorkingSpecific_total_Report ", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet);
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_isWorking(reader));
+                    }
+                }
 
-                return dataSet;
+                return response;
             }
         }
     }

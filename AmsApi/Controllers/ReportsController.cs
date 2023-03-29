@@ -181,13 +181,13 @@ namespace AmsApi.Controllers
         }
 
         [HttpGet("GetIsSpareTable")]
-        public IActionResult GetIsSpareTable()
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsSpareTable()
 
         {
             var msg = new Message();
-            var result = _repository.GetIsSpareTable();
+            var result = await _repository.GetIsSpareTable();
 
-            if (result.Tables.Count > 0)
+            if (result.Count > 0)
             {
                 msg.IsSuccess = true;
                 msg.Data = result;
@@ -204,13 +204,13 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         [HttpGet("GetIsWorkingTable")]
-        public IActionResult GetIsWorkingTable()
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsWorkingTable()
 
         {
             var msg = new Message();
-            var result = _repository.GetIsWorkingTable();
+            var result = await _repository.GetIsWorkingTable();
 
-            if (result.Tables.Count > 0)
+            if (result.Count > 0)
             {
                 msg.IsSuccess = true;
                 msg.Data = result;
