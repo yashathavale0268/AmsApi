@@ -428,11 +428,11 @@ namespace AmsApi.Controllers
                  var emailtoken = _repository.GenerateemailToken(email);
                 //var token = _repository.GeneratePasswordResetToken();
                 PasswordResetConfirm token = new();
-                token.Token = emailtoken.ToString();
+                token.Token = emailtoken.ToString() ;
 
-                await _repository.SendPasswordResetEmail(model.Email, token.ToString());
+                await _repository.SendPasswordResetEmail(model.Email, emailtoken.ToString());
 
-                msg.Data = (model.Email, token.ToString());
+                msg.Data = (model.Email, token.Token.ToString());
             }
 
             else
