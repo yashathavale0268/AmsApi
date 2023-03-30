@@ -187,7 +187,7 @@ namespace AmsApi.Repository
             message.Subject = "Password Reset";
             message.Body = new TextPart("plain")
             {
-                Text = $"To reset your password, please click the following link: https://your-api.com/reset?email={email}&token={token}"
+                Text = $"To reset your password, please click the following link:https://localhost:44377/api/Registeration/password-reset-confirm?email={email}&token={token}"
             };
 
             using (var client = new SmtpClient())

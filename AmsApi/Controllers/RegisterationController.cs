@@ -110,7 +110,7 @@ namespace AmsApi.Controllers
                                                                      //string secretKey = key;
                                                                      //string tokenkey = secretKey;
                                                                      //msg.Data =tokenkey;
-                msg.Data = (/*token,*/ userSessions);
+                msg.Data = (token, userSessions);
 
 
 
@@ -425,12 +425,12 @@ namespace AmsApi.Controllers
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " email found";
                 
-                 var emailtoken = _repository.GenerateemailToken(email);
-                //var token = _repository.GeneratePasswordResetToken();
+               //  var emailtoken = _repository.GenerateemailToken(email);
+                var randomtoken = _repository.GeneratePasswordResetToken();
                 PasswordResetConfirm token = new();
-                token.Token = emailtoken.ToString() ;
+                token.Token = randomtoken.ToString() ;
 
-                await _repository.SendPasswordResetEmail(model.Email, emailtoken.ToString());
+                await _repository.SendPasswordResetEmail(model.Email, randomtoken.ToString());
 
                 msg.Data = (model.Email, token.Token.ToString());
             }
@@ -450,7 +450,7 @@ namespace AmsApi.Controllers
                 // Send the password reset email
                 
  
-        [HttpPost]
+        [HttpGet]
         [Route("password-reset-confirm")]
         public async Task<IActionResult> PasswordResetConfirm([FromBody] PasswordResetConfirm model)
         {
