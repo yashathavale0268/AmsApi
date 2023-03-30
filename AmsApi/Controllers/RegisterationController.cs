@@ -100,10 +100,10 @@ namespace AmsApi.Controllers
             var userSessions = await _repository.GetbyObj(user);
 
 
-            if (userSessions.Userid > 0)
+            if (userSessions.Userid > 0 && userSessions.Role=="User")
             {
                 msg.IsSuccess = true;
-                msg.ReturnMessage = "Successful Login";
+                msg.ReturnMessage = "Successful User Login";
 
 
                 var token = _repository.GenerateToken(userSessions); //null;//
@@ -121,6 +121,30 @@ namespace AmsApi.Controllers
                 ////---if want to decode the token later---
                 //  tokenvalues = _repository.DecodeJwtPayload((token).ToString());
                 //   msg.Data = tokenvalues;
+            }
+            else if (userSessions.Userid > 0 && userSessions.Role == "Admin")
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "Successful Admin Login";
+                var token = _repository.GenerateToken(userSessions); //null;//
+                                                                     //string secretKey = key;
+                                                                     //string tokenkey = secretKey;
+                                                                     //msg.Data =tokenkey;
+                msg.Data = (token, userSessions);
+            }
+            else if (userSessions.Userid > 0 && userSessions.Role != "User")
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "Login Unsuccessfull";
+
+
+            }
+           
+            else if (userSessions.Userid > 0 && userSessions.Role != "Admin")
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "UnAuthorized Login";
+                
             }
             else
             {

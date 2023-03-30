@@ -72,6 +72,7 @@ namespace AmsApi.Models
         [DataMember(Name = "totalrecord")]
         public int totalrecord { get; set; }
 
-
+        //[DataMember(Name = "token")]
+        //public string token { get; set; }
     }
 }
