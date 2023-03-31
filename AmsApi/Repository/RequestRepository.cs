@@ -213,7 +213,7 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.Parameters.AddWithValue("@Userid", request.Userid);
                         cmd.Parameters.AddWithValue("@Assetid", request.Assetid);
-                        cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
+                      //  cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                         cmd.Parameters.AddWithValue("@Justify", request.Justify);
                         cmd.Parameters.AddWithValue("@Status", request.Status);
                         cmd.Parameters.AddWithValue("@active", 1);
