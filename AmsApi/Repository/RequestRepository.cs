@@ -202,7 +202,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateRequest(RequestModel request, int id)
+        internal async Task UpdateRequest(int userid, int asset, string justify, int id)
         {
            
                 using (SqlConnection sql = new(_connectionString))
@@ -211,10 +211,10 @@ namespace AmsApi.Repository
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", id);
-                        cmd.Parameters.AddWithValue("@Userid", request.Userid);
-                        cmd.Parameters.AddWithValue("@Assetid", request.Assetid);
+                        cmd.Parameters.AddWithValue("@Userid", userid);
+                        cmd.Parameters.AddWithValue("@Assetid", asset);
                       //  cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
-                        cmd.Parameters.AddWithValue("@Justify", request.Justify);
+                        cmd.Parameters.AddWithValue("@Justify", justify);
                        // cmd.Parameters.AddWithValue("@Status", request.Status);
                         cmd.Parameters.AddWithValue("@active", 1);
                         await sql.OpenAsync();
