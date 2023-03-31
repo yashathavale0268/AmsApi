@@ -202,7 +202,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateRequest(int userid, int asset, string justify, int id)
+        internal async Task UpdateRequest(int userid,int asset,string justify,int id)
         {
            
                 using (SqlConnection sql = new(_connectionString))

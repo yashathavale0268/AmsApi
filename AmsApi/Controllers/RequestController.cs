@@ -149,7 +149,7 @@ namespace AmsApi.Controllers
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count > 0)
             {
-                await _repository.UpdateRequest(userid,asset,  justify, id);
+                await _repository.UpdateRequest(userid,asset,justify,id);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
