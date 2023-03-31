@@ -109,8 +109,13 @@ namespace AmsApi.Controllers
                 var token = _repository.GenerateToken(userSessions); //null;//
                                                                      //string secretKey = key;
                                                                      //string tokenkey = secretKey;
-                                                                     //msg.Data =tokenkey;
-                msg.Data = (token, userSessions);
+                UserModel Userinfo = new();
+                Userinfo = userSessions;
+                Userinfo.token = (string)token;//msg.Data =tokenkey;
+                
+                
+                
+                msg.Data = (Userinfo);
 
 
 
