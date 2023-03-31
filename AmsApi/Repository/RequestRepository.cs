@@ -215,7 +215,7 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@Assetid", request.Assetid);
                       //  cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                         cmd.Parameters.AddWithValue("@Justify", request.Justify);
-                        cmd.Parameters.AddWithValue("@Status", request.Status);
+                       // cmd.Parameters.AddWithValue("@Status", request.Status);
                         cmd.Parameters.AddWithValue("@active", 1);
                         await sql.OpenAsync();
                        // var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
