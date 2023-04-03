@@ -120,7 +120,7 @@ namespace AmsApi.Repository
 
 
         //internal async Task Insert(RequestModel request)
-        internal async Task Insert(int userid,int asset,int type,string justify)
+        internal async Task Insert(int userid,int asset,string justify)//,int type
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -131,7 +131,7 @@ namespace AmsApi.Repository
                     //cmd.Parameters.AddWithValue("@id", comp.Companyid);
                     cmd.Parameters.AddWithValue("@Userid", userid);
                     cmd.Parameters.AddWithValue("@Assetid",asset);
-                    cmd.Parameters.AddWithValue("@typeid", asset);
+                  //  cmd.Parameters.AddWithValue("@typeid", asset);
                     //cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                     cmd.Parameters.AddWithValue("@Justify", justify);
                    // cmd.Parameters.AddWithValue("@Status", request.Status);// set a station for evry new request to be set 
@@ -204,7 +204,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateRequest(int userid,int asset,int type,string justify,int id)
+        internal async Task UpdateRequest(int userid,int asset,string justify,int id)//int type
         {
            
                 using (SqlConnection sql = new(_connectionString))
@@ -215,7 +215,7 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.Parameters.AddWithValue("@Userid", userid);
                         cmd.Parameters.AddWithValue("@Assetid", asset);
-                        cmd.Parameters.AddWithValue("@Assetid", type);
+                        //cmd.Parameters.AddWithValue("@typeid", type);
                     //  cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                     cmd.Parameters.AddWithValue("@Justify", justify);
                        // cmd.Parameters.AddWithValue("@Status", request.Status);

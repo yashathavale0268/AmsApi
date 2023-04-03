@@ -183,6 +183,22 @@ namespace AmsApi.Repository
 
                 type = (string)reader["type"],
 
+                AssetsRequested = (int)reader["AssetsRequested"],
+                Statid = (int)reader["Statid"],
+                status = (string)reader["status"],
+                totalrecord = (int)reader["totalrecord"],
+
+            };
+        }
+        public ReportModel MapToValue_New_Request(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+                userinfo = (string)reader["userinfo"],
+                branch = (string)reader["branch"],
+
+                type = (string)reader["type"],
+
                 workingassets = (int)reader["workingassets"],
                 Statid = (int)reader["Statid"],
                 status = (string)reader["status"],
@@ -271,13 +287,43 @@ namespace AmsApi.Repository
                 return response;
             }
         }
-        public async Task<List<ReportModel>> GetIsWorkingTable()
+        public async Task<List<ReportModel>> GetIsWorkingTable()//int pageNumber,int pageSize, string SearchString, int brcid, int typ, int stat
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllisWorkingSpecific_total_Report ", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@SearchString", SearchString);
+                //cmd.Parameters.AddWithValue("@brcid", brcid);
+                //cmd.Parameters.AddWithValue("@typ", typ);
+                //cmd.Parameters.AddWithValue("@stat", stat);
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_isWorking(reader));
+                    }
+                }
+
+                return response;
+            }
+        }
+        public async Task<List<ReportModel>> GetNew_RequestTable()//int pageNumber, int pageSize, string SearchString, int brcid, int typ
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllNew_RequestSpecific_total_Report", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                //cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                //cmd.Parameters.AddWithValue("@SearchString", SearchString);
+                //cmd.Parameters.AddWithValue("@brcid", brcid);
+                //cmd.Parameters.AddWithValue("@typ", typ);
                 var response = new List<ReportModel>();
                 await sql.OpenAsync();
 

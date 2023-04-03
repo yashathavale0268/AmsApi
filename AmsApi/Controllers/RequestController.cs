@@ -111,11 +111,11 @@ namespace AmsApi.Controllers
         // POST api/values
         [HttpPost("CreateNew")]
      //   public async Task<IActionResult> Post([FromBody] RequestModel request)
-        public async Task<IActionResult> Post(int userid,int asset,int type,string justify)
+        public async Task<IActionResult> Post(int userid,int asset,string justify)//,int type
         {
 
             var msg = new Message();
-            await _repository.Insert(userid,asset,type,justify);
+            await _repository.Insert(userid,asset,justify);//,type
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 
@@ -142,14 +142,14 @@ namespace AmsApi.Controllers
         // PUT api/values/5
         // [Authorize("Admin,User")]
         [HttpPut("UpdateRequest/{id}")]
-        public async Task<IActionResult> Update(int id, int userid, int asset,int type, string justify)
+        public async Task<IActionResult> Update(int id, int userid, int asset, string justify)//,int type
         {
 
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count > 0)
             {
-                await _repository.UpdateRequest(userid,asset,type,justify,id);
+                await _repository.UpdateRequest(userid,asset,justify,id);//,type
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {

@@ -203,8 +203,31 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
-        [HttpGet("GetIsWorkingTable")]
+        [HttpGet("GetNew_RequestTable")]
         public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsWorkingTable()
+
+        {
+            var msg = new Message();
+            var result = await _repository.GetNew_RequestTable();
+
+            if (result.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = result;
+
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+
+            }
+
+
+            return Ok(msg);
+        }
+        [HttpGet("GetIsWorkingTable")]
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetNew_RequestsTable()
 
         {
             var msg = new Message();

@@ -31,6 +31,9 @@ namespace AmsApi.Models
         [DataMember(Name = "spareassets")]
         public int spareassets { get; set; } = 0;
 
+        [DataMember(Name = " AssetsRequested")]
+        public int AssetsRequested { get; set; } = 0;
+
         [DataMember(Name = "totalrecord")]
         public int totalrecord { get; set; } = 0;
 
@@ -40,7 +43,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Statid")]
         public int Statid { get; set; }
 
-        
+       
     }
     
      
