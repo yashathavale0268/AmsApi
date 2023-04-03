@@ -37,6 +37,10 @@ namespace AmsApi.Models
         [DataMember(Name = "status")]
         public string status { get; set; }
 
+        [DataMember(Name = "Statid")]
+        public int Statid { get; set; }
+
+        
     }
     
      

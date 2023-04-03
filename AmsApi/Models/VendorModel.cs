@@ -28,6 +28,9 @@ namespace AmsApi.Models
         [DataMember(Name = "active")]
         public bool active { get; set; }
 
+        //[DataMember(Name = "Created_at")]
+        //public DateTime Created_at { get; set; } = DateTime.Now;
+
         [DataMember(Name = "totalrecord")]
         public int totalrecord { get; set; }
 

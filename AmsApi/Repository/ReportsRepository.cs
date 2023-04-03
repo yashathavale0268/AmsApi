@@ -125,6 +125,7 @@ namespace AmsApi.Repository
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 var response = new List<ReportModel>();
+                
                 await sql.OpenAsync();
 
                 using (var reader = await cmd.ExecuteReaderAsync())
@@ -149,7 +150,7 @@ namespace AmsApi.Repository
 
                 assetsinUse = (int)reader["assetsinUse"],
 
-
+                Statid = (int)reader["Statid"],
                 status = (string)reader["status"],
                 totalrecord = (int)reader["totalrecord"],
             };
@@ -167,8 +168,8 @@ namespace AmsApi.Repository
 
                 spareassets = (int)reader["spareassets"],
 
-              
 
+                Statid = (int)reader["Statid"],
                 status = (string)reader["status"],
                 totalrecord = (int)reader["totalrecord"],
             };
@@ -183,9 +184,10 @@ namespace AmsApi.Repository
                 type = (string)reader["type"],
 
                 workingassets = (int)reader["workingassets"],
-
+                Statid = (int)reader["Statid"],
                 status = (string)reader["status"],
                 totalrecord = (int)reader["totalrecord"],
+
             };
         }
 
@@ -228,6 +230,12 @@ namespace AmsApi.Repository
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@Userid", userid);
+                //cmd.Parameters.AddWithValue("@Assetid", asset);
+                ////cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
+                //cmd.Parameters.AddWithValue("@Justify", justify);
+                //// cmd.Parameters.AddWithValue("@Status", request.Status);// set a station for evry new request to be set 
+                //cmd.Parameters.AddWithValue("@active", 1);
                 var response = new List<ReportModel>();
                 await sql.OpenAsync();
 

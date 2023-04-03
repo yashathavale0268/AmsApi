@@ -97,6 +97,7 @@ namespace AmsApi.Repository
                 CurrentStatus = reader["CurrentStatus"].ToString(),
                 UserName=(string)reader["UserName"],
                 totalrecord = (int)reader["totalrecord"],
+                specialrecord= (int)reader["specialrecord"],
             };
 
         }
@@ -119,7 +120,7 @@ namespace AmsApi.Repository
 
 
         //internal async Task Insert(RequestModel request)
-        internal async Task Insert(int userid,int asset,string justify)
+        internal async Task Insert(int userid,int asset,int type,string justify)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -130,6 +131,7 @@ namespace AmsApi.Repository
                     //cmd.Parameters.AddWithValue("@id", comp.Companyid);
                     cmd.Parameters.AddWithValue("@Userid", userid);
                     cmd.Parameters.AddWithValue("@Assetid",asset);
+                    cmd.Parameters.AddWithValue("@typeid", asset);
                     //cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
                     cmd.Parameters.AddWithValue("@Justify", justify);
                    // cmd.Parameters.AddWithValue("@Status", request.Status);// set a station for evry new request to be set 
@@ -202,7 +204,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateRequest(int userid,int asset,string justify,int id)
+        internal async Task UpdateRequest(int userid,int asset,int type,string justify,int id)
         {
            
                 using (SqlConnection sql = new(_connectionString))
@@ -213,8 +215,9 @@ namespace AmsApi.Repository
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.Parameters.AddWithValue("@Userid", userid);
                         cmd.Parameters.AddWithValue("@Assetid", asset);
-                      //  cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
-                        cmd.Parameters.AddWithValue("@Justify", justify);
+                        cmd.Parameters.AddWithValue("@Assetid", type);
+                    //  cmd.Parameters.AddWithValue("@Created_at", request.Created_at);
+                    cmd.Parameters.AddWithValue("@Justify", justify);
                        // cmd.Parameters.AddWithValue("@Status", request.Status);
                         cmd.Parameters.AddWithValue("@active", 1);
                         await sql.OpenAsync();

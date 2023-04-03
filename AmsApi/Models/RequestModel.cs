@@ -51,7 +51,9 @@ namespace AmsApi.Models
 
         public int totalrecord { get; set; }
 
+        [DataMember(Name = "specialrecord")]
 
+        public int specialrecord { get; set; }
 
 
     }
