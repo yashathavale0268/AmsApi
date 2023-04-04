@@ -452,12 +452,12 @@ namespace AmsApi.Controllers
                 return Ok(msg);
         // Generate a password reset token and store it in the database
         }
-                // Send the password reset email
-                
- 
+        // Send the password reset email
+
+
         [HttpGet]
         [Route("password-reset-confirm")]
-        public async Task<IActionResult> PasswordResetConfirm([FromBody] PasswordResetConfirm model)
+        public ActionResult<PasswordResetConfirm> PasswordResetConfirm([FromBody] PasswordResetConfirm model)
         {
             var msg = new Message();
             #region extra
@@ -495,12 +495,12 @@ namespace AmsApi.Controllers
             //    }
             //}
             #endregion
-            var sessionToken =  HttpContext.Session.GetString("PasswordResetToken");
+            var sessionToken = HttpContext.Session.GetString("PasswordResetToken");
             if (sessionToken != model.Token)
             {
                 msg.IsSuccess = false;
                 msg.ItExists = false;
-                msg.ReturnMessage="Invalid token";
+                msg.ReturnMessage = "Invalid token";
             }
             else
             {
