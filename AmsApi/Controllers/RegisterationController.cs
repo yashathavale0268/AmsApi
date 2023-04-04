@@ -312,7 +312,7 @@ namespace AmsApi.Controllers
         }
         //[Authorize(Roles = "Admin")]
         [HttpPost("SetRole/{id}")]
-        public async Task<IActionResult> SetRole([FromQuery] string Role = "N/A", int id = 0)
+        public async Task<IActionResult> SetRole(int Role=0, int id = 0)
         {
             var msg = new Message();
             var User = await _repository.GetUserById(id);

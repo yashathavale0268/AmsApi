@@ -15,6 +15,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Userid")]
         [Key]
         public int Userid { get; set; }
+
         [DataMember(Name = "Email")]
         [Required]
         [EmailAddress(ErrorMessage = "Invalid email address.")]
@@ -54,8 +55,10 @@ namespace AmsApi.Models
         public bool active { get; set; }
         
         [DataMember(Name = "Role")]
-        public string Role { get;  set; }
+        public int Role { get;  set; }
 
+        [DataMember(Name = "RoleName")]
+        public string RoleName { get; set; }
         [DataMember(Name = "Full_name")]
 
         public string Full_name { get; set; }

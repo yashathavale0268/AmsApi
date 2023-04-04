@@ -140,7 +140,7 @@ namespace AmsApi.Repository
                     await sql.OpenAsync();
                     var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(returncode);
-                    var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(returnpart);
                     await cmd.ExecuteNonQueryAsync();
                     bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;

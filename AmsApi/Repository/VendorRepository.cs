@@ -75,7 +75,7 @@ namespace AmsApi.Repository
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                using (SqlCommand cmd = new("sp_GetAllVendors", sql))
+                using (SqlCommand cmd = new("sp_SearchAllVendors_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@id", id));

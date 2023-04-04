@@ -91,7 +91,8 @@ namespace AmsApi.Repository
                 Branch = (int)reader["Branch"],
                 Floor = (int)reader["Floor"],
                 Company = (int)reader["Company"],
-                Role = reader["Role"].ToString(),
+                Role = (int)reader["Role"],
+                RoleName=(string)reader["RoleName"],
                 //Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 //active = (bool)reader["active"],
                 DepartmentName = reader["DepartmentName"].ToString(),
@@ -575,7 +576,8 @@ namespace AmsApi.Repository
                 Branch = (int)reader["Branch"],
                 Floor = (int)reader["Floor"],
                 Company = (int)reader["Company"],
-                Role = reader["Role"].ToString(),
+                Role = (int)reader["Role"],
+                RoleName=(string)reader["RoleName"],
                 DepartmentName = reader["DepartmentName"].ToString(),
                 CompanyName = reader["CompanyName"].ToString(),
                 BranchName = reader["BranchName"].ToString(),
@@ -590,12 +592,13 @@ namespace AmsApi.Repository
                 Userid = (int)reader["UserId"],
                 Email = reader["Email"].ToString(),
                 Username = reader["Username"].ToString(),
-                Role= reader["Role"].ToString()
+                Role= (int)reader["Role"],
+                 RoleName = (string)reader["RoleName"],
             };
         }
 
         //-----------Role Update and set
-        public async Task SetRoles(String Role,int id)
+        public async Task SetRoles(int Role,int id)
         { 
             using (SqlConnection sql = new(_connectionString))
             {
@@ -603,6 +606,7 @@ namespace AmsApi.Repository
                 using (SqlCommand command = new("sp_SetRole", sql))
                 {
                     command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@id", id);
                     
                     command.Parameters.AddWithValue("@Role", Role);
@@ -647,11 +651,11 @@ namespace AmsApi.Repository
                     {
                         return new UserModel
                         {
+                            Userid = reader.GetInt32(0),
                             Username = reader.GetString(1),
                             Email = reader.GetString(2),
-                            Role = reader.GetString(4),
-                            First_name=reader.GetString(5),
-                            Last_name=reader.GetString(6),
+                            Role = reader.GetInt32(10),
+                            RoleName=reader.GetString(11),
                          
 
 
