@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.33214.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmsApi", "AmsApi\AmsApi.csproj", "{2D712A9D-8203-4C46-8EEC-2D76C9D9E33D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmsApi", "AmsApi\AmsApi.csproj", "{2D712A9D-8203-4C46-8EEC-2D76C9D9E33D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

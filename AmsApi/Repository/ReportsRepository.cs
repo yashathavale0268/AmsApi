@@ -183,7 +183,7 @@ namespace AmsApi.Repository
 
                 type = (string)reader["type"],
 
-                AssetsRequested = (int)reader["AssetsRequested"],
+                workingassets = (int)reader["workingassets"],
                 Statid = (int)reader["Statid"],
                 status = (string)reader["status"],
                 totalrecord = (int)reader["totalrecord"],
@@ -198,8 +198,8 @@ namespace AmsApi.Repository
                 branch = (string)reader["branch"],
 
                 type = (string)reader["type"],
-
-                workingassets = (int)reader["workingassets"],
+                AssetsRequested = (int)reader["AssetsRequested"],
+                
                 Statid = (int)reader["Statid"],
                 status = (string)reader["status"],
                 totalrecord = (int)reader["totalrecord"],
@@ -331,7 +331,7 @@ namespace AmsApi.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        response.Add(MapToValue_isWorking(reader));
+                        response.Add(MapToValue_New_Request(reader));
                     }
                 }
 

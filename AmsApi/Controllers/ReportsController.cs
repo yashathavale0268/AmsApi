@@ -203,12 +203,12 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
-        [HttpGet("GetNew_RequestTable")]
+        [HttpGet("GetIsWorkingTable")]
         public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsWorkingTable()
 
         {
             var msg = new Message();
-            var result = await _repository.GetNew_RequestTable();
+            var result = await _repository.GetIsWorkingTable();
 
             if (result.Count > 0)
             {
@@ -226,12 +226,12 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
-        [HttpGet("GetIsWorkingTable")]
+        [HttpGet("GetNew_RequestTable")] 
         public async Task<ActionResult<IEnumerable<ReportModel>>> GetNew_RequestsTable()
 
         {
             var msg = new Message();
-            var result = await _repository.GetIsWorkingTable();
+            var result = await _repository.GetNew_RequestTable();
 
             if (result.Count > 0)
             {
