@@ -25,10 +25,11 @@ namespace AmsApi
             })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                
+                   // var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
                     webBuilder.UseStartup<Startup>();
-                    
+                    //webBuilder.ConfigureAppConfiguration(config => config.AddJsonFile($"ocelot.{env}.json"));
+                   // webBuilder.ConfigureAppConfiguration(config => config.AddJsonFile($"ocelot.json"));
                 });
      
     }
