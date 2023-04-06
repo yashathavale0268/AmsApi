@@ -47,6 +47,7 @@ namespace AmsApi
         {
             services.AddOptions();
             services.AddMemoryCache();
+            services.AddCors();
             //services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
             //services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
             //services.Configure<IpRateLimitOptions>(options =>
@@ -83,7 +84,7 @@ namespace AmsApi
 
             //            }
             //    };
-            
+
             //});
 
             //services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
@@ -255,7 +256,12 @@ namespace AmsApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors( m=> m.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
