@@ -131,10 +131,10 @@ namespace AmsApi.Repository
         {
             using SqlConnection sql = new(_connectionString);
            
-            using (SqlCommand command = new("sp_GetAllBranch", sql))
+            using (SqlCommand command = new("sp_SearchAllBranches_Paginated", sql))
             {
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@brcid", id);
 
                 var response = new List<BranchModel>();
                 await sql.OpenAsync();
