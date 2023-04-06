@@ -134,27 +134,27 @@ namespace AmsApi.Repository
             return response;
         }
 
-        public async Task<List<AssetModel>> GetAllAssets_Paginated(int pageNumber,int pageSize)
-        {
-            using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllAssets", sql);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+        //public async Task<List<AssetModel>> GetAllAssets_Paginated(int pageNumber,int pageSize)
+        //{
+        //    using SqlConnection sql = new(_connectionString);
+        //    using SqlCommand cmd = new("sp_GetAllAssets", sql);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+        //    cmd.Parameters.AddWithValue("@PageSize", pageSize);
 
-            var response = new List<AssetModel>();
-            await sql.OpenAsync();
+        //    var response = new List<AssetModel>();
+        //    await sql.OpenAsync();
 
-            using (var reader = await cmd.ExecuteReaderAsync())
-            {
-                while (await reader.ReadAsync())
-                {
-                    response.Add(MapToValue(reader));
-                }
-            }
+        //    using (var reader = await cmd.ExecuteReaderAsync())
+        //    {
+        //        while (await reader.ReadAsync())
+        //        {
+        //            response.Add(MapToValue(reader));
+        //        }
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
             public async Task<List<AssetModel>> GetById(int id)
         {
             using SqlConnection sql = new(_connectionString);

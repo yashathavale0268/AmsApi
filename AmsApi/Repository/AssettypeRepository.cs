@@ -22,45 +22,45 @@ namespace AmsApi.Repository
         {
             _connectionString = configuration.GetConnectionString("MainCon");
         }
-        public async Task<List<AssettypeModel>> GetAlltypes()
-        {
-            using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllTypes", sql);
-            cmd.CommandType = CommandType.StoredProcedure;
-            var response = new List<AssettypeModel>();
-            await sql.OpenAsync();
+        //public async Task<List<AssettypeModel>> GetAlltypes()
+        //{
+        //    using SqlConnection sql = new(_connectionString);
+        //    using SqlCommand cmd = new("sp_GetAllTypes", sql);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    var response = new List<AssettypeModel>();
+        //    await sql.OpenAsync();
 
-            using (var reader = await cmd.ExecuteReaderAsync())
-            {
-                while (await reader.ReadAsync())
-                {
-                    response.Add(MapToValue(reader));
-                }
-            }
+        //    using (var reader = await cmd.ExecuteReaderAsync())
+        //    {
+        //        while (await reader.ReadAsync())
+        //        {
+        //            response.Add(MapToValue(reader));
+        //        }
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
-        internal async Task<List<AssettypeModel>> GetAllTypes(int pageNumber, int pageSize)
-        {
-            using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllTypes", sql);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-            cmd.Parameters.AddWithValue("@PageSize", pageSize);
-            var response = new List<AssettypeModel>();
-            await sql.OpenAsync();
+        //internal async Task<List<AssettypeModel>> GetAllTypes(int pageNumber, int pageSize)
+        //{
+        //    using SqlConnection sql = new(_connectionString);
+        //    using SqlCommand cmd = new("sp_GetAllTypes", sql);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+        //    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+        //    var response = new List<AssettypeModel>();
+        //    await sql.OpenAsync();
 
-            using (var reader = await cmd.ExecuteReaderAsync())
-            {
-                while (await reader.ReadAsync())
-                {
-                    response.Add(MapToValue(reader));
-                }
-            }
+        //    using (var reader = await cmd.ExecuteReaderAsync())
+        //    {
+        //        while (await reader.ReadAsync())
+        //        {
+        //            response.Add(MapToValue(reader));
+        //        }
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
         internal async Task<List<AssettypeModel>> SearchTypes(int pageNumber, int pageSize, string searchTerm,int typeid)
         {

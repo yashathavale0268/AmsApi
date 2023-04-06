@@ -54,29 +54,29 @@ namespace AmsApi.Repository
                 return dataSet;
             }
         }
-        public async Task<List<UserModel>> GetAllUserstable()
-        {
-            using (SqlConnection sql = new(_connectionString))
-            {
-                using (SqlCommand cmd = new("sp_GetAllUsers", sql))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    var response = new List<UserModel>();
-                   // UserModel response = null;
-                    await sql.OpenAsync();
+        //public async Task<List<UserModel>> GetAllUserstable()
+        //{
+        //    using (SqlConnection sql = new(_connectionString))
+        //    {
+        //        using (SqlCommand cmd = new("sp_GetAllUsers", sql))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            var response = new List<UserModel>();
+        //           // UserModel response = null;
+        //            await sql.OpenAsync();
 
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            response.Add(MapToValue(reader));
-                        }
-                    }
+        //            using (var reader = await cmd.ExecuteReaderAsync())
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    response.Add(MapToValue(reader));
+        //                }
+        //            }
 
-                    return response;
-                }
-            }
-        }
+        //            return response;
+        //        }
+        //    }
+        //}
 
         public UserModel MapToValue(SqlDataReader reader)
         {
@@ -131,10 +131,10 @@ namespace AmsApi.Repository
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                using (SqlCommand cmd = new("sp_GetAllUsers", sql))
+                using (SqlCommand cmd = new("sp_SearchAllUser_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    cmd.Parameters.Add(new SqlParameter("@User", id));
                     UserModel response = null;
                     await sql.OpenAsync();
 
@@ -286,27 +286,27 @@ namespace AmsApi.Repository
             
         
 
-        internal async Task<List<UserModel>> GetAllUser(int pageNumber, int pageSize)
-        {
-            using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllUsers", sql);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-            cmd.Parameters.AddWithValue("@PageSize", pageSize);
-            //   UserModel response = new();
-            var response = new List<UserModel>();
-           await sql.OpenAsync();
+        //internal async Task<List<UserModel>> GetAllUser(int pageNumber, int pageSize)
+        //{
+        //    using SqlConnection sql = new(_connectionString);
+        //    using SqlCommand cmd = new("sp_GetAllUsers", sql);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+        //    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+        //    //   UserModel response = new();
+        //    var response = new List<UserModel>();
+        //   await sql.OpenAsync();
 
-            using (var reader = await cmd.ExecuteReaderAsync())
-            {
-                while (await reader.ReadAsync())
-                {
-                    response.Add(MapToValue(reader));
-                }
-            }
+        //    using (var reader = await cmd.ExecuteReaderAsync())
+        //    {
+        //        while (await reader.ReadAsync())
+        //        {
+        //            response.Add(MapToValue(reader));
+        //        }
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
         public async Task<List<UserModel>> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User)
         {

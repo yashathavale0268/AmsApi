@@ -19,50 +19,50 @@ namespace AmsApi.Repository
         {
             _connectionString = configuration.GetConnectionString("MainCon");
         }
-        internal async Task<List<StatusModel>> GetAllStatus()
-        {
-            using (SqlConnection sql = new(_connectionString))
-            {
-                using (SqlCommand cmd = new("sp_GetAllStatus", sql))
-                {
+        //internal async Task<List<StatusModel>> GetAllStatus()
+        //{
+        //    using (SqlConnection sql = new(_connectionString))
+        //    {
+        //        using (SqlCommand cmd = new("sp_GetAllStatus", sql))
+        //        {
 
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    var response = new List<StatusModel>();
-                    await sql.OpenAsync();
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            var response = new List<StatusModel>();
+        //            await sql.OpenAsync();
 
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            response.Add(MapToValue(reader));
-                        }
-                    }
+        //            using (var reader = await cmd.ExecuteReaderAsync())
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    response.Add(MapToValue(reader));
+        //                }
+        //            }
 
-                    return response;
-                }
-            }
-        }
+        //            return response;
+        //        }
+        //    }
+        //}
 
-        internal async Task<List<StatusModel>> GetAllStatus(int pageNumber, int pageSize)
-        {
-            using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllStatus", sql);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-            cmd.Parameters.AddWithValue("@PageSize", pageSize);
-            var response = new List<StatusModel>();
-            await sql.OpenAsync();
+        //internal async Task<List<StatusModel>> GetAllStatus(int pageNumber, int pageSize)
+        //{
+        //    using SqlConnection sql = new(_connectionString);
+        //    using SqlCommand cmd = new("sp_GetAllStatus", sql);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+        //    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+        //    var response = new List<StatusModel>();
+        //    await sql.OpenAsync();
 
-            using (var reader = await cmd.ExecuteReaderAsync())
-            {
-                while (await reader.ReadAsync())
-                {
-                    response.Add(MapToValue(reader));
-                }
-            }
+        //    using (var reader = await cmd.ExecuteReaderAsync())
+        //    {
+        //        while (await reader.ReadAsync())
+        //        {
+        //            response.Add(MapToValue(reader));
+        //        }
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
         public StatusModel MapToValue(SqlDataReader reader)
         {
