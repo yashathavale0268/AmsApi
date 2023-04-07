@@ -67,7 +67,7 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var response =
-            await _repository.GettypeById(id);
+            await _repository.GetById(id);
             if (response.Count>0) {
                 msg.IsSuccess = true;
                 msg.Data=response; } else
@@ -108,14 +108,14 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update( [FromBody] AssettypeModel type,int id= 0)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update( [FromBody] AssettypeModel type)
         {
             var msg = new Message();
-            var Gettype = await _repository.GettypeById(id);
+            var Gettype = await _repository.GettypeById(type);
             if (Gettype.Count>0)
             {
-                await _repository.UpdateType(type, id);
+                await _repository.UpdateType(type);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
@@ -145,7 +145,7 @@ namespace AmsApi.Controllers
         public async Task<IActionResult> Delete(int id=0)
         {
             var msg = new Message();
-            var gottype = await _repository.GettypeById(id);
+            var gottype = await _repository.GetById(id);
 
             if (gottype.Count> 0)
             {

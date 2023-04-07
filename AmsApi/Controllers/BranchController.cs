@@ -116,15 +116,15 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update( [FromBody] BranchModel branch, int id=0)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update( [FromBody] BranchModel branch)
         {
             var msg = new Message();
          
-            var GetBranch = await _repository.GetBranchById(id);
+            var GetBranch = await _repository.GetBranchById(branch);
             if (GetBranch.Count>0)
             {
-                await _repository.UpdateBranch( branch, id);
+                await _repository.UpdateBranch(branch);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {

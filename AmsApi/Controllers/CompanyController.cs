@@ -72,7 +72,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<IEnumerable<CompanyModel>>> Get(int id)
         {
             var msg = new Message();
-            var response = await _repository.GetById(id);
+            var response = await _repository.GetId(id);
             if (response.Count>0) 
             {
                 msg.IsSuccess = true;
@@ -115,14 +115,14 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CompanyModel comp)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] CompanyModel comp)
         {
             var msg = new Message();
-            var GetComp = await _repository.GetById(id);
+            var GetComp = await _repository.GetById(comp);
             if (GetComp.Count>0)
             {
-                await _repository.UpdateComp(comp, id);
+                await _repository.UpdateComp(comp);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " update successfull";
             }
@@ -140,7 +140,7 @@ namespace AmsApi.Controllers
         public async Task<IActionResult> Delete(int id=0)
         {
             var msg = new Message();
-            var GetComp = await _repository.GetById(id);
+            var GetComp = await _repository.GetId(id);
          
             if (GetComp.Count>0)
             {

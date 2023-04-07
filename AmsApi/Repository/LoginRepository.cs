@@ -127,14 +127,14 @@ namespace AmsApi.Repository
     return dataSet;
     }
          */
-        public async Task<UserModel> GetById(int id)
+        public async Task<UserModel> GetById(UserModel user)
         {
             using (SqlConnection sql = new(_connectionString))
             {
                 using (SqlCommand cmd = new("sp_SearchAllUser_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@User", id));
+                    cmd.Parameters.Add(new SqlParameter("@User",user.Userid));
                     UserModel response = null;
                     await sql.OpenAsync();
 
@@ -465,7 +465,7 @@ namespace AmsApi.Repository
             
         }
 
-        internal async Task ChangePassword(UserModel user, int id)
+        internal async Task ChangePassword(UserModel user)
         {
             string password = user.Password;
             string hashedpassword = HashPassword(password);
@@ -475,7 +475,7 @@ namespace AmsApi.Repository
                 using (SqlCommand command = new("sp_ChangePassword", sql))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Id", user.Userid);
                     command.Parameters.AddWithValue("@Password", hashedpassword);
                     var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     command.Parameters.Add(returncode);
@@ -495,7 +495,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task GetIDForCheck(UserModel user,int id)
+        internal async Task GetIDForCheck(UserModel user)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -505,7 +505,7 @@ namespace AmsApi.Repository
                     string password = user.Password;
                     string hashedpassword = HashPassword(password);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Id", user.Userid);
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@Password", hashedpassword);
@@ -668,7 +668,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateUser(UserModel user, int id)
+        internal async Task UpdateUser(UserModel user)
         {
             //string hashedPassword = BCrypt.HashPassword(password);
            // string password = user.Password;
@@ -679,7 +679,7 @@ namespace AmsApi.Repository
                 using (SqlCommand command = new("sp_UpdateUsers", sql))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Id",user.Userid);
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     //command.Parameters.AddWithValue("@Password", user.Password);

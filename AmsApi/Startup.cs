@@ -47,7 +47,7 @@ namespace AmsApi
         {
             services.AddOptions();
             services.AddMemoryCache();
-            services.AddCors();
+           services.AddCors();
             //services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
             //services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
             //services.Configure<IpRateLimitOptions>(options =>
@@ -257,6 +257,7 @@ namespace AmsApi
 
             app.UseRouting();
             // global cors policy
+            // app.UseCors(x=> x.AllowAnyHeader().
             app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()

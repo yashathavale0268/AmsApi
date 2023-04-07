@@ -105,7 +105,31 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<CompanyModel>> GetById(int id)
+        public async Task<List<CompanyModel>> GetById(CompanyModel comp)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_SearchAllComp_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Comp", comp.Companyid));
+                    // CompanyModel response = null;
+                    var response = new List<CompanyModel>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToValue(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+        public async Task<List<CompanyModel>> GetId(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -129,7 +153,7 @@ namespace AmsApi.Repository
                 }
             }
         }
-      
+
         public async Task Insert(CompanyModel comp)
         {
             try
@@ -201,7 +225,7 @@ namespace AmsApi.Repository
         //}
 
 
-        public async Task UpdateComp([FromBody] CompanyModel comp, int id)
+        public async Task UpdateComp([FromBody] CompanyModel comp)
         {
             try
             {
@@ -210,7 +234,7 @@ namespace AmsApi.Repository
                     using (SqlCommand cmd = new("sp_CompanyCreate", sql))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.Parameters.AddWithValue("@id",comp.Companyid);
                         cmd.Parameters.AddWithValue("@Name", comp.Name);
                         cmd.Parameters.AddWithValue("@Remarks", comp.Remarks);
                         await sql.OpenAsync();

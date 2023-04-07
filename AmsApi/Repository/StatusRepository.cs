@@ -113,7 +113,31 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<List<StatusModel>> GetStatusById(int id)
+        internal async Task<List<StatusModel>> GetStatusById(StatusModel stat)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_SearchAllStatus_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Statid", stat.Statusid));
+                    //StatusModel response = null;
+                    var response = new List<StatusModel>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToValue(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+        internal async Task<List<StatusModel>> GetId(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -184,7 +208,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateStatus(StatusModel stat, int id)
+        internal async Task UpdateStatus(StatusModel stat)
         {
             try
             { 
@@ -193,7 +217,7 @@ namespace AmsApi.Repository
                          using (SqlCommand cmd = new("sp_StatusCreate", sql))
                          {
                                 cmd.CommandType = CommandType.StoredProcedure;
-                                cmd.Parameters.AddWithValue("@id", id);
+                                cmd.Parameters.AddWithValue("@id", stat.Statusid);
                                 cmd.Parameters.AddWithValue("@Userid", stat.Userid);
                                 cmd.Parameters.AddWithValue("@Assetid", stat.Assetid);
                                 cmd.Parameters.AddWithValue("@Requestid", stat.Requestid);

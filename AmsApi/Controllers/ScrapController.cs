@@ -85,7 +85,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<ScrapModel>> Get(int id)
         {
             var msg = new Message();
-            var response = await _repository.GetScrapId(id);
+            var response = await _repository.GetId(id);
             if (response.Count > 0)
             {
                 msg.IsSuccess = true; msg.Data = response;
@@ -128,14 +128,14 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update([FromBody] ScrapModel scrap, int id = 0)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] ScrapModel scrap)
         {
             var msg = new Message();
-            var GetScrap = await _repository.GetScrapId(id);
+            var GetScrap = await _repository.GetScrapId(scrap);
             if (GetScrap.Count > 0)
             {
-                await _repository.UpdateScrap(scrap, id);
+                await _repository.UpdateScrap(scrap);
                 bool success = _repository.IsSuccess;
 
                 if (success is true)
@@ -166,7 +166,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var msg = new Message();
-            var GetScrap = await _repository.GetScrapId(id);
+            var GetScrap = await _repository.GetId(id);
             if (GetScrap.Count > 0)
             {
                 await _repository.DeleteById(id);

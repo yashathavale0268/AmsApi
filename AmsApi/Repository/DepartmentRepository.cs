@@ -103,7 +103,31 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<DepartmentModel>> GetById(int id)
+        public async Task<List<DepartmentModel>> GetById(DepartmentModel dep)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_SearchAllDep_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Dep", dep.Depid));
+                    var response = new List<DepartmentModel>();
+                    //DepartmentModel response = null;
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToValue(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+        public async Task<List<DepartmentModel>> GetId(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -128,7 +152,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateDep(DepartmentModel dep, int id)
+        internal async Task UpdateDep(DepartmentModel dep)
         {
             try
             {
@@ -137,7 +161,7 @@ namespace AmsApi.Repository
                     using (SqlCommand cmd = new("sp_DepartmentCreate", sql))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.Parameters.AddWithValue("@id",dep.Depid);
                         cmd.Parameters.AddWithValue("@Name", dep.Name);
                         cmd.Parameters.AddWithValue("@Remarks", dep.Remarks);
                         cmd.Parameters.AddWithValue("@Created_at", dep.Created_at);

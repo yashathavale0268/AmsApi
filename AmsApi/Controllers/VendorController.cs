@@ -42,10 +42,10 @@ namespace AmsApi.Controllers
         //    return Ok(msg);
         //}
         [HttpGet("Getid/{id}")]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> Get(int id)
+        public async Task<ActionResult<IEnumerable<VendorModel>>> Get(VendorModel v)
         {
             var msg = new Message();
-            var GetVendor = await _repository.GetById(id);
+            var GetVendor = await _repository.GetById(v);
             if (GetVendor.Count > 0)
             {
                 msg.IsSuccess = true;
@@ -106,15 +106,15 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update([FromBody] VendorModel vendor, int id=0)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] VendorModel vendor)
         {
             var msg = new Message();
-            var GetVendors = await _repository.GetById(id);
+            var GetVendors = await _repository.GetById(vendor);
             if (GetVendors.Count > 0)
             {
 
-                await _repository.UpdateVendor(vendor, id);
+                await _repository.UpdateVendor(vendor);
                 bool success = _repository.IsSuccess;
                 
                 if (success is true)
@@ -146,7 +146,7 @@ namespace AmsApi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var msg = new Message();
-            var GetVendors = await _repository.GetById(id);
+            var GetVendors = await _repository.GetDetId(id);
             if (GetVendors.Count > 0)
             {
                 await _repository.DeletevendorById(id);

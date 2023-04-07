@@ -71,7 +71,31 @@ namespace AmsApi.Repository
 
         
 
-        internal async Task<List<VendorModel>> GetById(int id)
+        internal async Task<List<VendorModel>> GetById(VendorModel v)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_SearchAllVendors_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@id",v.Vendorid));
+                    // VendorModel response = null;
+                    var response = new List<VendorModel>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToValue(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+        internal async Task<List<VendorModel>> GetDetId(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -187,7 +211,7 @@ namespace AmsApi.Repository
             }
         }
 
-        public async Task UpdateVendor( VendorModel vendor, int id)
+        public async Task UpdateVendor( VendorModel vendor)
         {
             try
             {
@@ -197,7 +221,7 @@ namespace AmsApi.Repository
                     {
                         await sql.OpenAsync();
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.Parameters.AddWithValue("@id", vendor.Vendorid);
                         cmd.Parameters.AddWithValue("@Name", vendor.Name);
                         cmd.Parameters.AddWithValue("@InvoiceNo", vendor.InvoiceNo);
                         cmd.Parameters.AddWithValue("@InvoiceDate", vendor.InvoiceDate);

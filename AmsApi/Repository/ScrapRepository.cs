@@ -134,15 +134,39 @@ namespace AmsApi.Repository
             };
         }
 
-        internal async Task<List<ScrapModel>> GetScrapId(int id)
+        internal async Task<List<ScrapModel>> GetScrapId(ScrapModel scp)
         {
             using (SqlConnection sql = new(_connectionString))
             {
                 using (SqlCommand cmd = new("sp_SearchAllScrap_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@Searchid", id));
+                    cmd.Parameters.Add(new SqlParameter("@Searchid", scp.Scrapid));
                 //    ScrapModel response = null;
+                    var response = new List<ScrapModel>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToValue(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+        internal async Task<List<ScrapModel>> GetId(int id)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_SearchAllScrap_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Searchid",id));
+                    //    ScrapModel response = null;
                     var response = new List<ScrapModel>();
                     await sql.OpenAsync();
 
@@ -189,14 +213,14 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task UpdateScrap(ScrapModel scrap, int id)
+        internal async Task UpdateScrap(ScrapModel scrap)
         {
             using (SqlConnection sql = new(_connectionString))
             {
                 using (SqlCommand cmd = new("sp_ScrapCreate", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@id",id);
+                    cmd.Parameters.AddWithValue("@id",scrap.Scrapid);
                     cmd.Parameters.AddWithValue("@Asset", scrap.Asset);
                     cmd.Parameters.AddWithValue("@Branch", scrap.Branch);
                     cmd.Parameters.AddWithValue("@Last_user", scrap.Last_user);

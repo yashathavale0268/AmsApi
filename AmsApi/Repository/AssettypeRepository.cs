@@ -97,12 +97,32 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<AssettypeModel>> GettypeById(int Id)
+        public async Task<List<AssettypeModel>> GettypeById(AssettypeModel at)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_SearchAllType_Paginated", sql);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@typeid", Id);
+            cmd.Parameters.AddWithValue("@typeid", at.Typeid);
+
+            var response = new List<AssettypeModel>();
+            await sql.OpenAsync();
+
+            using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    response.Add(MapToValue(reader));
+                }
+            }
+
+            return response;
+        }
+        public async Task<List<AssettypeModel>> GetById(int id)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_SearchAllType_Paginated", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@typeid", id);
 
             var response = new List<AssettypeModel>();
             await sql.OpenAsync();
@@ -144,7 +164,7 @@ namespace AmsApi.Repository
 
        
        
-        public async Task UpdateType([FromBody] AssettypeModel type, int id)
+        public async Task UpdateType([FromBody] AssettypeModel type)
         {
             try
             {
@@ -152,7 +172,7 @@ namespace AmsApi.Repository
                 await sql.OpenAsync();
                 using SqlCommand cmd = new("sp_AssettypeCreate", sql);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.Parameters.Add(new SqlParameter("@id",type.Typeid));
                 cmd.Parameters.Add(new SqlParameter("@Name", type.Name));
                 cmd.Parameters.Add(new SqlParameter("@Remarks", type.Remarks));
                 cmd.Parameters.Add(new SqlParameter("@active", type.Active));

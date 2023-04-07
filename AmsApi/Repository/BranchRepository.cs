@@ -127,14 +127,14 @@ namespace AmsApi.Repository
             return response;
         }
 
-        internal async Task<List<BranchModel>> GetBranchById(int id)
+        internal async Task<List<BranchModel>> GetBranchById(BranchModel b)
         {
             using SqlConnection sql = new(_connectionString);
            
             using (SqlCommand command = new("sp_SearchAllBranches_Paginated", sql))
             {
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@brcid", id);
+                command.Parameters.AddWithValue("@brcid",b.Branchid);
 
                 var response = new List<BranchModel>();
                 await sql.OpenAsync();
@@ -150,13 +150,13 @@ namespace AmsApi.Repository
                 return response;
             }
         }
-        internal async Task UpdateBranch( BranchModel branch ,int id )
+        internal async Task UpdateBranch( BranchModel branch)
         {
             using SqlConnection sql = new(_connectionString);
             await sql.OpenAsync();
             using SqlCommand command = new("sp_BranchCreate", sql);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@id",branch.Branchid);
             command.Parameters.AddWithValue("@Name", branch.Name);
             command.Parameters.AddWithValue("@Created_at", branch.Created_at);
 
@@ -197,14 +197,14 @@ namespace AmsApi.Repository
             return;
         }
 
-        public async Task Update([FromBody] BranchModel branch, int id)
+        public async Task Update([FromBody] BranchModel branch)
         {
             try {
                 using (SqlConnection sql = new(_connectionString))
                 {
                     using SqlCommand cmd = new("sp_BranchCreate", sql);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@id", branch.Branchid);
                     cmd.Parameters.AddWithValue("@Name", branch.Name);
                     cmd.Parameters.AddWithValue("@Created_at", branch.Created_at);
                     cmd.Parameters.AddWithValue("@active", 1);

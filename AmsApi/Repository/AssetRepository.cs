@@ -155,7 +155,27 @@ namespace AmsApi.Repository
 
         //    return response;
         //}
-            public async Task<List<AssetModel>> GetById(int id)
+            public async Task<List<AssetModel>> GetById(AssetModel a)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_SearchAllAssets_Paginated", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", a.Assetid));
+
+            var response = new List<AssetModel>();
+            await sql.OpenAsync();
+
+            using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    response.Add(MapToValue(reader));
+                }
+            }
+
+            return response; 
+        }
+        public async Task<List<AssetModel>> GetId(int id)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_SearchAllAssets_Paginated", sql);
@@ -173,7 +193,7 @@ namespace AmsApi.Repository
                 }
             }
 
-            return response; 
+            return response;
         }
 
         public async Task Insert(AssetModel asset)
@@ -310,14 +330,14 @@ namespace AmsApi.Repository
         //    }
         //}
         #endregion 
-        public async Task Update([FromBody] AssetModel asset, int id)
+        public async Task Update([FromBody] AssetModel asset)
         {
             try {
               
                 using SqlConnection sql = new(_connectionString);
                 using SqlCommand cmd = new("sp_AssetCreate", sql);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.Parameters.Add(new SqlParameter("@id", asset.Assetid));
                 cmd.Parameters.Add(new SqlParameter("@SerialNo", asset.SerialNo));
                 cmd.Parameters.Add(new SqlParameter("@Branch", asset.Branch));
                 cmd.Parameters.Add(new SqlParameter("@Brand", asset.Brand));

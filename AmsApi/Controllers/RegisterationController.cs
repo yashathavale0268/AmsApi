@@ -237,7 +237,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<UserModel>> Get(int id = 0)
         {
             var msg = new Message();
-            var response = await _repository.GetById(id);
+            var response = await _repository.GetUserById(id);
             if (response.Userid > 0)
             {
                 msg.IsSuccess = true;
@@ -337,18 +337,18 @@ namespace AmsApi.Controllers
         //    await _repository.Verify(user);
         //}
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update([FromBody] UserModel user, int id = 0)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] UserModel user)
         {
 
             var msg = new Message();
-            var User = await _repository.GetById(id);
+            var User = await _repository.GetById(user);
 
             if (User.Userid > 0)
             {
                 // msg.Data = User;
 
-                await _repository.UpdateUser(user, id);
+                await _repository.UpdateUser(user);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
@@ -372,16 +372,16 @@ namespace AmsApi.Controllers
         }
 
 
-        [HttpPut("UpdatePassword/{id}")]
-        public async Task<IActionResult> UpdatePassword([FromBody] UserModel user, int id = 0)
+        [HttpPut("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UserModel user)
         {
             var msg = new Message();
-            await _repository.GetIDForCheck(user, id);
+            await _repository.GetIDForCheck(user);
 
             bool itexists = _repository.Itexists;
             if (itexists is true)
             {
-                await _repository.ChangePassword(user, id);
+                await _repository.ChangePassword(user);
                 bool exists = _repository.Itexists;
                 bool success = _repository.IsSuccess;
                 if (exists is true)

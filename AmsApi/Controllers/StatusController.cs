@@ -57,7 +57,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<StatusModel>> Get(int id)
         {
             var msg = new Message();
-            var response = await _repository.GetStatusById(id);
+            var response = await _repository.GetId(id);
             if (response.Count > 0)
             {
                 msg.IsSuccess = true;
@@ -121,14 +121,14 @@ namespace AmsApi.Controllers
 
         // PUT api/values/5
         [Authorize(Roles = "Admin")]
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update( [FromBody] StatusModel stat, int id=0)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update( [FromBody] StatusModel stat)
         {
             var msg = new Message();
-            var GetStatus = await _repository.GetStatusById(id);
+            var GetStatus = await _repository.GetStatusById(stat);
             if (GetStatus.Count>0)
             {
-                await _repository.UpdateStatus(stat, id);
+                await _repository.UpdateStatus(stat);
                 bool success = _repository.IsSuccess;
 
                 if (success is true)
@@ -159,7 +159,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var msg = new Message();
-            var GetStatus = await _repository.GetStatusById(id);
+            var GetStatus = await _repository.GetId(id);
             if (GetStatus.Count > 0)
             {
                 await _repository.DeleteById(id);

@@ -141,7 +141,7 @@ namespace AmsApi.Controllers
 
         // PUT api/values/5
         // [Authorize("Admin,User")]
-        [HttpPut("UpdateRequest/{id}")]
+        [HttpPut("UpdateRequest")]
         public async Task<IActionResult> Update(int id, int userid, int asset, string justify)//,int type
         {
 

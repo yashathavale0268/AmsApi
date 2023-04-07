@@ -62,7 +62,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<DepartmentModel>> Get(int id)
         {
             var msg = new Message();
-            var response = await _repository.GetById(id);
+            var response = await _repository.GetId(id);
             if (response.Count>0) {
                 msg.IsSuccess = true;
                 msg.Data = response; }
@@ -103,14 +103,14 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update( [FromBody] DepartmentModel dep, int id)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update( [FromBody] DepartmentModel dep)
         {
             var msg = new Message();
-            var GetComp = await _repository.GetById(id);
+            var GetComp = await _repository.GetById(dep);
             if (GetComp.Count>0)
             {
-                await _repository.UpdateDep(dep, id);
+                await _repository.UpdateDep(dep);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
@@ -138,7 +138,7 @@ namespace AmsApi.Controllers
         public async Task<IActionResult> Delete(int id=0)
         {
             var msg = new Message();
-            var GetDep = await _repository.GetById(id);
+            var GetDep = await _repository.GetId(id);
 
             if (GetDep.Count > 0)
             {

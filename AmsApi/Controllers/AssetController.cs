@@ -94,7 +94,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<IEnumerable<AssetModel>>> Get(int id)
         {
             var msg = new Message();
-            var response = await _repository.GetById(id);
+            var response = await _repository.GetId(id);
             if (response.Count>0) { 
                 msg.IsSuccess = true;
                 msg.Data = response;
@@ -162,18 +162,18 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update([FromBody] AssetModel asset, int id=0)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] AssetModel asset)
         {
             
             var msg = new Message();
           
            
-            var GetAsset = await _repository.GetById(id);
+            var GetAsset = await _repository.GetById(asset);
             if (GetAsset.Count>0)
             {
 
-                await _repository.Update(asset, id);
+                await _repository.Update(asset);
                 bool success = _repository.IsSuccess;
                 //bool exists = _repository.Itexists;
                 if (success is true)
@@ -204,7 +204,7 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
 
-            var GetAsset = await _repository.GetById(id);
+            var GetAsset = await _repository.GetId(id);
             if (GetAsset.Count > 0)
             {
                 await _repository.DeleteById(id);
