@@ -121,13 +121,13 @@ namespace AmsApi.Controllers
 
         // PUT api/values/5
         [Authorize(Roles = "Admin")]
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update( [FromBody] StatusModel stat)
         {
             var msg = new Message();
-            var GetStatus = await _repository.GetStatusById(stat);
-            if (GetStatus.Count>0)
-            {
+            //var GetStatus = await _repository.GetStatusById(stat);
+            //if (GetStatus.Count>0)
+            //{
                 await _repository.UpdateStatus(stat);
                 bool success = _repository.IsSuccess;
 
@@ -141,12 +141,12 @@ namespace AmsApi.Controllers
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " update unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no id found";
-            }
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "no id found";
+            //}
 
            
 

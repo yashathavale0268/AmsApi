@@ -116,14 +116,14 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update( [FromBody] BranchModel branch)
         {
             var msg = new Message();
          
-            var GetBranch = await _repository.GetBranchById(branch);
-            if (GetBranch.Count>0)
-            {
+            //var GetBranch = await _repository.GetBranchById(branch);
+            //if (GetBranch.Count>0)
+            //{
                 await _repository.UpdateBranch(branch);
                 bool success = _repository.IsSuccess;
                 if (success is true)
@@ -137,12 +137,12 @@ namespace AmsApi.Controllers
                     msg.ReturnMessage = " updated unsuccessfull";
                 }
                
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no branch found";
-            }
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "no branch found";
+            //}
 
             
             return Ok(msg);

@@ -162,16 +162,16 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] AssetModel asset)
         {
             
             var msg = new Message();
           
            
-            var GetAsset = await _repository.GetById(asset);
-            if (GetAsset.Count>0)
-            {
+            //var GetAsset = await _repository.GetById(asset);
+            //if (GetAsset.Count>0)
+            //{
 
                 await _repository.Update(asset);
                 bool success = _repository.IsSuccess;
@@ -186,13 +186,13 @@ namespace AmsApi.Controllers
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " update unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no values found"; 
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "no values found"; 
                
-            }
+            //}
 
             
             return Ok(msg);

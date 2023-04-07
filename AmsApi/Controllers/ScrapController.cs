@@ -128,13 +128,13 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] ScrapModel scrap)
         {
             var msg = new Message();
-            var GetScrap = await _repository.GetScrapId(scrap);
-            if (GetScrap.Count > 0)
-            {
+            //var GetScrap = await _repository.GetScrapId(scrap);
+            //if (GetScrap.Count > 0)
+            //{
                 await _repository.UpdateScrap(scrap);
                 bool success = _repository.IsSuccess;
 
@@ -148,13 +148,13 @@ namespace AmsApi.Controllers
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " update unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "No  entry found";
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "No  entry found";
 
-            }
+            //}
 
 
             return Ok(msg);

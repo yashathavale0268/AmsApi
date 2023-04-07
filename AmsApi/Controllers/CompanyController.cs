@@ -115,22 +115,26 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] CompanyModel comp)
         {
             var msg = new Message();
-            var GetComp = await _repository.GetById(comp);
-            if (GetComp.Count>0)
-            {
+            //var GetComp = await _repository.GetById(comp);
+            //if (GetComp.Count>0)
+            //{
                 await _repository.UpdateComp(comp);
                 msg.IsSuccess = true;
-                msg.ReturnMessage = " update successfull";
+                //msg.ReturnMessage = " update successfull";
+            bool success = _repository.IsSuccess;
+            if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " updated successfully";
             }
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = "no id found";
-                
+                msg.ReturnMessage = " updated unsuccessfull";
             }
             return Ok(msg);
         }

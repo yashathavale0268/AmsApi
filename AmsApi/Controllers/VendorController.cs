@@ -106,13 +106,13 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] VendorModel vendor)
         {
             var msg = new Message();
-            var GetVendors = await _repository.GetById(vendor);
-            if (GetVendors.Count > 0)
-            {
+            //var GetVendors = await _repository.GetById(vendor);
+            //if (GetVendors.Count > 0)
+            //{
 
                 await _repository.UpdateVendor(vendor);
                 bool success = _repository.IsSuccess;
@@ -128,13 +128,13 @@ namespace AmsApi.Controllers
                    
                     msg.ReturnMessage = " update unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "No Vendor entries found";
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "No Vendor entries found";
 
-            }
+            //}
 
 
             return Ok(msg);

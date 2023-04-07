@@ -337,15 +337,15 @@ namespace AmsApi.Controllers
         //    await _repository.Verify(user);
         //}
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] UserModel user)
         {
 
             var msg = new Message();
-            var User = await _repository.GetById(user);
+            //var User = await _repository.GetById(user);
 
-            if (User.Userid > 0)
-            {
+            //if (User.Userid > 0)
+            //{
                 // msg.Data = User;
 
                 await _repository.UpdateUser(user);
@@ -361,18 +361,18 @@ namespace AmsApi.Controllers
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " User update unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = " no user found";
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = " no user found";
 
-            }
+            //}
             return Ok(msg);
         }
 
 
-        [HttpPut("UpdatePassword")]
+        [HttpPost("UpdatePassword")]
         public async Task<IActionResult> UpdatePassword([FromBody] UserModel user)
         {
             var msg = new Message();

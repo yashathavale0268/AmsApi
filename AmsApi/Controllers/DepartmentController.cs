@@ -103,13 +103,13 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update( [FromBody] DepartmentModel dep)
         {
             var msg = new Message();
-            var GetComp = await _repository.GetById(dep);
-            if (GetComp.Count>0)
-            {
+            //var GetComp = await _repository.GetById(dep);
+            //if (GetComp.Count>0)
+            //{
                 await _repository.UpdateDep(dep);
                 bool success = _repository.IsSuccess;
                 if (success is true)
@@ -123,13 +123,13 @@ namespace AmsApi.Controllers
                     msg.ReturnMessage = "  update unsuccessfull ";
                 }
                
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no value found";
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "no value found";
 
-            }
+            //}
             return Ok(msg);
         }
 

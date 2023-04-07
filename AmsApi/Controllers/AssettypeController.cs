@@ -108,13 +108,13 @@ namespace AmsApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> Update( [FromBody] AssettypeModel type)
         {
             var msg = new Message();
-            var Gettype = await _repository.GettypeById(type);
-            if (Gettype.Count>0)
-            {
+            //var Gettype = await _repository.GettypeById(type);
+            //if (Gettype.Count>0)
+            //{
                 await _repository.UpdateType(type);
                 bool success = _repository.IsSuccess;
                 if (success is true)
@@ -128,12 +128,12 @@ namespace AmsApi.Controllers
                     msg.ReturnMessage = " update unsuccessfull";
                 }
 
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no type found";
-            }
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "no type found";
+            //}
 
 
             return Ok(msg);
