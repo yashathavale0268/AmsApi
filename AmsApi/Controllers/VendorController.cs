@@ -42,10 +42,10 @@ namespace AmsApi.Controllers
         //    return Ok(msg);
         //}
         [HttpGet("Getid/{id}")]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> Get(VendorModel v)
+        public async Task<ActionResult<IEnumerable<VendorModel>>> Get(int id)
         {
             var msg = new Message();
-            var GetVendor = await _repository.GetById(v);
+            var GetVendor = await _repository.GetId(id);
             if (GetVendor.Count > 0)
             {
                 msg.IsSuccess = true;
