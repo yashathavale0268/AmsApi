@@ -63,13 +63,13 @@ namespace AmsApi.Models
 
         public string Full_name { get; set; }
 
-        [DataMember(Name = "DepartmentName ")]
+        [DataMember(Name = "DepartmentName")]
         public string DepartmentName { get; set; }
 
         [DataMember(Name = "BranchName")]
         public string BranchName { get; set; }
 
-        [DataMember(Name = " CompanyName")]
+        [DataMember(Name = "CompanyName")]
         public string CompanyName { get; set; }
 
         [DataMember(Name = "totalrecord")]
