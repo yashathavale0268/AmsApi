@@ -178,7 +178,7 @@ namespace AmsApi.Repository
         {
             return new ReportModel()
             {
-                userinfo = (string)reader["userinfo"],
+                
                 branch = (string)reader["branch"],
 
                 type = (string)reader["type"],
