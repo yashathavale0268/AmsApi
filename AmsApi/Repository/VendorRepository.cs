@@ -95,6 +95,30 @@ namespace AmsApi.Repository
                 }
             }
         }
+        internal async Task<List<VendorModel>> GetId(int id)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_SearchAllVendors_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    // VendorModel response = null;
+                    var response = new List<VendorModel>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToValue(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
         internal async Task<List<VendorModel>> GetDetId(int id)
         {
             using (SqlConnection sql = new(_connectionString))
