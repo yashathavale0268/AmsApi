@@ -162,7 +162,7 @@ namespace AmsApi.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("Delete/{id}")]
+        [HttpGet("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var msg = new Message();
