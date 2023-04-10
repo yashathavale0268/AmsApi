@@ -157,11 +157,11 @@ namespace AmsApi.Controllers
 
         }
         [HttpGet("GetInUseTable")]
-        public async Task<ActionResult<IEnumerable<ReportModel>>> GetInUseTables()//int pageNumber, int pageSize, string searchString, int brcid
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetInUseTables(int pageNumber, int pageSize, string searchString, int brcid, int typ)//
 
         {
             var msg = new Message();
-            var result = await _repository.GetInUseTable();//pageNumber,pageSize,searchString, brcid
+            var result = await _repository.GetInUseTable(pageNumber, pageSize, searchString, brcid,typ);//
 
             if (result.Count > 0)
             {
@@ -181,11 +181,11 @@ namespace AmsApi.Controllers
         }
 
         [HttpGet("GetIsSpareTable")]
-        public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsSpareTable()
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsSpareTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
 
         {
             var msg = new Message();
-            var result = await _repository.GetIsSpareTable();
+            var result = await _repository.GetIsSpareTable(pageNumber, pageSize, searchString, brcid,typ);
 
             if (result.Count > 0)
             {
@@ -204,11 +204,11 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         [HttpGet("GetIsWorkingTable")]
-        public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsWorkingTable()
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetIsWorkingTable(int pageNumber, int pageSize, string searchString, int brcid, int typ, int stat)
 
         {
             var msg = new Message();
-            var result = await _repository.GetIsWorkingTable();
+            var result = await _repository.GetIsWorkingTable(pageNumber, pageSize, searchString, brcid,typ,stat);
 
             if (result.Count > 0)
             {
@@ -227,11 +227,11 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         [HttpGet("GetNew_RequestTable")] 
-        public async Task<ActionResult<IEnumerable<ReportModel>>> GetNew_RequestsTable()
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetNew_RequestsTable(int pageNumber, int pageSize, string searchString, int brcid,int typ)
 
         {
             var msg = new Message();
-            var result = await _repository.GetNew_RequestTable();
+            var result = await _repository.GetNew_RequestTable(pageNumber, pageSize, searchString, brcid,typ);
 
             if (result.Count > 0)
             {
