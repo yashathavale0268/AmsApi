@@ -9,15 +9,7 @@ namespace AmsApi.Models
     [DataContract]
     public class ReportModel
     {
-        [DataMember(Name = "userinfo")]
-     public string userinfo { get; set; }
-
-        [DataMember(Name = "branch")]
-
-        public string branch { get; set; }
-
-        [DataMember(Name = "type")]
-        public string type { get; set; }
+       
 
         //---------------
         //numbers from qty not Nos
@@ -42,8 +34,17 @@ namespace AmsApi.Models
 
         [DataMember(Name = "Statid")]
         public int Statid { get; set; }
+        [DataMember(Name = "userinfo")]
+        public string userinfo { get; set; }
 
-       
+        [DataMember(Name = "branch")]
+
+        public string branch { get; set; }
+
+        [DataMember(Name = "type")]
+        public string type { get; set; }
+
+
     }
     
      
