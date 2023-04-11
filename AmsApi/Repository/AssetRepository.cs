@@ -103,7 +103,7 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid )//,string ptype,string mtype,string rtype , string btype )
+        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Vendid )//,string ptype,string mtype,string rtype , string btype )
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_SearchAllAssets_Paginated", sql);
@@ -114,12 +114,12 @@ namespace AmsApi.Repository
             cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
             cmd.Parameters.AddWithValue("@Brcid", Brcid);
             cmd.Parameters.AddWithValue("@Typeid", Typeid);
-          
+            cmd.Parameters.AddWithValue("@Vendid", Vendid);
             //cmd.Parameters.AddWithValue("@ptype", ptype);
             //cmd.Parameters.AddWithValue("@mtype", mtype);
             //cmd.Parameters.AddWithValue("@rtype", rtype);
             //cmd.Parameters.AddWithValue("@btype", btype);
-           var response = new List<AssetModel>();
+            var response = new List<AssetModel>();
             await sql.OpenAsync();
 
             using (var reader = await cmd.ExecuteReaderAsync())
