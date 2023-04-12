@@ -63,35 +63,35 @@ namespace AmsApi.Repository
         public AssetModel MapToValue(SqlDataReader reader)
         {
             return new AssetModel() { 
-            Assetid = (int)reader["Assetid"],
-                SerialNo = (string)reader["SerialNo"] ?? "N/A",
+                Assetid = (int)reader["Assetid"],
+                SerialNo = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? "N/A" :(string)reader["SerialNo"] ,
                 Branch =(int)reader["Branch"],
-                Branches =(string)reader["Branches"] ?? "N/A",
-                Brand =reader["Brand"].ToString(),
+                Branches = reader.IsDBNull(reader.GetOrdinal("Branches")) ? "N/A" : (string)reader["Branches"] ,
+                Brand = reader.IsDBNull(reader.GetOrdinal("Brand")) ? "N/A" : (string)reader["Brand"] ,
                 Type = (int)reader["Type"],
-                TypeName =(string)reader["TypeName"],
-                Model =reader["Model"].ToString() ?? "N/A",
-                Processor_Type=reader["Processor_Type"].ToString() ?? "N/A",
+                TypeName = reader.IsDBNull(reader.GetOrdinal("TypeName")) ? "N/A" : (string)reader["TypeName"] ,
+                Model = reader.IsDBNull(reader.GetOrdinal("Model")) ? "N/A" : (string)reader["Model"] ,
+                Processor_Type= reader.IsDBNull(reader.GetOrdinal("Processor_Type")) ? "N/A" : (string)reader["Processor_Type"] ,
                
-                Monitor_Type= reader["Monitor_Type"].ToString()  ?? "N/A",
-                Range_Type=reader["Range_Type"].ToString()  ?? "N/A",
-                Battery_Type= reader["Battery_Type"].ToString() ?? "N/A",
-                Battery_Ampere=reader["Battery_Ampere"].ToString()  ?? "N/A",
-                Battery_Capacity=reader["Battery_Capacity"].ToString()  ?? "N/A",
-                GraphicsCard=reader["GraphicsCard"].ToString()  ?? "N/A",
-                Optical_Drive=reader["Optical_Drive"].ToString() ?? "N/A",
-                HDD=reader["HDD"].ToString()  ?? "N/A",
-                RAM=reader["RAM"].ToString() ?? "N/A",
-                Inches=reader["Inches"].ToString()  ?? "N/A",
-                Port_Switch=reader["Port_Switch"].ToString()  ?? "N/A",
-                Nos=(int)reader["Nos"],
-                Specification=reader["Specification"].ToString()  ?? "N/A",
+                Monitor_Type= reader.IsDBNull(reader.GetOrdinal("Monitor_Type")) ? "N/A" : (string)reader["Monitor_Type"] ,
+                Range_Type= reader.IsDBNull(reader.GetOrdinal("Range_Type")) ? "N/A" : (string)reader["Range_Type"]  ,
+                Battery_Type= reader.IsDBNull(reader.GetOrdinal("Battery_Type")) ? "N/A" : (string)reader["Battery_Type"] ,
+                Battery_Ampere= reader.IsDBNull(reader.GetOrdinal("Battery_Ampere")) ? "N/A" : (string)reader["Battery_Ampere"] ,
+                Battery_Capacity= reader.IsDBNull(reader.GetOrdinal("Battery_Capacity")) ? "N/A" : (string)reader["Battery_Capacity"] ,
+                GraphicsCard= reader.IsDBNull(reader.GetOrdinal("GraphicsCard")) ? "N /A" : (string)reader["GraphicsCard"] ,
+                Optical_Drive= reader.IsDBNull(reader.GetOrdinal("Optical_Drive")) ? "N/A" : (string)reader["Optical_Drive"] ,
+                HDD= reader.IsDBNull(reader.GetOrdinal("HDD")) ? "N/A" : (string)reader["HDD"] ,
+                RAM= reader.IsDBNull(reader.GetOrdinal("RAM")) ? "N/A" : (string)reader["RAM"] ,
+                Inches= reader.IsDBNull(reader.GetOrdinal("Inches")) ? "N/A" : (string)reader["Inches"] ,
+                Port_Switch= reader.IsDBNull(reader.GetOrdinal("Port_Switch")) ? "N/A" : (string)reader["Port_Switch"] ,
+                Nos= reader.IsDBNull(reader.GetOrdinal("Port_Switch")) ? 0 : (int)reader["Nos"],
+                Specification= reader.IsDBNull(reader.GetOrdinal("Specification")) ? "N/A" : (string)reader["Specification"] ,
                 Vendorid=(int)reader["Vendorid"],
-                Vendors = (string)reader["Vendors"]  ?? "N/A",
+                Vendors = reader.IsDBNull(reader.GetOrdinal("Vendors")) ? "N/A" : (string)reader["Vendors"] ,
                 //Status =(int)reader["Status"],
                 //Statuses = (string)reader["Statuses"],
                 //Allocated_to=(int)reader["Allocated_to"],
-
+                Remarks= reader.IsDBNull(reader.GetOrdinal("Remarks")) ? "N/A" :(string)reader["Remarks"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
               
             active = (bool)reader["active"],
@@ -103,7 +103,7 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Vendid )//,string ptype,string mtype,string rtype , string btype )
+        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Vendid,int DateFilter)//,string ptype,string mtype,string rtype , string btype )
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_SearchAllAssets_Paginated", sql);
@@ -115,7 +115,7 @@ namespace AmsApi.Repository
             cmd.Parameters.AddWithValue("@Brcid", Brcid);
             cmd.Parameters.AddWithValue("@Typeid", Typeid);
             cmd.Parameters.AddWithValue("@Vendid", Vendid);
-            //cmd.Parameters.AddWithValue("@ptype", ptype);
+            cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
             //cmd.Parameters.AddWithValue("@mtype", mtype);
             //cmd.Parameters.AddWithValue("@rtype", rtype);
             //cmd.Parameters.AddWithValue("@btype", btype);

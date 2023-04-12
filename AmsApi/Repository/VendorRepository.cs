@@ -144,7 +144,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<List<VendorModel>> SearchVendors(int pageNumber, int pageSize, string searchTerm, string InvDate ,string WarryTillDate)
+        internal async Task<List<VendorModel>> SearchVendors(int pageNumber, int pageSize, string searchTerm, string InvDate ,string WarryTillDate,int DateFilter)
         {
 
             using (SqlConnection sql = new SqlConnection(_connectionString))
@@ -157,6 +157,7 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
                          cmd.Parameters.AddWithValue("@InvDate", InvDate);
                     cmd.Parameters.AddWithValue("@WarryTillDate", WarryTillDate);
+                    cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
                     var response = new List<VendorModel>();
                     await sql.OpenAsync();
 
@@ -179,13 +180,13 @@ namespace AmsApi.Repository
             return new VendorModel()
             {
                 Vendorid = (int)reader["Vendorid"],
-                Name = (string)reader["Name"],//.ToString()
-                InvoiceNo = (string)reader["InvoiceNo"],//.ToString()
+                Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? "N/A" : (string)reader["Name"],//.ToString()
+                InvoiceNo = reader.IsDBNull(reader.GetOrdinal("InvoiceNo")) ? "N/A" : (string)reader["InvoiceNo"],//.ToString()
                 InvoiceDate = (reader["InvoiceDate"] != DBNull.Value) ? Convert.ToDateTime(reader["InvoiceDate"]) : DateTime.MinValue,
                 Warranty_Till = (reader["Warranty_Till"] != DBNull.Value) ? Convert.ToDateTime(reader["Warranty_Till"]) : DateTime.MinValue,
                 active = (bool)reader["active"],
-                //Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
-                totalrecord = (int)reader["totalrecord"]
+                Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"]
             };
         }
 

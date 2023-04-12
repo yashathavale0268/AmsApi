@@ -47,7 +47,7 @@ namespace AmsApi.Repository
         //    }
         //}
 
-        internal async Task<List<RequestModel>> SearchRequests(int pageNumber, int pageSize,string searchString,int userId ,int reqId, int assetId, int statId)
+        internal async Task<List<RequestModel>> SearchRequests(int pageNumber, int pageSize,string searchString,int userId ,int reqId, int assetId, int statId,int DateFilter)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -61,6 +61,7 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@AssetId ", assetId);
                     cmd.Parameters.AddWithValue("@StatId ", statId);
                     cmd.Parameters.AddWithValue("@SearchString", searchString);
+                    cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
                     var response = new List<RequestModel>();
                     await sql.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
@@ -82,22 +83,22 @@ namespace AmsApi.Repository
             {
                 Requestid = (int)reader["Requestid"],
 
-                Userid = (int)reader["Userid"],
+                Userid = reader.IsDBNull(reader.GetOrdinal("Userid")) ? 0: (int)reader["Userid"],
 
            //     List<int> Assets = new List<int> {},
            //Assets = reader["Assets"].ToString(),
-           Assetid = (int)reader["Assetid"],
+           Assetid = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0: (int)reader["Assetid"],
             Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
-                Justify = reader["Justify"].ToString(),
-                Status =(int)reader["Status"],
+                Justify = reader.IsDBNull(reader.GetOrdinal("Justify")) ? "N/A" : (string)reader["Justify"],
+                Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0: (int)reader["Status"],
                 active = (bool)reader["active"],
                 isworking=(bool)reader["isworking"],
                 inuse=(bool)reader["inuse"],
-                Asset = (string)reader["Asset"],
-                CurrentStatus = reader["CurrentStatus"].ToString(),
-                UserName=(string)reader["UserName"],
-                totalrecord = (int)reader["totalrecord"],
-                specialrecord= (int)reader["specialrecord"],
+                Asset = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? "N/A" : (string)reader["Asset"],
+                CurrentStatus = reader.IsDBNull(reader.GetOrdinal("CurrentStatus")) ? "N/A" : (string)reader["CurrentStatus"],
+                UserName= reader.IsDBNull(reader.GetOrdinal("UserName")) ? "N/A" : (string)reader["UserName"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
+                specialrecord= reader.IsDBNull(reader.GetOrdinal("specialrecord")) ? 0 : (int)reader["specialrecord"],
             };
 
         }

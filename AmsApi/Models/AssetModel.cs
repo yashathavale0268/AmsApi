@@ -51,7 +51,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Battery_Capacity")]
         public string Battery_Capacity { get; set; } = "";
 
-        [DataMember(Name = "GrachicsCard")]
+        [DataMember(Name = "GraphicsCard")]
         public string GraphicsCard { get; set; } = "";
 
         [DataMember(Name = "Optional_Drive")]

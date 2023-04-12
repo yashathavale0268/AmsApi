@@ -90,8 +90,8 @@ namespace AmsApi.Repository
             return new AssettypeModel()
             {
                 Typeid = (int)reader["Typeid"],
-                Name = reader["Name"].ToString(),
-                Remarks = reader["Remarks"].ToString(),
+                Name = (string)reader["Name"],
+                Remarks = (string)reader["Remarks"],
                 Active = (bool)reader["active"],
                 totalrecord = (int)reader["totalrecord"]
             };

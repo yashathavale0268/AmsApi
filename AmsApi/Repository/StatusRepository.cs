@@ -69,21 +69,21 @@ namespace AmsApi.Repository
             return new StatusModel()
             {
                Statusid = (int)reader["Statusid"],
-               Status =(int)reader["Status"],
-                Userid = (int)reader["Userid"],
-                Assetid = (int)reader["Assetid"],
-                Requestid = (int)reader["Requestid"],
+               Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0 : (int)reader["Status"],
+                Userid = reader.IsDBNull(reader.GetOrdinal("Userid")) ? 0 : (int)reader["Userid"],
+                Assetid = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0 : (int)reader["Assetid"],
+                Requestid = reader.IsDBNull(reader.GetOrdinal("Requestid")) ? 0 : (int)reader["Requestid"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 active = (bool)reader["active"],
-                StatusNow = (string)reader["StatusNow"],
-                Asset = (string)reader["Asset"],
-                Request = (string)reader["Request"],
-                UserName = (string)reader["UserName"],
-                totalrecord = (int)reader["totalrecord"]
+                StatusNow = reader.IsDBNull(reader.GetOrdinal("StatusNow")) ? "N/A" : (string)reader["StatusNow"],
+                Asset = reader.IsDBNull(reader.GetOrdinal("Asset")) ? "N/A" : (string)reader["Asset"],
+                Request = reader.IsDBNull(reader.GetOrdinal("Request")) ? "N/A" : (string)reader["Request"],
+                UserName = reader.IsDBNull(reader.GetOrdinal("UserName")) ? "N/A" : (string)reader["UserName"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0: (int)reader["totalrecord"]
             };
         }
 
-        internal async Task<List<StatusModel>> SearchStatus(int pageNumber,int pageSize,string searchTerm,int Userid,int Assetid,int Requestid,int Statid )
+        internal async Task<List<StatusModel>> SearchStatus(int pageNumber,int pageSize,string searchTerm,int Userid,int Assetid,int Requestid,int Statid,int DateFilter )
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -97,6 +97,7 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@Assetid", Assetid);
                     cmd.Parameters.AddWithValue("@Requestid", Requestid);
                     cmd.Parameters.AddWithValue("@Statid", Statid);
+                    cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
                     var response = new List<StatusModel>();
                     await sql.OpenAsync();
 

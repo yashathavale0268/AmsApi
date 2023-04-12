@@ -79,7 +79,7 @@ namespace AmsApi.Repository
 
         //    return response;
         //}
-            internal async Task<List<ScrapModel>> SearchScrap(int pageNumber, int pageSize, string searchTerm, int searchId, int assetid, int brcid, int vedid, int userid)
+            internal async Task<List<ScrapModel>> SearchScrap(int pageNumber, int pageSize, string searchTerm, int searchId, int assetid, int brcid, int vedid, int userid, int DateFilter)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -94,6 +94,7 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@Brcid", brcid);
                     cmd.Parameters.AddWithValue("@Vedid", vedid);
                     cmd.Parameters.AddWithValue("@Userid", userid);
+                    cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
                     var response = new List<ScrapModel>();
                     await sql.OpenAsync();
 
@@ -115,22 +116,22 @@ namespace AmsApi.Repository
             return new ScrapModel()
             {
                 Scrapid = (int)reader["Scrapid"],
-                Asset = (int)reader["Asset"],
+                Asset = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0 : (int)reader["Asset"],
               
-                Branch = (int)reader["Branch"],
+                Branch = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0: (int)reader["Branch"],
                
-                Last_user = (int)reader["Last_user"],
+                Last_user = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0 : (int)reader["Last_user"],
                
-                Vendor =(int)reader["Vendor"],
+                Vendor = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0 : (int)reader["Vendor"],
                 
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
 
                 active = (bool)reader["active"],
-                AssetName = (string)reader["AssetName"],
-                BranchName = (string)reader["BranchName"],
-                VendorName = (string)reader["VendorName"],
-                LastUser = (string)reader["LastUser"],
-                totalrecord = (int)reader["totalrecord"]
+                AssetName = reader.IsDBNull(reader.GetOrdinal("AssetName")) ? "N/A" : (string)reader["AssetName"],
+                BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? "N/A" : (string)reader["BranchName"],
+                VendorName = reader.IsDBNull(reader.GetOrdinal("VendorName")) ? "N/A" : (string)reader["VendorName"],
+                LastUser = reader.IsDBNull(reader.GetOrdinal("LastUser")) ? "N/A" : (string)reader["LastUser"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"]
             };
         }
 

@@ -74,10 +74,10 @@ namespace AmsApi.Controllers
         }
         //[Authorize(Roles = "Admin")]
         [HttpGet("GetAllStatus")]
-        public async Task<ActionResult<IEnumerable<StatusModel>>> SearchStatus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Userid = 0, [FromQuery] int Assetid = 0, [FromQuery] int Requestid = 0,[FromQuery] int Statid = 0)
+        public async Task<ActionResult<IEnumerable<StatusModel>>> SearchStatus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Userid = 0, [FromQuery] int Assetid = 0, [FromQuery] int Requestid = 0,[FromQuery] int Statid = 0,[FromQuery] int DateFilter=0)
         {
             var msg = new Message();
-            var requests = await _repository.SearchStatus(pageNumber,pageSize, searchTerm,Userid,Assetid,Requestid,Statid);
+            var requests = await _repository.SearchStatus(pageNumber,pageSize, searchTerm,Userid,Assetid,Requestid,Statid, DateFilter);
             if (requests.Count>0) { msg.IsSuccess=true;
                 msg.Data = requests;
             }

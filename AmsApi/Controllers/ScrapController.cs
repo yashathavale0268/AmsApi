@@ -65,10 +65,10 @@ namespace AmsApi.Controllers
         //    return await _repository.GetAllScraps();
         //}
         [HttpGet("GetAllScrap")]
-        public async Task<ActionResult<IEnumerable<ScrapModel>>> SearchScrap([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int searchId = 0, [FromQuery] int assetId = 0, [FromQuery] int brcId = 0, [FromQuery] int vedId = 0, [FromQuery] int userid = 0)
+        public async Task<ActionResult<IEnumerable<ScrapModel>>> SearchScrap([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int searchId = 0, [FromQuery] int assetId = 0, [FromQuery] int brcId = 0, [FromQuery] int vedId = 0, [FromQuery] int userid = 0,[FromQuery] int DateFilter=0)
         {
             var msg = new Message();
-            var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, userid);
+            var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, userid, DateFilter);
             if (Scrap.Count>0) { 
                 msg.IsSuccess = true;
                 msg.Data = Scrap;

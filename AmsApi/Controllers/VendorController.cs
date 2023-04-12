@@ -60,10 +60,10 @@ namespace AmsApi.Controllers
         }
         // GET api/values/5
         [HttpGet("GetAllVendors")]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> SearchVendors([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]String InvDate=null,[FromQuery] String WarryTillDate = null)
+        public async Task<ActionResult<IEnumerable<VendorModel>>> SearchVendors([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery]String InvDate=null,[FromQuery] String WarryTillDate = null,[FromQuery] int DateFilter=0)
         {
             var msg = new Message();
-            var Vendors = await _repository.SearchVendors(pageNumber, pageSize, searchTerm,InvDate,WarryTillDate);
+            var Vendors = await _repository.SearchVendors(pageNumber, pageSize, searchTerm,InvDate,WarryTillDate, DateFilter);
             if (Vendors.Count>0) {
                 msg.IsSuccess = true;
                 msg.Data = Vendors;

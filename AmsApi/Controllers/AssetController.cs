@@ -109,10 +109,10 @@ namespace AmsApi.Controllers
 
         // POST api/values
         [HttpGet("GetAllAssets")]
-        public async Task<ActionResult<IEnumerable<AssetModel>>> SearchAssets([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Brcid =0 , [FromQuery] int Typeid=0,[FromQuery] int Vendid=0)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
+        public async Task<ActionResult<IEnumerable<AssetModel>>> SearchAssets([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int Brcid = 0, [FromQuery] int Typeid = 0, [FromQuery] int Vendid = 0,[FromQuery] int DateFilter=0)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
         {
             var msg = new Message();
-            var assets = await _repository.SearchAssets(pageNumber, pageSize, searchTerm, Brcid, Typeid,Vendid);//,ptype,mtype,rtype,btype);
+            var assets = await _repository.SearchAssets(pageNumber, pageSize, searchTerm, Brcid, Typeid,Vendid,DateFilter);//,ptype,mtype,rtype,btype);
             if (assets.Count>0)
             {
                 msg.IsSuccess = true;
