@@ -639,36 +639,31 @@ namespace AmsApi.Repository
 
 
       
-        internal async Task<UserModel> GetUserById(int id)
+        internal async Task<List<UserModel>> GetUserById(int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
-                await sql.OpenAsync();
-                using (SqlCommand command = new("sp_SearchAllUser_Paginated", sql))
+
+                using (SqlCommand cmd = new("sp_SearchAllUser_Paginated", sql))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@User", id);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@User", id);
 
-                    var reader = await command.ExecuteReaderAsync();
-                    if (await reader.ReadAsync())
+                    var response = new List<UserModel>();
+                    // UserModel response = new();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        return new UserModel
+                        while (await reader.ReadAsync())
                         {
-                            Userid = reader.GetInt32(0),
-                            Username = reader.GetString(1),
-                            Email = reader.GetString(2),
-                            Role = reader.GetInt32(10),
-                            RoleName=reader.GetString(11),
-                         
-
-
-
-                        };
+                            response.Add(MapToValue(reader));
+                        }
                     }
 
-                    return null;
-                }
-            }
+                    return response;
+                 }
+            }   
         }
 
         internal async Task UpdateUser(UserModel user)
