@@ -238,7 +238,7 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var response = await _repository.GetUserById(id);
-            if (response.Userid > 0)
+            if (response.Count > 0)
             {
                 msg.IsSuccess = true;
                 msg.Data = response;
@@ -316,7 +316,7 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var User = await _repository.GetUserById(id);
-            if (User.Userid > 0)
+            if (User.Count> 0)
             {
                 await _repository.SetRoles(Role, id);
                 msg.IsSuccess = true;
@@ -518,7 +518,7 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var Users = await _repository.GetUserById(id);
 
-            if (Users.Userid> 0)
+            if (Users.Count> 0)
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = "Delete Successfully";

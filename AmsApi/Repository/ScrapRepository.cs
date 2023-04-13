@@ -116,13 +116,13 @@ namespace AmsApi.Repository
             return new ScrapModel()
             {
                 Scrapid = (int)reader["Scrapid"],
-                Asset = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0 : (int)reader["Asset"],
+                Asset = reader.IsDBNull(reader.GetOrdinal("Asset")) ? 0 : (int)reader["Asset"],
               
-                Branch = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0: (int)reader["Branch"],
+                Branch = reader.IsDBNull(reader.GetOrdinal("Branch")) ? 0: (int)reader["Branch"],
                
-                Last_user = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0 : (int)reader["Last_user"],
+                Last_user = reader.IsDBNull(reader.GetOrdinal("Last_user")) ? 0 : (int)reader["Last_user"],
                
-                Vendor = reader.IsDBNull(reader.GetOrdinal("SerialNo")) ? 0 : (int)reader["Vendor"],
+                Vendor = reader.IsDBNull(reader.GetOrdinal("Vendor")) ? 0 : (int)reader["Vendor"],
                 
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
 
