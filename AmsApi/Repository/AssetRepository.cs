@@ -103,8 +103,9 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Vendid,int DateFilter)//,string ptype,string mtype,string rtype , string btype )
+        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Vendid,int DateFilter,string StartDate ,string EndDate)//,string ptype,string mtype,string rtype , string btype )
         {
+      
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_SearchAllAssets_Paginated", sql);
             /*sp_SearchAllAssets_Paginated*/
@@ -116,6 +117,8 @@ namespace AmsApi.Repository
             cmd.Parameters.AddWithValue("@Typeid", Typeid);
             cmd.Parameters.AddWithValue("@Vendid", Vendid);
             cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
+            cmd.Parameters.AddWithValue("@StartDate", StartDate);
+            cmd.Parameters.AddWithValue("@EndDate", EndDate);
             //cmd.Parameters.AddWithValue("@mtype", mtype);
             //cmd.Parameters.AddWithValue("@rtype", rtype);
             //cmd.Parameters.AddWithValue("@btype", btype);

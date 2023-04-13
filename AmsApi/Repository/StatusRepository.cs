@@ -83,7 +83,7 @@ namespace AmsApi.Repository
             };
         }
 
-        internal async Task<List<StatusModel>> SearchStatus(int pageNumber,int pageSize,string searchTerm,int Userid,int Assetid,int Requestid,int Statid,int DateFilter )
+        internal async Task<List<StatusModel>> SearchStatus(int pageNumber,int pageSize,string searchTerm,int Userid,int Assetid,int Requestid,int Statid,int DateFilter,string StartDate,string EndDate )
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -98,6 +98,8 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@Requestid", Requestid);
                     cmd.Parameters.AddWithValue("@Statid", Statid);
                     cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
+                    cmd.Parameters.AddWithValue("@StartDate", StartDate);
+                    cmd.Parameters.AddWithValue("@EndDate", EndDate);
                     var response = new List<StatusModel>();
                     await sql.OpenAsync();
 

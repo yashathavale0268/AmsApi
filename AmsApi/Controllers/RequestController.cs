@@ -48,10 +48,10 @@ namespace AmsApi.Controllers
         //}
         //   [Authorize("Admin")]
         [HttpGet("GetAllRequests")]
-        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string searchString = null, [FromQuery] int userId = 0, [FromQuery] int reqId = 0, [FromQuery] int assetId = 0, [FromQuery] int statId = 0,[FromQuery] int DateFilter=0)
+        public async Task<ActionResult<IEnumerable<RequestModel>>> SearchRequests([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string searchString = null, [FromQuery] int userId = 0, [FromQuery] int reqId = 0, [FromQuery] int assetId = 0, [FromQuery] int statId = 0,[FromQuery] int DateFilter=0,[FromQuery] string StartDate=null,[FromQuery] string EndDate=null)
             {
             var msg = new Message();
-            var requests = await _repository.SearchRequests(pageNumber, pageSize, searchString, userId, reqId, assetId, statId, DateFilter);
+            var requests = await _repository.SearchRequests(pageNumber, pageSize, searchString, userId, reqId, assetId, statId, DateFilter,StartDate,EndDate);
             if (requests.Count > 0) {
                 msg.IsSuccess = true;
                 msg.Data = requests;
