@@ -17,7 +17,7 @@ namespace AmsApi.Models
         public int Userid { get; set; }
 
         [DataMember(Name = "Email")]
-        [Required]
+        
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         //[RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", ErrorMessage = "Invalid email address.")]
 
@@ -26,7 +26,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Username")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string Username { get; set; }
-        [Required]
+        
         [DataType(DataType.Password)]
         //[RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",
         //ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character")]

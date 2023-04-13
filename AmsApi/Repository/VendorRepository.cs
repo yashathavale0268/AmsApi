@@ -144,7 +144,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task<List<VendorModel>> SearchVendors(int pageNumber, int pageSize, string searchTerm, string InvDate ,string WarryTillDate,int DateFilter)
+        internal async Task<List<VendorModel>> SearchVendors(int pageNumber, int pageSize, string searchTerm, string StartDate ,string EndDate,int DateFilter)
         {
 
             using (SqlConnection sql = new SqlConnection(_connectionString))
@@ -155,8 +155,8 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
                     cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
-                         cmd.Parameters.AddWithValue("@InvDate", InvDate);
-                    cmd.Parameters.AddWithValue("@WarryTillDate", WarryTillDate);
+                         cmd.Parameters.AddWithValue("@StartDate", StartDate);
+                    cmd.Parameters.AddWithValue("@EndDate", EndDate);
                     cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
                     var response = new List<VendorModel>();
                     await sql.OpenAsync();
