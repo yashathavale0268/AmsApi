@@ -122,10 +122,8 @@ namespace AmsApi.Controllers
             }
           
             else {
-                AssetModel asset = new();
                 msg.IsSuccess = false;
-                msg.ReturnMessage = "no values found";
-                msg.Data =asset.totalrecord;
+                msg.ReturnMessage = "no values found"; 
             }
             return Ok(msg);
         }
