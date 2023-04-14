@@ -308,7 +308,7 @@ namespace AmsApi.Repository
         //    return response;
         //}
 
-        public async Task<List<UserModel>> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User)
+        public async Task<List<UserModel>> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User,int Role)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -318,6 +318,7 @@ namespace AmsApi.Repository
                 cmd.Parameters.AddWithValue("@PageSize", pageSize);
                 cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
                 cmd.Parameters.AddWithValue("@User", User);
+                cmd.Parameters.AddWithValue("@Roles",Role);
 
                 var response = new List<UserModel>();
                // UserModel response = new();

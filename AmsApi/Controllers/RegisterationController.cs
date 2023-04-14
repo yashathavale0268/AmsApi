@@ -213,10 +213,10 @@ namespace AmsApi.Controllers
         //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllUsers")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int User = 0)
+        public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int User = 0, [FromQuery] int Role = 0)
         {
             var msg = new Message();
-            var Users = await _repository.SearchUsers(pageNumber, pageSize, searchTerm, User);
+            var Users = await _repository.SearchUsers(pageNumber, pageSize, searchTerm, User,Role);
             if (Users.Count > 0)
             {
 

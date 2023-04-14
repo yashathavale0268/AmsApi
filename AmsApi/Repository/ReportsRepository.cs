@@ -226,7 +226,7 @@ namespace AmsApi.Repository
         public DataSet GetReportTable()
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetSpecific_total_Report ", sql);
+            using SqlCommand cmd = new("sp_GetAll_Table_total_Report  ", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
