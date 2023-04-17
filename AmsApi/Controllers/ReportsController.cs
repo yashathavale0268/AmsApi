@@ -251,7 +251,7 @@ namespace AmsApi.Controllers
         }
         [HttpGet]
         [Route("Qty")]
-        public async Task<ActionResult> GetAssetReport()  //
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetQty()  //
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
             var AssetReport = await _repository.GetQty();

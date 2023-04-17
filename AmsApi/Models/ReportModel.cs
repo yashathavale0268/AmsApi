@@ -32,8 +32,7 @@ namespace AmsApi.Models
         [DataMember(Name = "status")]
         public string status { get; set; }
 
-        [DataMember(Name = "Statid")]
-        public int Statid { get; set; }
+        
         [DataMember(Name = "userinfo")]
         public string userinfo { get; set; }
 
@@ -44,6 +43,20 @@ namespace AmsApi.Models
         [DataMember(Name = "type")]
         public string type { get; set; }
 
+        [DataMember(Name = "Statid")]
+        public int Statid { get; set; }
+
+        [DataMember(Name = "locid")]
+        public int locid { get; set; }
+
+        [DataMember(Name = "brchid ")]
+
+        public int brchid { get; set; }
+
+        [DataMember(Name = "typid")]
+        public int typid { get; set; }
+        [DataMember(Name = "Qty")]
+        public int Qty{ get; set; }
 
     }
     

@@ -50,21 +50,45 @@ namespace AmsApi.Repository
                 return await Task.FromResult(dataSet); 
             }
         }
-        internal async Task<DataSet> GetQty()
+        internal async Task<List<ReportModel>> GetQty()
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetReportQty", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
+                var response = new List<ReportModel>();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet);
+                await sql.OpenAsync();
 
-                return await Task.FromResult(dataSet);
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_qty(reader));
+                    }
+                }
+
+                return response;
             }
         }
+
+        private ReportModel MapToValue_qty(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+               
+                brchid = (int)reader["branch"],
+
+                typid = (int)reader["type"],
+
+                locid=(int)reader["locid"],
+
+                Statid = (int)reader["Status"],
+            Qty=(int)reader["Qty"]
+            };
+        }
+
         internal async Task<DataSet> GetBranchviseReport(int brch,int typ)
         {
             using SqlConnection sql = new(_connectionString);
