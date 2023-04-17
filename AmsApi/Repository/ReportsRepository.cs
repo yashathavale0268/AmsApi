@@ -32,23 +32,37 @@ namespace AmsApi.Repository
                 return await Task.FromResult(dataSet);
             }
         }
-        internal async Task<DataSet> GetAssetReport(string reportType, int brch, int comp, int dep, int typ)
+        internal async Task<DataSet> GetAssetReport( int brch , int typ)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetSpecificTotalReport", sql);
+            using SqlCommand cmd = new("sp_GetSpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@reportType", reportType);
+               
                 cmd.Parameters.AddWithValue("@brch", brch);
-                cmd.Parameters.AddWithValue("@comp", comp);
-                cmd.Parameters.AddWithValue("@dep", dep);
+                
                 cmd.Parameters.AddWithValue("@typ", typ);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 adapter.Fill(dataSet);
 
                 return await Task.FromResult(dataSet); 
+            }
+        }
+        internal async Task<DataSet> GetQty()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetReportQty", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return await Task.FromResult(dataSet);
             }
         }
         internal async Task<DataSet> GetBranchviseReport(int brch,int typ)
