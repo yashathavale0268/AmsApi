@@ -78,14 +78,14 @@ namespace AmsApi.Repository
             return new ReportModel()
             {
                
-                brchid = (int)reader["branch"],
+                brchid = reader.IsDBNull(reader.GetOrdinal("branch")) ? 0 : (int)reader["branch"],
 
-                typid = (int)reader["type"],
+                typid = reader.IsDBNull(reader.GetOrdinal("type")) ? 0 : (int)reader["type"],
 
-                locid=(int)reader["locid"],
+                locid= reader.IsDBNull(reader.GetOrdinal("locid")) ? 0 : (int)reader["locid"],
 
-                Statid = (int)reader["Status"],
-            Qty=(int)reader["Qty"]
+                Statid = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0 : (int)reader["Status"],
+                Qty= reader.IsDBNull(reader.GetOrdinal("Qty")) ? 0 : (int)reader["Qty"]
             };
         }
 
@@ -181,16 +181,16 @@ namespace AmsApi.Repository
         {
             return new ReportModel()
             {
-                userinfo = (string)reader["userinfo"],
-                branch = (string)reader["branch"],
+                userinfo = reader.IsDBNull(reader.GetOrdinal("userinfo")) ? "N/A" : (string)reader["userinfo"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
 
-                type = (string)reader["type"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
 
-                assetsinUse = (int)reader["assetsinUse"],
+                assetsinUse = reader.IsDBNull(reader.GetOrdinal("assetsinUse")) ? 0 : (int)reader["assetsinUse"],
 
-                Statid = (int)reader["Statid"],
-                status = (string)reader["status"],
-                totalrecord = (int)reader["totalrecord"],
+                Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
         public ReportModel MapToValue_isSpare(SqlDataReader reader)
@@ -198,18 +198,18 @@ namespace AmsApi.Repository
             return new ReportModel()
             {
                 //userinfo = (string)reader["userinfo"],
-                branch = (string)reader["branch"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
 
-                type = (string)reader["type"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
 
                 
 
-                spareassets = (int)reader["spareassets"],
+                spareassets = reader.IsDBNull(reader.GetOrdinal("spareassets")) ? 0 : (int)reader["spareassets"],
 
 
-                Statid = (int)reader["Statid"],
-                status = (string)reader["status"],
-                totalrecord = (int)reader["totalrecord"],
+                Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
         public ReportModel MapToValue_isWorking(SqlDataReader reader)
@@ -217,14 +217,14 @@ namespace AmsApi.Repository
             return new ReportModel()
             {
                 //userinfo = (string)reader["userinfo"],
-                branch = (string)reader["branch"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
 
-                type = (string)reader["type"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
 
-                workingassets = (int)reader["workingassets"],
-                Statid = (int)reader["Statid"],
-                status = (string)reader["status"],
-                totalrecord = (int)reader["totalrecord"],
+                workingassets = reader.IsDBNull(reader.GetOrdinal("workingassets")) ? 0 : (int)reader["workingassets"],
+                Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
 
             };
         }
@@ -232,15 +232,15 @@ namespace AmsApi.Repository
         {
             return new ReportModel()
             {
-                userinfo = (string)reader["userinfo"],
-                branch = (string)reader["branch"],
+                userinfo = reader.IsDBNull(reader.GetOrdinal("userinfo")) ? "N/A" : (string)reader["userinfo"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
 
-                type = (string)reader["type"],
-                AssetsRequested = (int)reader["AssetsRequested"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
+                AssetsRequested = reader.IsDBNull(reader.GetOrdinal("AssetsRequested")) ? 0 : (int)reader["AssetsRequested"],
                 
-                Statid = (int)reader["Statid"],
-                status = (string)reader["status"],
-                totalrecord = (int)reader["totalrecord"],
+                Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
 
             };
         }
