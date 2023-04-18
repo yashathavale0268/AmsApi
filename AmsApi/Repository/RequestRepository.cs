@@ -96,7 +96,7 @@ namespace AmsApi.Repository
                 active = (bool)reader["active"],
                 isworking=(bool)reader["isworking"],
                 inuse=(bool)reader["inuse"],
-                Asset = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? "N/A" : (string)reader["Asset"],
+                Asset = reader.IsDBNull(reader.GetOrdinal("Asset")) ? "N/A" : (string)reader["Asset"],
                 CurrentStatus = reader.IsDBNull(reader.GetOrdinal("CurrentStatus")) ? "N/A" : (string)reader["CurrentStatus"],
                 UserName= reader.IsDBNull(reader.GetOrdinal("UserName")) ? "N/A" : (string)reader["UserName"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],

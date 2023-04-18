@@ -105,7 +105,7 @@ namespace AmsApi.Controllers
             else if(success is true)
                 {
                 msg.IsSuccess = true;
-                    msg.ReturnMessage = " new branch succesfullly registered";
+                    msg.ReturnMessage = " new branch succesfully registered";
                 }
               
             else{

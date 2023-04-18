@@ -46,7 +46,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Branch")]
         public int? Branch { get; set; }
         [DataMember(Name = "Floor")]
-        public int? Floor { get; set; }
+        public string Floor { get; set; }
         [DataMember(Name = "Company")]
         public int? Company { get; set; }
         [DataMember(Name = "Created_at")]

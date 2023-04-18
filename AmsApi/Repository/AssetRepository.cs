@@ -93,8 +93,9 @@ namespace AmsApi.Repository
                 //Allocated_to=(int)reader["Allocated_to"],
                 Remarks= reader.IsDBNull(reader.GetOrdinal("Remarks")) ? "N/A" :(string)reader["Remarks"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
-              
-            active = (bool)reader["active"],
+                InvoiceDate = (reader["InvoiceDate"] != DBNull.Value) ? Convert.ToDateTime(reader["InvoiceDate"]) : DateTime.MinValue,
+                Warranty_Till = (reader["Warranty_Till"] != DBNull.Value) ? Convert.ToDateTime(reader["Warranty_Till"]) : DateTime.MinValue,
+                active = (bool)reader["active"],
                 totalrecord = (int)reader["totalrecord"]
                 
                 
@@ -229,6 +230,8 @@ namespace AmsApi.Repository
             //cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
             cmd.Parameters.Add(new SqlParameter("@Remarks", asset.Remarks));
             cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
+            cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.Created_at));
+            cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Created_at));
             cmd.Parameters.Add(new SqlParameter("@active", 1));
 
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -361,9 +364,9 @@ namespace AmsApi.Repository
                 cmd.Parameters.Add(new SqlParameter("@Nos", asset.Nos));
                 cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
                 cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
-                //cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
-                //cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
                 cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
+                cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.Created_at));
+                cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Created_at));
                 cmd.Parameters.Add(new SqlParameter("@active", 1));
 
                 //var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
