@@ -89,11 +89,11 @@ namespace AmsApi.Repository
         {
             return new AssettypeModel()
             {
-                Typeid = (int)reader["Typeid"],
-                Name = (string)reader["Name"],
-                Remarks = (string)reader["Remarks"],
+                Typeid = reader.IsDBNull(reader.GetOrdinal("Typeid")) ? 0 : (int)reader["Typeid"],
+                Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? "N/A" : (string)reader["Name"],
+                Remarks = reader.IsDBNull(reader.GetOrdinal("Remarks")) ?"N/A" : (string)reader["Remarks"],
                 Active = (bool)reader["active"],
-                totalrecord = (int)reader["totalrecord"]
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"]
             };
         }
 

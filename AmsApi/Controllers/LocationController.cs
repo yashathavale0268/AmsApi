@@ -43,10 +43,10 @@ namespace AmsApi.Controllers
         //    return Ok(msg);
         //}
         [HttpGet("GetLocations")]
-        public async Task<ActionResult<IEnumerable<LocationModel>>> SearchAllLocations([FromQuery] string Searchterm = null,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int lid = 0, [FromQuery] int aid = 0, [FromQuery] int tid = 0, [FromQuery] int uid = 0, [FromQuery] int bid = 0, [FromQuery] int cid = 0, [FromQuery] int did = 0, [FromQuery] int rid = 0, [FromQuery] int f = 0, [FromQuery] int stat = 0)
+        public async Task<ActionResult<IEnumerable<LocationModel>>> SearchAllLocations([FromQuery] string Searchterm = null,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int lid = 0, [FromQuery] int aid = 0, [FromQuery] int tid = 0, [FromQuery] int uid = 0, [FromQuery] int bid = 0, [FromQuery] int cid = 0, [FromQuery] int did = 0, [FromQuery] int rid = 0, [FromQuery] int stat = 0)
         {
             var msg = new Message();
-            var locs = await _repository.SearchAllLocations_Paginated(Searchterm, pageNumber, pageSize, lid, aid, tid, uid, bid, cid, did, rid, f,stat);
+            var locs = await _repository.SearchAllLocations_Paginated(Searchterm, pageNumber, pageSize, lid, aid, tid, uid, bid, cid, did, rid,stat);
             if (locs.Count > 0)
             {
                 msg.IsSuccess = true;
@@ -61,7 +61,32 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
+        [HttpPost("AddNew")]
+        public async Task<IActionResult> Post([FromBody] LocationModel location)
+        {
 
+            var msg = new Message();
+            await _repository.Insert(location);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "Item alredy registered";
+            }
+            else if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " new entry succesfully registered";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "registeration unscessfull";
+            }
+            return Ok(msg);
+        }
         // GET api/<locationController>/5
         //[HttpGet("{id}")]
         //public string Get(int id)

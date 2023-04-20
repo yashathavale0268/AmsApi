@@ -36,7 +36,7 @@ namespace AmsApi.Models
         public int company { get; set; }
 
         [DataMember(Name = "floor ")]
-        public int floor { get; set; }
+        public string floor { get; set; }
 
         [DataMember(Name = "Extradetails")]
         public string Extradetails { get; set; }
@@ -48,6 +48,9 @@ namespace AmsApi.Models
 
         [DataMember(Name = "status ")]
         public int status { get; set; }
+
+        [DataMember(Name = "Created_at")]
+        public DateTime Created_at { get; set; } = DateTime.Now;
 
         [DataMember(Name = "Users")]
         public string Users { get; set; }

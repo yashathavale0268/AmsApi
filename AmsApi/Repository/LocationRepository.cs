@@ -66,7 +66,7 @@ namespace AmsApi.Repository
                 branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? 0 : (int)reader["branch"],
                 department = reader.IsDBNull(reader.GetOrdinal("department")) ? 0 : (int)reader["department"],
                 company = reader.IsDBNull(reader.GetOrdinal("company")) ? 0 : (int)reader["company"],
-                floor = reader.IsDBNull(reader.GetOrdinal("floor")) ? 0 : (int)reader["floor"],
+                floor = reader.IsDBNull(reader.GetOrdinal("floor")) ? "N/A" : (string)reader["floor"],
                 reqid = reader.IsDBNull(reader.GetOrdinal("reqid")) ? 0 : (int)reader["reqid"],
                 Extradetails = reader.IsDBNull(reader.GetOrdinal("Extradetails")) ? "N/A" : (string)reader["Extradetails"],
                 active = (bool)reader["active"],
@@ -83,7 +83,41 @@ namespace AmsApi.Repository
             };
          }
 
-        internal async Task<List<LocationModel>> SearchAllLocations_Paginated(string Searchterm, int pageNumber, int pageSize, int lid, int aid, int tid, int uid, int bid, int cid, int did, int rid, int f,int stat)
+        internal async Task Insert(LocationModel location)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_LocationCreate", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.Add(new SqlParameter("@locid", location.locid));
+            //cmd.Parameters.Add(new SqlParameter("@Extradetails", location.Extradetails));
+            cmd.Parameters.Add(new SqlParameter("@uid", location.status));
+            cmd.Parameters.Add(new SqlParameter("@reqid", location.reqid));
+            cmd.Parameters.Add(new SqlParameter("@Asset", location.Asset));
+            cmd.Parameters.Add(new SqlParameter("@type", location.type));
+
+            cmd.Parameters.Add(new SqlParameter("@branch", location.branch));
+            cmd.Parameters.Add(new SqlParameter("@department", location.department));
+            cmd.Parameters.Add(new SqlParameter("@company", location.company));
+            cmd.Parameters.Add(new SqlParameter("@floor", location.floor));
+            cmd.Parameters.Add(new SqlParameter("@Extradetails", location.Extradetails));
+            cmd.Parameters.Add(new SqlParameter("@active", 1));
+            cmd.Parameters.Add(new SqlParameter("@Created_at", location.Created_at));
+            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returncode);
+            var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returnpart);
+
+            await sql.OpenAsync();
+            await cmd.ExecuteNonQueryAsync();
+            bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+            bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+
+            Itexists = itExists;
+            IsSuccess = isSuccess;
+            return;
+        }
+
+        internal async Task<List<LocationModel>> SearchAllLocations_Paginated(string Searchterm, int pageNumber, int pageSize, int lid, int aid, int tid, int uid, int bid, int cid, int did, int rid,int stat)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_SearchAllLocations_Paginated", sql);
@@ -99,7 +133,7 @@ namespace AmsApi.Repository
             cmd.Parameters.AddWithValue("@cid", cid);
             cmd.Parameters.AddWithValue("@did", did);
             cmd.Parameters.AddWithValue("@rid", rid);
-            cmd.Parameters.AddWithValue("@f", f);
+           // cmd.Parameters.AddWithValue("@f", f);
             cmd.Parameters.AddWithValue("@stat", stat);
             var response = new List<LocationModel>();
             await sql.OpenAsync();

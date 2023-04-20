@@ -181,7 +181,7 @@ namespace AmsApi.Repository
             {
                 Vendorid = (int)reader["Vendorid"],
                 Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? "N/A" : (string)reader["Name"],//.ToString()
-                InvoiceNo = reader.IsDBNull(reader.GetOrdinal("InvoiceNo")) ? "N/A" : (string)reader["InvoiceNo"],//.ToString()
+                //InvoiceNo = reader.IsDBNull(reader.GetOrdinal("InvoiceNo")) ? "N/A" : (string)reader["InvoiceNo"],//.ToString()
                 //InvoiceDate = (reader["InvoiceDate"] != DBNull.Value) ? Convert.ToDateTime(reader["InvoiceDate"]) : DateTime.MinValue,
                 //Warranty_Till = (reader["Warranty_Till"] != DBNull.Value) ? Convert.ToDateTime(reader["Warranty_Till"]) : DateTime.MinValue,
                 active = (bool)reader["active"],
@@ -199,7 +199,7 @@ namespace AmsApi.Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     //  cmd.Parameters.AddWithValue("@id", comp.Companyid);
                     cmd.Parameters.AddWithValue("@Name", vendor.Name);
-                    cmd.Parameters.AddWithValue("@InvoiceNo", vendor.InvoiceNo);
+                   // cmd.Parameters.AddWithValue("@InvoiceNo", vendor.InvoiceNo);
                     //cmd.Parameters.AddWithValue("@InvoiceDate", vendor.InvoiceDate);
                     //cmd.Parameters.AddWithValue("@Warranty_Till", vendor.Warranty_Till);
                     cmd.Parameters.AddWithValue("@active", 1);
@@ -248,7 +248,7 @@ namespace AmsApi.Repository
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", vendor.Vendorid);
                         cmd.Parameters.AddWithValue("@Name", vendor.Name);
-                        cmd.Parameters.AddWithValue("@InvoiceNo", vendor.InvoiceNo);
+                        //cmd.Parameters.AddWithValue("@InvoiceNo", vendor.InvoiceNo);
                         //cmd.Parameters.AddWithValue("@InvoiceDate", vendor.InvoiceDate);
                         //cmd.Parameters.AddWithValue("@Warranty_Till", vendor.Warranty_Till);
                         cmd.Parameters.AddWithValue("@active", 1);
