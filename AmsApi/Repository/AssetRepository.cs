@@ -230,8 +230,8 @@ namespace AmsApi.Repository
             //cmd.Parameters.Add(new SqlParameter("@Allocated_to", asset.Allocated_to));
             cmd.Parameters.Add(new SqlParameter("@Remarks", asset.Remarks));
             cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
-            cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.Created_at));
-            cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Created_at));
+            cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.InvoiceDate));
+            cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Warranty_Till));
             cmd.Parameters.Add(new SqlParameter("@active", 1));
 
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -365,8 +365,8 @@ namespace AmsApi.Repository
                 cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
                 cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
                 cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
-                cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.Created_at));
-                cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Created_at));
+                cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.InvoiceDate));
+                cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Warranty_Till));
                 cmd.Parameters.Add(new SqlParameter("@active", 1));
 
                 //var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
