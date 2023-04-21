@@ -87,6 +87,33 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
+        [HttpPost("Updatelocation")]
+        public async Task<IActionResult> Update([FromBody] LocationModel location)
+        {
+
+            var msg = new Message();
+            await _repository.Update(location);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "Item alredy registered";
+            }
+            else if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " new entry succesfully registered";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "registeration unscessfull";
+            }
+            return Ok(msg);
+        }
+
         // GET api/<locationController>/5
         //[HttpGet("{id}")]
         //public string Get(int id)

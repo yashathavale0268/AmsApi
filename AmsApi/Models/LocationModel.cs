@@ -14,6 +14,9 @@ namespace AmsApi.Models
         [DataMember(Name = "locid")]
         public int locid { get; set; }
 
+        [DataMember(Name = "location")]
+        public int location { get; set; }
+
         [DataMember(Name = "uid")]
         public int uid { get; set; }
 

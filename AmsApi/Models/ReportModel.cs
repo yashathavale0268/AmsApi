@@ -23,7 +23,7 @@ namespace AmsApi.Models
         [DataMember(Name = "spareassets")]
         public int spareassets { get; set; } = 0;
 
-        [DataMember(Name = " AssetsRequested")]
+        [DataMember(Name = "AssetsRequested")]
         public int AssetsRequested { get; set; } = 0;
 
         [DataMember(Name = "totalrecord")]

@@ -83,6 +83,40 @@ namespace AmsApi.Repository
             };
          }
 
+        internal async Task Update(LocationModel location)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_LocationCreate", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@locid", location.locid));
+            cmd.Parameters.Add(new SqlParameter("@location", location.location));
+            cmd.Parameters.Add(new SqlParameter("@uid", location.status));
+            cmd.Parameters.Add(new SqlParameter("@reqid", location.reqid));
+            cmd.Parameters.Add(new SqlParameter("@Asset", location.Asset));
+            cmd.Parameters.Add(new SqlParameter("@type", location.type));
+
+            cmd.Parameters.Add(new SqlParameter("@branch", location.branch));
+            cmd.Parameters.Add(new SqlParameter("@department", location.department));
+            cmd.Parameters.Add(new SqlParameter("@company", location.company));
+            cmd.Parameters.Add(new SqlParameter("@floor", location.floor));
+            cmd.Parameters.Add(new SqlParameter("@Extradetails", location.Extradetails));
+            cmd.Parameters.Add(new SqlParameter("@active", 1));
+            cmd.Parameters.Add(new SqlParameter("@Created_at", location.Created_at));
+            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returncode);
+            var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returnpart);
+
+            await sql.OpenAsync();
+            await cmd.ExecuteNonQueryAsync();
+            bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+            bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+
+            Itexists = itExists;
+            IsSuccess = isSuccess;
+            return;
+        }
+
         internal async Task Insert(LocationModel location)
         {
             using SqlConnection sql = new(_connectionString);
