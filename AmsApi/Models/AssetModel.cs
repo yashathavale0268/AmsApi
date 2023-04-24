@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -78,8 +79,9 @@ namespace AmsApi.Models
         [DataMember(Name = "Vendorid")]
         public int Vendorid { get; set; } = 0;
 
-        //[DataMember(Name = "Status")]
-        //public int Status { get; set; }
+        [DataMember(Name = "Status")]
+        public int Status { get; set; }
+
         [DataMember(Name = "Remarks")]
         public string Remarks { get; set; } = "";
 
@@ -95,10 +97,30 @@ namespace AmsApi.Models
 
         public bool active { get; set; } = true;
 
-       /// 
-       /// tables join columns~
-       /// 
 
+        [DataMember(Name = "Invoice_No")]
+        public string Invoice_No { get; set; } = "";
+
+        [DataMember(Name = "Location")]
+        public int Location { get; set; } = 0;
+
+        [DataMember(Name = "Uid")]
+        public string Uid { get; set; } = "";
+
+        /// 
+        /// tables join columns~
+        /// 
+
+        ///
+        /// transfertable ----------------------------------------------
+        /// 
+        [DataMember(Name = "TrfBranch")]
+        public int TrfBranch { get; set; }
+        [DataMember(Name = "Qty")]
+        public int Qty { get; set; }
+        [DataMember(Name = "Description")]
+        public int Description { get; set; }
+        /// -------------------------------------------------------------
         [DataMember(Name = "Branches")]
         public string Branches { get; set; } = "";
 
@@ -107,33 +129,13 @@ namespace AmsApi.Models
 
         [DataMember(Name = "Vendors")]
         public string Vendors { get; set; } = "";
-        //[DataMember(Name = "Statuses")]
-        //public string Statuses { get; set; }
+        [DataMember(Name = "StatusName")]
+        public string StatusName { get; set; } = "";
+
         [DataMember(Name = "totalrecord")]
         public int totalrecord { get; set; } = 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        [DataMember(Name = "LocationName")]
+        public string LocationName { get; set; } = "";
+        
     }
 }

@@ -197,7 +197,41 @@ namespace AmsApi.Controllers
             
             return Ok(msg);
         }
+        [HttpPost("Transfer")]
+        public async Task<IActionResult> Transfer([FromBody] AssetModel asset)
+        {
 
+            var msg = new Message();
+
+
+            //var GetAsset = await _repository.GetById(asset);
+            //if (GetAsset.Count>0)
+            //{
+
+            await _repository.Transfer(asset);
+            bool success = _repository.IsSuccess;
+            //bool exists = _repository.Itexists;
+            if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "values updated successfully";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " update unsuccessfull";
+            }
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "no values found"; 
+
+            //}
+
+
+            return Ok(msg);
+        }
         // DELETE api/values/5
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(int id=0)
