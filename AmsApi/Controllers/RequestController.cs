@@ -171,6 +171,36 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
+        [HttpGet("RequestAccepted/{id}")]
+        public async Task<IActionResult> RequestAccepted(int id, [FromQuery] int type = 0, [FromQuery] bool isAccepted = false)
+        {
+
+            var msg = new Message();
+            var GetRequest = await _repository.GetRequestId(id);
+            if (GetRequest.Count > 0)
+            {
+                await _repository.RequestAccepted(isAccepted, type, id);
+                bool success = _repository.IsSuccess;
+                if (success is true)
+                {
+                    msg.IsSuccess = true;
+                    msg.ReturnMessage = "request updated successfully";
+                }
+                else
+                {
+                    msg.IsSuccess = false;
+                    msg.ReturnMessage = "updated unsuccessfull";
+                }
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no id found";
+            }
+
+
+            return Ok(msg);
+        }
 
         [HttpGet("StatusChange/{id}")]
         public async Task<IActionResult> StatusChange(int id, [FromQuery] int type=0, [FromQuery] bool isworking=true, [FromQuery] bool inuse=false)
