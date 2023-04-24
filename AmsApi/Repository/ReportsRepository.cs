@@ -228,7 +228,7 @@ namespace AmsApi.Repository
 
             };
         }
-        public ReportModel MapToValue_New_Request(SqlDataReader reader)
+        public ReportModel MapToValue_InProcess(SqlDataReader reader)
         {
             return new ReportModel()
             {
@@ -357,10 +357,10 @@ namespace AmsApi.Repository
                 return response;
             }
         }
-        public async Task<List<ReportModel>> GetNew_RequestTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)//int pageNumber, int pageSize, string SearchString, int brcid, int typ
+        public async Task<List<ReportModel>> GetInProcessTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)//int pageNumber, int pageSize, string SearchString, int brcid, int typ
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_GetAllNew_RequestSpecific_total_Report", sql);
+            using SqlCommand cmd = new("sp_GetAllInProcessSpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -376,7 +376,7 @@ namespace AmsApi.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        response.Add(MapToValue_New_Request(reader));
+                        response.Add(MapToValue_InProcess(reader));
                     }
                 }
 

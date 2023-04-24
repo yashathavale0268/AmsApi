@@ -226,12 +226,12 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
-        [HttpGet("GetNew_RequestTable")] 
-        public async Task<ActionResult<IEnumerable<ReportModel>>> GetNew_RequestsTable(int pageNumber, int pageSize, string searchString, int brcid,int typ)
+        [HttpGet("GetInProcessTable")] 
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetInProcessTable(int pageNumber, int pageSize, string searchString, int brcid,int typ)
 
         {
             var msg = new Message();
-            var result = await _repository.GetNew_RequestTable(pageNumber, pageSize, searchString, brcid,typ);
+            var result = await _repository.GetInProcessTable(pageNumber, pageSize, searchString, brcid,typ);
 
             if (result.Count > 0)
             {
