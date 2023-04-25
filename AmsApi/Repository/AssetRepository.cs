@@ -84,7 +84,7 @@ namespace AmsApi.Repository
                 RAM= reader.IsDBNull(reader.GetOrdinal("RAM")) ? "N/A" : (string)reader["RAM"] ,
                 Inches= reader.IsDBNull(reader.GetOrdinal("Inches")) ? 0 : (int)reader["Inches"] ,
                 Port_Switch= reader.IsDBNull(reader.GetOrdinal("Port_Switch")) ? "N/A" : (string)reader["Port_Switch"] ,
-                Nos= reader.IsDBNull(reader.GetOrdinal("Port_Switch")) ? 0 : (int)reader["Nos"],
+                Nos= reader.IsDBNull(reader.GetOrdinal("Nos")) ? 0 : (int)reader["Nos"],
                 Specification= reader.IsDBNull(reader.GetOrdinal("Specification")) ? "N/A" : (string)reader["Specification"] ,
                 Vendorid= reader.IsDBNull(reader.GetOrdinal("Vendorid")) ? 0 : (int)reader["Vendorid"],
                 Vendors = reader.IsDBNull(reader.GetOrdinal("Vendors")) ? "N/A" : (string)reader["Vendors"] ,
@@ -400,8 +400,9 @@ namespace AmsApi.Repository
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_AssetTransfer", sql);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", asset.Assetid));
             cmd.Parameters.Add(new SqlParameter("@SerialNo", asset.SerialNo));
-            cmd.Parameters.Add(new SqlParameter("@Branch", asset.Branch));
+            cmd.Parameters.Add(new SqlParameter("@TrfBranch", asset.Branch));
             cmd.Parameters.Add(new SqlParameter("@Brand", asset.Brand));
             cmd.Parameters.Add(new SqlParameter("@Type", asset.Type));
             cmd.Parameters.Add(new SqlParameter("@Model", asset.Model));
@@ -417,7 +418,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@RAM", asset.RAM));
             cmd.Parameters.Add(new SqlParameter("@Inches", asset.Inches));
             cmd.Parameters.Add(new SqlParameter("@Port_Switch", asset.Port_Switch));
-            cmd.Parameters.Add(new SqlParameter("@Nos", asset.Nos));
+            cmd.Parameters.Add(new SqlParameter("@Qty", asset.Nos));
             cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
             cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
             cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
@@ -430,8 +431,8 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Warranty_Till));
             cmd.Parameters.Add(new SqlParameter("@active", 1));
             //-----------------------------------------------------------------------------
-            cmd.Parameters.Add(new SqlParameter("@TrfBranch", asset.TrfBranch));
-            cmd.Parameters.Add(new SqlParameter("@Qty", asset.Qty));
+            //cmd.Parameters.Add(new SqlParameter("@TrfBranch", asset.TrfBranch));
+            //cmd.Parameters.Add(new SqlParameter("@Qty", asset.Qty));
             cmd.Parameters.Add(new SqlParameter("@Description", asset.Description));
             //-----------------------------------------------------------------------------   
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
