@@ -118,7 +118,7 @@ namespace AmsApi.Controllers
                 msg.Data = (Userinfo);
 
 
-
+                #region comments
 
                 //var validatedtoken = _repository.Validatetoken(token, tokenkey);
                 //msg.Data = validatedtoken;
@@ -126,6 +126,7 @@ namespace AmsApi.Controllers
                 ////---if want to decode the token later---
                 //  tokenvalues = _repository.DecodeJwtPayload((token).ToString());
                 //   msg.Data = tokenvalues;
+                #endregion
             }
             else
             {
