@@ -119,7 +119,7 @@ namespace AmsApi.Models
         [DataMember(Name = "Qty")]
         public int Qty { get; set; }
         [DataMember(Name = "Description")]
-        public int Description { get; set; }
+        public string Description { get; set; }
         /// -------------------------------------------------------------
         [DataMember(Name = "Branches")]
         public string Branches { get; set; } = "";
