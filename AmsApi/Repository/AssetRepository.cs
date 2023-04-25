@@ -82,13 +82,13 @@ namespace AmsApi.Repository
                 Optical_Drive= reader.IsDBNull(reader.GetOrdinal("Optical_Drive")) ? "N/A" : (string)reader["Optical_Drive"] ,
                 HDD= reader.IsDBNull(reader.GetOrdinal("HDD")) ? "N/A" : (string)reader["HDD"] ,
                 RAM= reader.IsDBNull(reader.GetOrdinal("RAM")) ? "N/A" : (string)reader["RAM"] ,
-                Inches= reader.IsDBNull(reader.GetOrdinal("Inches")) ? "N/A" : (string)reader["Inches"] ,
+                Inches= reader.IsDBNull(reader.GetOrdinal("Inches")) ? 0 : (int)reader["Inches"] ,
                 Port_Switch= reader.IsDBNull(reader.GetOrdinal("Port_Switch")) ? "N/A" : (string)reader["Port_Switch"] ,
                 Nos= reader.IsDBNull(reader.GetOrdinal("Port_Switch")) ? 0 : (int)reader["Nos"],
                 Specification= reader.IsDBNull(reader.GetOrdinal("Specification")) ? "N/A" : (string)reader["Specification"] ,
                 Vendorid= reader.IsDBNull(reader.GetOrdinal("Vendorid")) ? 0 : (int)reader["Vendorid"],
                 Vendors = reader.IsDBNull(reader.GetOrdinal("Vendors")) ? "N/A" : (string)reader["Vendors"] ,
-                Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0 : (int)reader["Status"],
+                Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 3: (int)reader["Status"],
                 StatusName = reader.IsDBNull(reader.GetOrdinal("StatusName")) ? "N/A" : (string)reader["StatusName"],
                 //Allocated_to=(int)reader["Allocated_to"],
                 Invoice_No= reader.IsDBNull(reader.GetOrdinal("Invoice_No")) ? "N/A" : (string)reader["Invoice_No"],
@@ -342,8 +342,7 @@ namespace AmsApi.Repository
         #endregion 
         public async Task Update([FromBody] AssetModel asset)
         {
-            try {
-              
+            
                 using SqlConnection sql = new(_connectionString);
                 using SqlCommand cmd = new("sp_AssetCreate", sql);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -393,11 +392,7 @@ namespace AmsApi.Repository
               //  Itexists = itExists;
                 IsSuccess = isSuccess;
                 return;
-            }
-            catch(Exception)
-            {
-
-            }
+           
         }
         public async Task Transfer(AssetModel asset)
         {

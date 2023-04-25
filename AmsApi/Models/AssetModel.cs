@@ -65,7 +65,7 @@ namespace AmsApi.Models
         public string RAM { get; set; } = "";
 
         [DataMember(Name = "Inches")]
-        public string Inches { get; set; } = "";
+        public int Inches { get; set; } =0;
 
         [DataMember(Name = "Port_Switch")]
         public string Port_Switch { get; set; } = "";
@@ -115,9 +115,9 @@ namespace AmsApi.Models
         /// transfertable ----------------------------------------------
         /// 
         [DataMember(Name = "TrfBranch")]
-        public int TrfBranch { get; set; }
+        public Int64 TrfBranch { get; set; }
         [DataMember(Name = "Qty")]
-        public int Qty { get; set; }
+        public Int64 Qty { get; set; }
         [DataMember(Name = "Description")]
         public string Description { get; set; }
         /// -------------------------------------------------------------
