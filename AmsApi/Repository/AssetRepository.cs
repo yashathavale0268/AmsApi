@@ -78,7 +78,7 @@ namespace AmsApi.Repository
                 Battery_Type= reader.IsDBNull(reader.GetOrdinal("Battery_Type")) ? "N/A" : (string)reader["Battery_Type"] ,
                 Battery_Ampere= reader.IsDBNull(reader.GetOrdinal("Battery_Ampere")) ? "N/A" : (string)reader["Battery_Ampere"] ,
                 Battery_Capacity= reader.IsDBNull(reader.GetOrdinal("Battery_Capacity")) ? "N/A" : (string)reader["Battery_Capacity"] ,
-                GraphicsCard= reader.IsDBNull(reader.GetOrdinal("GraphicsCard")) ? "N /A" : (string)reader["GraphicsCard"] ,
+                GraphicsCard= reader.IsDBNull(reader.GetOrdinal("GraphicsCard")) ? "N/A" : (string)reader["GraphicsCard"] ,
                 Optical_Drive= reader.IsDBNull(reader.GetOrdinal("Optical_Drive")) ? "N/A" : (string)reader["Optical_Drive"] ,
                 HDD= reader.IsDBNull(reader.GetOrdinal("HDD")) ? "N/A" : (string)reader["HDD"] ,
                 RAM= reader.IsDBNull(reader.GetOrdinal("RAM")) ? "N/A" : (string)reader["RAM"] ,

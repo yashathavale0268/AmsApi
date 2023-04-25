@@ -55,7 +55,7 @@ namespace AmsApi.Models
         [DataMember(Name = "GraphicsCard")]
         public string GraphicsCard { get; set; } = "";
 
-        [DataMember(Name = "Optional_Drive")]
+        [DataMember(Name = "Optical_Drive")]
         public string Optical_Drive { get; set; } = "";
 
         [DataMember(Name = "HDD")]
