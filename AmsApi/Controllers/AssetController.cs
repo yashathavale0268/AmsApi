@@ -204,7 +204,7 @@ namespace AmsApi.Controllers
             var msg = new Message();
 
 
-            //var GetAsset = await _repository.GetById(asset);
+            var getasset = await _repository.GetId(asset.Assetid);
             //if (GetAsset.Count>0)
             //{
 
@@ -214,12 +214,12 @@ namespace AmsApi.Controllers
             if (success is true)
             {
                 msg.IsSuccess = true;
-                msg.ReturnMessage = "values updated successfully";
+                msg.ReturnMessage = "values transfered successfully";
             }
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = " update unsuccessfull";
+                msg.ReturnMessage = " transfer unsuccessfull";
             }
             //}
             //else
