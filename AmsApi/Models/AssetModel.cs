@@ -118,8 +118,8 @@ namespace AmsApi.Models
         //public Int64 TrfBranch { get; set; }
         //[DataMember(Name = "Qty")]
        // public Int64 Qty { get; set; }
-        [DataMember(Name = "Description")]
-        public string Description { get; set; }
+        //[DataMember(Name = "Description")]
+        //public string Description { get; set; }
         /// -------------------------------------------------------------
         [DataMember(Name = "Branches")]
         public string Branches { get; set; } = "";

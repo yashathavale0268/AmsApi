@@ -204,7 +204,6 @@ namespace AmsApi.Repository
 
         public async Task Insert(AssetModel asset)
         {
-            
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_AssetCreate", sql);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -433,7 +432,7 @@ namespace AmsApi.Repository
             //-----------------------------------------------------------------------------
             //cmd.Parameters.Add(new SqlParameter("@TrfBranch", asset.TrfBranch));
             //cmd.Parameters.Add(new SqlParameter("@Qty", asset.Qty));
-            cmd.Parameters.Add(new SqlParameter("@Description", asset.Description));
+           // cmd.Parameters.Add(new SqlParameter("@Description", asset.Description));
             //-----------------------------------------------------------------------------   
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);
