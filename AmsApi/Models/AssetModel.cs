@@ -13,85 +13,85 @@ namespace AmsApi.Models
         [Key]
         
         [DataMember(Name = "Assetid")]
-        public int Assetid { get; set; } = 0;
+        public int Assetid { get; set; } 
 
         [DataMember(Name = "SerialNo")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
-        public string SerialNo { get; set; } = "";
+        public string SerialNo { get; set; } 
         
         [DataMember(Name = "Branch")]
-        public int Branch { get; set; } = 0;
+        public int Branch { get; set; } 
 
 
         [DataMember(Name = "Brand")]
         //[RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
-        public string Brand { get; set; } = "";
+        public string Brand { get; set; } 
 
         [DataMember(Name = "Type")]
-        public int Type { get; set; } = 0;
+        public int Type { get; set; } 
         
         [DataMember(Name = "Model")]
 
-        public string Model { get; set; } = "";
+        public string Model { get; set; } 
 
         [DataMember(Name = "Processor_Type")]
-        public string Processor_Type { get; set; } = "";
+        public string Processor_Type { get; set; } 
 
         [DataMember(Name = "Monitor_Type")]
-        public string Monitor_Type { get; set; } = "";
+        public string Monitor_Type { get; set; } 
 
         [DataMember(Name = "Range_Type")]
-        public string Range_Type { get; set; } = "";
+        public string Range_Type { get; set; } 
 
         [DataMember(Name = "Battery_Type")] 
-        public string Battery_Type { get; set; } = "";
+        public string Battery_Type { get; set; } 
 
         [DataMember(Name = "Battery_Ampere")]
-        public string Battery_Ampere { get; set; } = "";
+        public string Battery_Ampere { get; set; } 
 
         [DataMember(Name = "Battery_Capacity")]
-        public string Battery_Capacity { get; set; } = "";
+        public string Battery_Capacity { get; set; } 
 
         [DataMember(Name = "GraphicsCard")]
-        public string GraphicsCard { get; set; } = "";
+        public string GraphicsCard { get; set; } 
 
         [DataMember(Name = "Optical_Drive")]
-        public string Optical_Drive { get; set; } = "";
+        public string Optical_Drive { get; set; }
 
         [DataMember(Name = "HDD")]
-        public string HDD { get; set; } = "";
+        public string HDD { get; set; } 
 
         [DataMember(Name = "RAM")]
-        public string RAM { get; set; } = "";
+        public string RAM { get; set; } 
 
         [DataMember(Name = "Inches")]
-        public int Inches { get; set; } =0;
+        public string Inches { get; set; }
 
         [DataMember(Name = "Port_Switch")]
-        public string Port_Switch { get; set; } = "";
+        public string Port_Switch { get; set; } 
 
         [DataMember(Name = "Nos")]
-        public int Nos { get; set; } = 0;
+        public int Nos { get; set; } 
 
         [DataMember(Name = "Specification")]
-        public string Specification { get; set; } = "";
+        public string Specification { get; set; } 
 
         [DataMember(Name = "Vendorid")]
-        public int Vendorid { get; set; } = 0;
+        public int Vendorid { get; set; } 
 
         [DataMember(Name = "Status")]
         public int Status { get; set; }
 
         [DataMember(Name = "Remarks")]
-        public string Remarks { get; set; } = "";
+        public string Remarks { get; set; } 
 
         [DataMember(Name = "Created_at")]
         public DateTime Created_at { get; set; } = DateTime.Now;
 
         [DataMember(Name = "InvoiceDate")]
-        public DateTime InvoiceDate { get; set; } = DateTime.Now;
+        public string InvoiceDate { get; set; } = null;
         [DataMember(Name = "Warranty_Till")]
-        public DateTime Warranty_Till{ get; set; } = DateTime.Now;
+        public string Warranty_Till { get; set; } = null;
 
         [DataMember(Name = "active")]
 
@@ -99,13 +99,13 @@ namespace AmsApi.Models
 
 
         [DataMember(Name = "Invoice_No")]
-        public string Invoice_No { get; set; } = "";
+        public string Invoice_No { get; set; } 
 
         [DataMember(Name = "Location")]
-        public int Location { get; set; } = 0;
+        public int Location { get; set; } 
 
         [DataMember(Name = "Uid")]
-        public string Uid { get; set; } = "";
+        public string Uid { get; set; } 
 
         /// 
         /// tables join columns~

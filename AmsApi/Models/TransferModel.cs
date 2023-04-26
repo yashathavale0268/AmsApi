@@ -13,25 +13,25 @@ namespace AmsApi.Models
         [Key]
 
         [DataMember(Name = "TrId")]
-        public int TrId { get; set; } = 0;
+        public int TrId { get; set; }
 
         [DataMember(Name = "Aid")]
-        public int Aid { get; set; } = 0;
+        public int Aid { get; set; } 
 
         [DataMember(Name = "Branch")]
-        public int Branch { get; set; } = 0;
+        public int Branch { get; set; } 
         ///
         [DataMember(Name = "Description")]
-        public string Description { get; set; } = "";
+        public string Description { get; set; } 
 
         [DataMember(Name = "Qty")]
-        public int Qty { get; set; } = 0;
+        public int Qty { get; set; } 
 
         [DataMember(Name = "Transferd_at")]
         public DateTime Transferd_at { get; set; } = DateTime.Now;
 
         [DataMember(Name = "TrfBranchName")]
-        public string TrfBranchName { get; set; } = "";
+        public string TrfBranchName { get; set; }
 
     }
 }

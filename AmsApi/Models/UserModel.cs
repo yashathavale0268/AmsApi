@@ -18,7 +18,6 @@ namespace AmsApi.Models
 
         [DataMember(Name = "Email")]
         
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
         //[RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", ErrorMessage = "Invalid email address.")]
 
        
