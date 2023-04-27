@@ -89,6 +89,7 @@ namespace AmsApi.Models
         public DateTime Created_at { get; set; } = DateTime.Now;
 
         [DataMember(Name = "InvoiceDate")]
+
         public string InvoiceDate { get; set; } = null;
         [DataMember(Name = "Warranty_Till")]
         public string Warranty_Till { get; set; } = null;
