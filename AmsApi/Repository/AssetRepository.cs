@@ -97,8 +97,8 @@ namespace AmsApi.Repository
                 Uid = reader.IsDBNull(reader.GetOrdinal("Uid")) ? "" : (string)reader["Uid"],
                 Remarks = reader.IsDBNull(reader.GetOrdinal("Remarks")) ? "" : (string)reader["Remarks"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
-                InvoiceDate = (reader["InvoiceDate"] == DBNull.Value) ? "" : Convert.ToDateTime(reader["InvoiceDate"]).ToString("dd/MM/yyyy HH:mm"),
-                Warranty_Till = (reader["Warranty_Till"] == DBNull.Value) ? "": Convert.ToDateTime(reader["Warranty_Till"]).ToString("dd/MM/yyyy HH:mm"),
+                InvoiceDate = (reader["InvoiceDate"] == DBNull.Value) ? "" : Convert.ToDateTime(reader["InvoiceDate"]).ToString("dd/MM/yyyy"),
+                Warranty_Till = (reader["Warranty_Till"] == DBNull.Value) ? "": Convert.ToDateTime(reader["Warranty_Till"]).ToString("dd/MM/yyyy"),
                 active = (bool)reader["active"],
                 totalrecord = (int)reader["totalrecord"]
                 
@@ -107,7 +107,7 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Vendid,int DateFilter,string StartDate ,string EndDate)//,string ptype,string mtype,string rtype , string btype )
+        public async Task<List<AssetModel>> SearchAssets(int pageNumber, int pageSize, string searchTerm, int Brcid ,int Typeid,int Vendid,int Statid,int DateFilter,string StartDate ,string EndDate)//,string ptype,string mtype,string rtype , string btype )
         {
       
             using SqlConnection sql = new(_connectionString);
@@ -120,10 +120,11 @@ namespace AmsApi.Repository
             cmd.Parameters.AddWithValue("@Brcid", Brcid);
             cmd.Parameters.AddWithValue("@Typeid", Typeid);
             cmd.Parameters.AddWithValue("@Vendid", Vendid);
+            cmd.Parameters.AddWithValue("@Statid", Statid);
             cmd.Parameters.AddWithValue("@DateFilter", DateFilter);
             cmd.Parameters.AddWithValue("@StartDate", StartDate);
             cmd.Parameters.AddWithValue("@EndDate", EndDate);
-            //cmd.Parameters.AddWithValue("@mtype", mtype);
+            
             //cmd.Parameters.AddWithValue("@rtype", rtype);
             //cmd.Parameters.AddWithValue("@btype", btype);
             var response = new List<AssetModel>();
