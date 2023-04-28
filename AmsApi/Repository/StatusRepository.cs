@@ -69,14 +69,16 @@ namespace AmsApi.Repository
             return new StatusModel()
             {
                Statusid = (int)reader["Statusid"],
-               Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0 : (int)reader["Status"],
+                Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0 : (int)reader["Status"],
                 Userid = reader.IsDBNull(reader.GetOrdinal("Userid")) ? 0 : (int)reader["Userid"],
                 Assetid = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0 : (int)reader["Assetid"],
+                Type = reader.IsDBNull(reader.GetOrdinal("Type")) ? 0 : (int)reader["Type"],
                 Requestid = reader.IsDBNull(reader.GetOrdinal("Requestid")) ? 0 : (int)reader["Requestid"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 active = (bool)reader["active"],
                 StatusNow = reader.IsDBNull(reader.GetOrdinal("StatusNow")) ? "N/A" : (string)reader["StatusNow"],
                 Asset = reader.IsDBNull(reader.GetOrdinal("Asset")) ? "N/A" : (string)reader["Asset"],
+                TypeName = reader.IsDBNull(reader.GetOrdinal("TypeName")) ? "N/A" : (string)reader["TypeName"],
                 Request = reader.IsDBNull(reader.GetOrdinal("Request")) ? "N/A" : (string)reader["Request"],
                 UserName = reader.IsDBNull(reader.GetOrdinal("UserName")) ? "N/A" : (string)reader["UserName"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0: (int)reader["totalrecord"]

@@ -23,6 +23,9 @@ namespace AmsApi.Models
         [DataMember(Name = "Assetid")]
 
         public int Assetid { get; set; }
+        [DataMember(Name = "Type")]
+
+        public int Type { get; set; }
 
         [DataMember(Name = "Requestid")]
         public int Requestid { get; set; }
@@ -39,6 +42,9 @@ namespace AmsApi.Models
         public string Request { get; set; }
         [DataMember(Name = "Asset")]
         public string Asset { get; set; }
+        [DataMember(Name = "TypeName")]
+
+        public string TypeName { get; set; }
         [DataMember(Name = "UserName")]
         public string UserName { get; set; }
 
