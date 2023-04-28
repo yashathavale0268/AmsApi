@@ -83,14 +83,14 @@ namespace AmsApi.Repository
         {
             return new RequestModel()
             {
-                Requestid = (int)reader["Requestid"],
+                Requestid = reader.IsDBNull(reader.GetOrdinal("Requestid")) ? 0 : (int)reader["Requestid"],
 
                 Userid = reader.IsDBNull(reader.GetOrdinal("Userid")) ? 0: (int)reader["Userid"],
 
            //     List<int> Assets = new List<int> {},
            //Assets = reader["Assets"].ToString(),
-           Assetid = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0: (int)reader["Assetid"],
-             Type = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0: (int)reader["Type"],
+           UniqueId = reader.IsDBNull(reader.GetOrdinal("UniqueId")) ? "": (string)reader["UniqueId"],
+             Type = reader.IsDBNull(reader.GetOrdinal("Type")) ? 0: (int)reader["Type"],
             Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Justify = reader.IsDBNull(reader.GetOrdinal("Justify")) ? "N/A" : (string)reader["Justify"],
                 Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0: (int)reader["Status"],

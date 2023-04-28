@@ -71,7 +71,7 @@ namespace AmsApi.Repository
                Statusid = (int)reader["Statusid"],
                 Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0 : (int)reader["Status"],
                 Userid = reader.IsDBNull(reader.GetOrdinal("Userid")) ? 0 : (int)reader["Userid"],
-                Assetid = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0 : (int)reader["Assetid"],
+                UniqueId = reader.IsDBNull(reader.GetOrdinal("UniqueId")) ? "" : (string)reader["UniqueId"],
                 Type = reader.IsDBNull(reader.GetOrdinal("Type")) ? 0 : (int)reader["Type"],
                 Requestid = reader.IsDBNull(reader.GetOrdinal("Requestid")) ? 0 : (int)reader["Requestid"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
@@ -176,7 +176,7 @@ namespace AmsApi.Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", stat.Statusid);
                     cmd.Parameters.AddWithValue("@Userid", stat.Userid);
-                    cmd.Parameters.AddWithValue("@Assetid", stat.Assetid);
+                    cmd.Parameters.AddWithValue("@Assetid", stat.UniqueId);
                     cmd.Parameters.AddWithValue("@Requestid", stat.Requestid);
                     cmd.Parameters.AddWithValue("@Creat_at", stat.Created_at);
                     cmd.Parameters.AddWithValue("@active", 1);
@@ -224,7 +224,7 @@ namespace AmsApi.Repository
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddWithValue("@id", stat.Statusid);
                                 cmd.Parameters.AddWithValue("@Userid", stat.Userid);
-                                cmd.Parameters.AddWithValue("@Assetid", stat.Assetid);
+                                cmd.Parameters.AddWithValue("@Assetid", stat.UniqueId);
                                 cmd.Parameters.AddWithValue("@Requestid", stat.Requestid);
                                 cmd.Parameters.AddWithValue("@Creat_at", stat.Created_at);
                                 cmd.Parameters.AddWithValue("@active", 1);

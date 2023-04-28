@@ -20,9 +20,9 @@ namespace AmsApi.Models
         [DataMember(Name = "Userid")]
         public int Userid { get; set; }
 
-        [DataMember(Name = "Assetid")]
+        [DataMember(Name = "UniqueId")]
 
-        public int Assetid { get; set; }
+        public string UniqueId { get; set; }
         [DataMember(Name = "Type")]
 
         public int Type { get; set; }
