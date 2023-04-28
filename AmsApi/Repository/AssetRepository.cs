@@ -396,46 +396,19 @@ namespace AmsApi.Repository
                 return;
            
         }
-        public async Task Transfer(AssetModel asset)
+        public async Task Transfer( int id, int Branch,int TrfBranch, string Description)
         {
 
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_AssetTransfer", sql);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@id", asset.Assetid));
-            cmd.Parameters.Add(new SqlParameter("@SerialNo", asset.SerialNo));
-            cmd.Parameters.Add(new SqlParameter("@Branch", asset.Branch));
-            //cmd.Parameters.Add(new SqlParameter("@Brand", asset.Brand));
-            //cmd.Parameters.Add(new SqlParameter("@Type", asset.Type));
-            //cmd.Parameters.Add(new SqlParameter("@Model", asset.Model));
-            //cmd.Parameters.Add(new SqlParameter("@Processor_Type", asset.Processor_Type));
-            //cmd.Parameters.Add(new SqlParameter("@Monitor_Type", asset.Monitor_Type));
-            //cmd.Parameters.Add(new SqlParameter("@Range_Type", asset.Range_Type));
-            //cmd.Parameters.Add(new SqlParameter("@Battery_Type", asset.Battery_Type));
-            //cmd.Parameters.Add(new SqlParameter("@Battery_Ampere", asset.Battery_Ampere));
-            //cmd.Parameters.Add(new SqlParameter("@Battery_Capacity", asset.Battery_Capacity));
-            //cmd.Parameters.Add(new SqlParameter("@GraphicsCard", asset.GraphicsCard));
-            //cmd.Parameters.Add(new SqlParameter("@Optical_Drive", asset.Optical_Drive));
-            //cmd.Parameters.Add(new SqlParameter("@HDD", asset.HDD));
-            //cmd.Parameters.Add(new SqlParameter("@RAM", asset.RAM));
-            //cmd.Parameters.Add(new SqlParameter("@Inches", asset.Inches));
-            //cmd.Parameters.Add(new SqlParameter("@Port_Switch", asset.Port_Switch));
-            cmd.Parameters.Add(new SqlParameter("@Qty", asset.Nos));
-            //cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
-            //cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
-            //cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
-            //cmd.Parameters.Add(new SqlParameter("@Invoice_No", asset.Invoice_No));
-            //cmd.Parameters.Add(new SqlParameter("@Location", asset.Location));
-            //cmd.Parameters.Add(new SqlParameter("@Uid", asset.Uid));
-            //cmd.Parameters.Add(new SqlParameter("@Remarks", asset.Remarks));
-            //cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
-            //cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.InvoiceDate));
-            //cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Warranty_Till));
-            //cmd.Parameters.Add(new SqlParameter("@active", 1));
+            cmd.Parameters.Add(new SqlParameter("@id", id));
+            //cmd.Parameters.Add(new SqlParameter("@SerialNo", asset.SerialNo));
+            cmd.Parameters.Add(new SqlParameter("@Branch", Branch));
             //-----------------------------------------------------------------------------
-          //------  cmd.Parameters.Add(new SqlParameter("@TrfBranch", asset.TrfBranch));
-          //  cmd.Parameters.Add(new SqlParameter("@Qty", asset.Qty));
-          //------  cmd.Parameters.Add(new SqlParameter("@Description", asset.Description));
+            cmd.Parameters.Add(new SqlParameter("@TrfBranch", TrfBranch));
+           // cmd.Parameters.Add(new SqlParameter("@Qty", asset.Qty));
+            cmd.Parameters.Add(new SqlParameter("@Description",Description));
             //-----------------------------------------------------------------------------   
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);
