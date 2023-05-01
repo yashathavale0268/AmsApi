@@ -33,5 +33,9 @@ namespace AmsApi.Models
         [DataMember(Name = "TrfBranchName")]
         public string TrfBranchName { get; set; }
 
+        [DataMember(Name = "TrfBranchName")]
+        public int totalrecord { get; set; }
+
+
     }
 }

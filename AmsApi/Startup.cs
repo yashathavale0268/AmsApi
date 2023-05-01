@@ -230,7 +230,7 @@ namespace AmsApi
             services.AddScoped<ScrapRepository>();
             services.AddScoped<LocationRepository>();
             services.AddScoped<ReportsRepository>();
-          
+            services.AddScoped<TransferRepository>();
             services.AddMvc();
           // services.Configure<DbContext>(Configuration.GetSection("Maincon"));
            // services.AddDbContext<IdentityDbcontext>(options => 
