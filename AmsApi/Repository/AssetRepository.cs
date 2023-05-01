@@ -396,7 +396,7 @@ namespace AmsApi.Repository
                 return;
            
         }
-        public async Task Transfer( int id, int Branch,int TrfBranch, string Description)
+        public async Task Transfer( int id, int Branch, string Description)
         {
 
             using SqlConnection sql = new(_connectionString);
@@ -406,7 +406,7 @@ namespace AmsApi.Repository
             //cmd.Parameters.Add(new SqlParameter("@SerialNo", asset.SerialNo));
             cmd.Parameters.Add(new SqlParameter("@Branch", Branch));
             //-----------------------------------------------------------------------------
-            cmd.Parameters.Add(new SqlParameter("@TrfBranch", TrfBranch));
+            //cmd.Parameters.Add(new SqlParameter("@TrfBranch", TrfBranch));
            // cmd.Parameters.Add(new SqlParameter("@Qty", asset.Qty));
             cmd.Parameters.Add(new SqlParameter("@Description",Description));
             //-----------------------------------------------------------------------------   

@@ -198,7 +198,7 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         [HttpPost("Transfer")]
-        public async Task<IActionResult> Transfer(int id, int Branch, int TrfBranch, string Description)
+        public async Task<IActionResult> Transfer(int id, int Branch, string Description)
         {
 
             var msg = new Message();
@@ -208,7 +208,7 @@ namespace AmsApi.Controllers
             //if (GetAsset.Count>0)
             //{
 
-            await _repository.Transfer(id,Branch,TrfBranch,Description);
+            await _repository.Transfer(id,Branch,Description);
             bool success = _repository.IsSuccess;
             //bool exists = _repository.Itexists;
             if (success is true)
