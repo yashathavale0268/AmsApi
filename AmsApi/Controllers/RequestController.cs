@@ -203,7 +203,7 @@ namespace AmsApi.Controllers
         }
 
         [HttpGet("StatusChange/{id}")]
-        public async Task<IActionResult> StatusChange(int id, [FromQuery] int type=0, [FromQuery] bool isworking=true, [FromQuery] bool inuse=false,string UniqueId=null,String SerialNo=null)
+        public async Task<IActionResult> StatusChange(int id, [FromQuery] int type=0, [FromQuery] bool isworking=true, [FromQuery] bool inuse=false, [FromQuery] string UniqueId =null, [FromQuery] String SerialNo =null)
         {
 
             var msg = new Message();
