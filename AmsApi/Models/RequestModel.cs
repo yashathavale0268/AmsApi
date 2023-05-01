@@ -14,7 +14,9 @@ namespace AmsApi.Models
         [DataMember(Name = "Userid")]
         public int Userid { get; set; }
 
-        
+        [DataMember(Name = "Branch")]
+        public int Branch { get; set; }
+
         [DataMember(Name = "UniqueId")]
       
      
@@ -61,6 +63,7 @@ namespace AmsApi.Models
 
         public int specialrecord { get; set; }
 
-
+        [DataMember(Name = "BranchName")]
+        public string BranchName { get; set; }
     }
 }

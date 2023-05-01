@@ -93,6 +93,7 @@ namespace AmsApi.Repository
              Type = reader.IsDBNull(reader.GetOrdinal("Type")) ? 0: (int)reader["Type"],
             Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 Justify = reader.IsDBNull(reader.GetOrdinal("Justify")) ? "N/A" : (string)reader["Justify"],
+                Branch=reader.IsDBNull(reader.GetOrdinal("Branch"))? 0 :(int)reader["Branch"],
                 Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 0: (int)reader["Status"],
                 active = (bool)reader["active"],
                 isworking=(bool)reader["isworking"],
@@ -103,6 +104,7 @@ namespace AmsApi.Repository
                 UserName= reader.IsDBNull(reader.GetOrdinal("UserName")) ? "N/A" : (string)reader["UserName"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
                 specialrecord= reader.IsDBNull(reader.GetOrdinal("specialrecord")) ? 0 : (int)reader["specialrecord"],
+                BranchName=reader.IsDBNull(reader.GetOrdinal("BranchName"))?"":(string)reader["BranchName"],
             };
 
         }
@@ -157,7 +159,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task StatusChange(bool isworking, bool inuse, int type, int id)
+        internal async Task StatusChange(string UniqueId, string SerialNo, bool isworking, bool inuse, int type, int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -170,6 +172,9 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@type", type);
                     cmd.Parameters.AddWithValue("@isworking", isworking);
                     cmd.Parameters.AddWithValue("@inuse", inuse);
+                    cmd.Parameters.AddWithValue("@Uniqueid", UniqueId);
+                    cmd.Parameters.AddWithValue("@SerialNo", SerialNo);
+
 
                     var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(returnpart);
