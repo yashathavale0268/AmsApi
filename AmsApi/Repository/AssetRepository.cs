@@ -100,7 +100,7 @@ namespace AmsApi.Repository
                 InvoiceDate = (reader["InvoiceDate"] == DBNull.Value) ? "" : Convert.ToDateTime(reader["InvoiceDate"]).ToString("yyyy/MM/dd"),
 
                 Warranty_Till = (reader["Warranty_Till"] == DBNull.Value) ? "": Convert.ToDateTime(reader["Warranty_Till"]).ToString("yyyy/MM/dd"),
-                active = (bool)reader["active"],
+                IsTransfered = (bool)reader["IsTransfered"],
                 totalrecord = (int)reader["totalrecord"]
                 
                

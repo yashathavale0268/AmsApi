@@ -90,13 +90,13 @@ namespace AmsApi.Models
 
         [DataMember(Name = "InvoiceDate")]
 
-        public string InvoiceDate { get; set; } = null;
+        public string InvoiceDate { get; set; }
         [DataMember(Name = "Warranty_Till")]
-        public string Warranty_Till { get; set; } = null;
+        public string Warranty_Till { get; set; }
 
-        [DataMember(Name = "active")]
+        [DataMember(Name = "IsTransfered")]
 
-        public bool active { get; set; } = true;
+        public bool IsTransfered { get; set; } 
 
 
         [DataMember(Name = "Invoice_No")]
