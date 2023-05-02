@@ -47,7 +47,7 @@ namespace AmsApi.Repository
             return new TransferModel()
             {
                 TrId = (int)reader["TrId"],
-                
+                Aid = reader.IsDBNull(reader.GetOrdinal("Aid")) ? 0 : (int)reader["Aid"],
                 Branch = reader.IsDBNull(reader.GetOrdinal("Branch")) ? 0 : (int)reader["Branch"],
                
                 Qty = reader.IsDBNull(reader.GetOrdinal("Qty")) ? 0 : (int)reader["Qty"],
