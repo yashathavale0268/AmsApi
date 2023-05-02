@@ -64,7 +64,7 @@ namespace AmsApi.Repository
             };
         }
 
-        public async Task<List<TransferModel>> SearchTransfers(int pageNumber, int pageSize)
+        public async Task<List<TransferModel>> SearchTransfers(int pageNumber, int pageSize,int id)
         {  
                 using SqlConnection sql = new(_connectionString);
                 using SqlCommand cmd = new("sp_SearchAllTransfers_Paginated", sql);
@@ -72,7 +72,7 @@ namespace AmsApi.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
                 cmd.Parameters.AddWithValue("@PageSize", pageSize);
-                //cmd.Parameters.AddWithValue("@rtype", rtype);
+                cmd.Parameters.AddWithValue("@id", id);
                 //cmd.Parameters.AddWithValue("@btype", btype);
                 var response = new List<TransferModel>();
                 await sql.OpenAsync();

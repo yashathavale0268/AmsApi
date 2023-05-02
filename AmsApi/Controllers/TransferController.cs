@@ -42,10 +42,10 @@ namespace AmsApi.Controllers
 
         // POST api/values
         [HttpGet("GetAllTransfers")]
-        public async Task<ActionResult<IEnumerable<TransferModel>>> SearchTransfers ([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
+        public async Task<ActionResult<IEnumerable<TransferModel>>> SearchTransfers ([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] int id=0)//, [FromQuery] string ptype=null, [FromQuery] string mtype=null, [FromQuery] string rtype =null, [FromQuery] string btype=null)
         {
             var msg = new Message();
-            var transfers = await _repository.SearchTransfers(pageNumber, pageSize);//,ptype,mtype,rtype,btype);
+            var transfers = await _repository.SearchTransfers(pageNumber, pageSize,id);//,ptype,mtype,rtype,btype);
             if (transfers.Count > 0)
             {
                 msg.IsSuccess = true;
