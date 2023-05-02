@@ -73,6 +73,25 @@ namespace AmsApi.Repository
             }
         }
 
+        //internal async Task<DataSet> GetScrapsTable(int brch, int typ)
+        //{
+            
+        //    using SqlConnection sql = new(_connectionString);
+        //    using SqlCommand cmd = new("sp_GetSpecific_total_Report", sql);
+        //    {
+
+        //        cmd.CommandType = CommandType.StoredProcedure;
+
+        //        cmd.Parameters.AddWithValue("@brch", brch);
+
+        //        cmd.Parameters.AddWithValue("@typ", typ);
+        //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //        DataSet dataSet = new DataSet();
+        //        adapter.Fill(dataSet);
+
+        //        return await Task.FromResult(dataSet);
+        //    }
+        //}
         private ReportModel MapToValue_qty(SqlDataReader reader)
         {
             return new ReportModel()
@@ -181,15 +200,15 @@ namespace AmsApi.Repository
         {
             return new ReportModel()
             {
-                userinfo = reader.IsDBNull(reader.GetOrdinal("userinfo")) ? "N/A" : (string)reader["userinfo"],
-                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
+                userinfo = reader.IsDBNull(reader.GetOrdinal("userinfo")) ? null : (string)reader["userinfo"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
-                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
 
                 assetsinUse = reader.IsDBNull(reader.GetOrdinal("assetsinUse")) ? 0 : (int)reader["assetsinUse"],
 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
-                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
@@ -198,9 +217,9 @@ namespace AmsApi.Repository
             return new ReportModel()
             {
                 //userinfo = (string)reader["userinfo"],
-                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
-                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
 
                 
 
@@ -208,7 +227,7 @@ namespace AmsApi.Repository
 
 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
-                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
@@ -217,13 +236,13 @@ namespace AmsApi.Repository
             return new ReportModel()
             {
                 //userinfo = (string)reader["userinfo"],
-                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
-                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
 
                 workingassets = reader.IsDBNull(reader.GetOrdinal("workingassets")) ? 0 : (int)reader["workingassets"],
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
-                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
 
             };
@@ -232,19 +251,37 @@ namespace AmsApi.Repository
         {
             return new ReportModel()
             {
-                userinfo = reader.IsDBNull(reader.GetOrdinal("userinfo")) ? "N/A" : (string)reader["userinfo"],
-                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? "N/A" : (string)reader["branch"],
+                userinfo = reader.IsDBNull(reader.GetOrdinal("userinfo")) ? null : (string)reader["userinfo"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
-                type = reader.IsDBNull(reader.GetOrdinal("type")) ? "N/A" : (string)reader["type"],
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
                 AssetsRequested = reader.IsDBNull(reader.GetOrdinal("AssetsRequested")) ? 0 : (int)reader["AssetsRequested"],
                 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
-                status = reader.IsDBNull(reader.GetOrdinal("status")) ? "N/A" : (string)reader["status"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
 
             };
         }
+        public ReportModel MapToValue_isScraped(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+                //userinfo = (string)reader["userinfo"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
+
+
+
+                scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
+
+
+                Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
+            };
+        }
         internal async Task<DataSet> GetscrapReport(int srp)
         {
             using SqlConnection sql = new(_connectionString);
@@ -383,5 +420,33 @@ namespace AmsApi.Repository
                 return response;
             }
         }
+        public async Task<List<ReportModel>> GetScrapsTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllScrapsSpecific_total_Report", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@pagenumber", pageNumber);
+                cmd.Parameters.AddWithValue("@pagesize", pageSize);
+                cmd.Parameters.AddWithValue("@searchstring", searchString);
+                cmd.Parameters.AddWithValue("@brcid", brcid);
+                cmd.Parameters.AddWithValue("@typ", typ);
+
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_isScraped(reader));
+                    }
+                }
+
+                return response;
+            }
+        }
+
     }
 }

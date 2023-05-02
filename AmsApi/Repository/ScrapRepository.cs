@@ -129,10 +129,10 @@ namespace AmsApi.Repository
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
 
                 active = (bool)reader["active"],
-                AssetName = reader.IsDBNull(reader.GetOrdinal("AssetName")) ? "N/A" : (string)reader["AssetName"],
-                BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? "N/A" : (string)reader["BranchName"],
-                VendorName = reader.IsDBNull(reader.GetOrdinal("VendorName")) ? "N/A" : (string)reader["VendorName"],
-                LastUser = reader.IsDBNull(reader.GetOrdinal("LastUser")) ? "N/A" : (string)reader["LastUser"],
+                AssetName = reader.IsDBNull(reader.GetOrdinal("AssetName")) ? null : (string)reader["AssetName"],
+                BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? null : (string)reader["BranchName"],
+                VendorName = reader.IsDBNull(reader.GetOrdinal("VendorName")) ? null : (string)reader["VendorName"],
+                LastUser = reader.IsDBNull(reader.GetOrdinal("LastUser")) ? null : (string)reader["LastUser"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"]
             };
         }

@@ -51,9 +51,9 @@ namespace AmsApi.Repository
                 Branch = reader.IsDBNull(reader.GetOrdinal("Branch")) ? 0 : (int)reader["Branch"],
                
                 Qty = reader.IsDBNull(reader.GetOrdinal("Qty")) ? 0 : (int)reader["Qty"],
-                Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? "" : (string)reader["Description"],
+                Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null: (string)reader["Description"],
                 
-                TrfBranchName = reader.IsDBNull(reader.GetOrdinal("TrfBranchName")) ? "" : (string)reader["TrfBranchName"],
+                TrfBranchName = reader.IsDBNull(reader.GetOrdinal("TrfBranchName")) ? null : (string)reader["TrfBranchName"],
                 //Allocated_to=(int)reader["Allocated_to"],
                
                 Transferd_at = (reader["Transferd_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Transferd_at"]) : DateTime.MinValue,

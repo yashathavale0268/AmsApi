@@ -83,22 +83,22 @@ namespace AmsApi.Repository
             return new UserModel()
             {
                 Userid = (int)reader["UserId"],
-                Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "N/A" : (string)reader["Email"],
-                Username = reader.IsDBNull(reader.GetOrdinal("Username")) ? "N/A" : (string)reader["Username"],
-                First_name = reader.IsDBNull(reader.GetOrdinal("First_name")) ? "N/A" : (string)reader["First_name"],
-                Last_name = reader.IsDBNull(reader.GetOrdinal("Last_name")) ? "N/A" : (string)reader["Last_name"],
+                Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? null : (string)reader["Email"],
+                Username = reader.IsDBNull(reader.GetOrdinal("Username")) ? null : (string)reader["Username"],
+                First_name = reader.IsDBNull(reader.GetOrdinal("First_name")) ? null : (string)reader["First_name"],
+                Last_name = reader.IsDBNull(reader.GetOrdinal("Last_name")) ? null : (string)reader["Last_name"],
                 Department = reader.IsDBNull(reader.GetOrdinal("Department")) ? 0: (int)reader["Department"],
                 Branch = reader.IsDBNull(reader.GetOrdinal("Branch")) ? 0: (int)reader["Branch"],
-                Floor = reader.IsDBNull(reader.GetOrdinal("Floor")) ? "N/A" : (string)reader["Floor"],
+                Floor = reader.IsDBNull(reader.GetOrdinal("Floor")) ? null : (string)reader["Floor"],
                 Company = reader.IsDBNull(reader.GetOrdinal("Company")) ? 0: (int)reader["Company"],
                 Role = reader.IsDBNull(reader.GetOrdinal("Role")) ? 0: (int)reader["Role"],
-                RoleName= reader.IsDBNull(reader.GetOrdinal("RoleName")) ? "N/A" : (string)reader["RoleName"],
+                RoleName= reader.IsDBNull(reader.GetOrdinal("RoleName")) ? null : (string)reader["RoleName"],
                 //Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 //active = (bool)reader["active"],
-                DepartmentName = reader.IsDBNull(reader.GetOrdinal("DepartmentName")) ? "N/A" : (string)reader["DepartmentName"],
-                CompanyName = reader.IsDBNull(reader.GetOrdinal("CompanyName")) ? "N/A" : (string)reader["CompanyName"],
-                BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? "N/A" : (string)reader["BranchName"],
-                Full_name = reader.IsDBNull(reader.GetOrdinal("Full_name")) ? "N/A" : (string)reader["Full_name"],
+                DepartmentName = reader.IsDBNull(reader.GetOrdinal("DepartmentName")) ? null : (string)reader["DepartmentName"],
+                CompanyName = reader.IsDBNull(reader.GetOrdinal("CompanyName")) ? null : (string)reader["CompanyName"],
+                BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? null : (string)reader["BranchName"],
+                Full_name = reader.IsDBNull(reader.GetOrdinal("Full_name")) ? null : (string)reader["Full_name"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"]
             };
         }

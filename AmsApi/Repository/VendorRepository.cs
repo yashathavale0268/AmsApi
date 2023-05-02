@@ -180,7 +180,7 @@ namespace AmsApi.Repository
             return new VendorModel()
             {
                 Vendorid = (int)reader["Vendorid"],
-                Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? "N/A" : (string)reader["Name"],//.ToString()
+                Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? null : (string)reader["Name"],//.ToString()
                 //InvoiceNo = reader.IsDBNull(reader.GetOrdinal("InvoiceNo")) ? "N/A" : (string)reader["InvoiceNo"],//.ToString()
                 //InvoiceDate = (reader["InvoiceDate"] != DBNull.Value) ? Convert.ToDateTime(reader["InvoiceDate"]) : DateTime.MinValue,
                 //Warranty_Till = (reader["Warranty_Till"] != DBNull.Value) ? Convert.ToDateTime(reader["Warranty_Till"]) : DateTime.MinValue,

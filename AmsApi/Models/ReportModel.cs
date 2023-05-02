@@ -15,19 +15,25 @@ namespace AmsApi.Models
         //numbers from qty not Nos
         //---------------
         [DataMember(Name = "assetsinUse")]
-        public int assetsinUse { get; set; } = 0;
+        public int assetsinUse { get; set; }
 
         [DataMember(Name = "workingassets")]
-        public int workingassets { get; set; } = 0;
+        public int workingassets { get; set; }
 
         [DataMember(Name = "spareassets")]
-        public int spareassets { get; set; } = 0;
+        public int spareassets { get; set; }
+            
+        
+        [DataMember(Name = "scrapedassets")]
+        public int scrapedassets { get; set; }
+
+       
 
         [DataMember(Name = "AssetsRequested")]
-        public int AssetsRequested { get; set; } = 0;
+        public int AssetsRequested { get; set; } 
 
         [DataMember(Name = "totalrecord")]
-        public int totalrecord { get; set; } = 0;
+        public int totalrecord { get; set; } 
 
         [DataMember(Name = "status")]
         public string status { get; set; }

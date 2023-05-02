@@ -250,11 +250,11 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
         [HttpGet]
-        [Route("Qty")]
-        public async Task<ActionResult<IEnumerable<ReportModel>>> GetQty()  //
+        [Route("GetScrapsTable")]
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetScrapsTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)  //
         {                                                    //GetAllUser(int pageNumber, int pageSize)
             var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
-            var AssetReport = await _repository.GetQty();
+            var AssetReport = await _repository.GetScrapsTable(pageNumber, pageSize, searchString, brcid, typ);
             if (AssetReport is not null)
             {
 
