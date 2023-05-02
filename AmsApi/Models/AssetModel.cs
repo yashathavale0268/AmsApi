@@ -123,20 +123,20 @@ namespace AmsApi.Models
         //public string Description { get; set; }
         /// -------------------------------------------------------------
         [DataMember(Name = "Branches")]
-        public string Branches { get; set; } = "";
+        public string Branches { get; set; }
 
         [DataMember(Name = "TypeName")]
-        public string TypeName { get; set; } = "";
+        public string TypeName { get; set; }
 
         [DataMember(Name = "Vendors")]
-        public string Vendors { get; set; } = "";
+        public string Vendors { get; set; } 
         [DataMember(Name = "StatusName")]
-        public string StatusName { get; set; } = "";
+        public string StatusName { get; set; } 
 
         [DataMember(Name = "totalrecord")]
-        public int totalrecord { get; set; } = 0;
+        public int totalrecord { get; set; }
         [DataMember(Name = "LocationName")]
-        public string LocationName { get; set; } = "";
+        public string LocationName { get; set; } 
         
     }
 }
