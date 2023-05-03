@@ -269,6 +269,25 @@ namespace AmsApi.Controllers
             }
             return Ok(msg);
         }
+        [HttpGet]
+        [Route("GetAllSentForFixTable")]
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetAllSentForFixTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)  //
+        {                                                    //GetAllUser(int pageNumber, int pageSize)
+            var msg = new Message();                         //GetAllUser(PageNumber, PageSize);
+            var AssetReport = await _repository.GetAllSentForFixTable(pageNumber, pageSize, searchString, brcid, typ);
+            if (AssetReport is not null)
+            {
 
+                msg.IsSuccess = true;
+                msg.Data = AssetReport;
+
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no user found";
+            }
+            return Ok(msg);
+        }
     }
 }

@@ -29,11 +29,11 @@ namespace AmsApi.Models
         /// <summary>
         /// //////////////////////////////////////////////////////
         /// </summary>
-        [DataMember(Name = "sentformaintainence")]
-        public int sentformaintainence { get; set; }
+        [DataMember(Name = "SentForFix")]
+        public int SentForFix { get; set; }
 
-        [DataMember(Name = "readyforscrap")]
-        public int readyforscrap { get; set; }
+        [DataMember(Name = "ReadyForScrap")]
+        public int ReadyForScrap { get; set; }
 
         /// <summary>
         /// //////////////////////////////////////////////////////

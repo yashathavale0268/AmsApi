@@ -282,6 +282,26 @@ namespace AmsApi.Repository
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
+
+        public ReportModel MapToValue_SentForFix(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+                //userinfo = (string)reader["userinfo"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
+
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
+
+
+
+                SentForFix = reader.IsDBNull(reader.GetOrdinal("SentForFix")) ? 0 : (int)reader["SentForFix"],
+
+
+                Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
+            };
+        }
         internal async Task<DataSet> GetscrapReport(int srp)
         {
             using SqlConnection sql = new(_connectionString);
@@ -420,10 +440,39 @@ namespace AmsApi.Repository
                 return response;
             }
         }
+       
         public async Task<List<ReportModel>> GetScrapsTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllScrapsSpecific_total_Report", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@pagenumber", pageNumber);
+                cmd.Parameters.AddWithValue("@pagesize", pageSize);
+                cmd.Parameters.AddWithValue("@searchstring", searchString);
+                cmd.Parameters.AddWithValue("@brcid", brcid);
+                cmd.Parameters.AddWithValue("@typ", typ);
+
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_isScraped(reader));
+                    }
+                }
+
+                return response;
+            }
+        }
+
+        public async Task<List<ReportModel>> GetAllSentForFixTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllMaintenanceSpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
