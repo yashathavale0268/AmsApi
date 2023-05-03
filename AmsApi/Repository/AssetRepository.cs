@@ -100,7 +100,8 @@ namespace AmsApi.Repository
                 RAM = reader.IsDBNull(reader.GetOrdinal("RAM")) ? null : (string)reader["RAM"],
                 Inches = reader.IsDBNull(reader.GetOrdinal("Inches")) ? null : (string)reader["Inches"],
                 Port_Switch = reader.IsDBNull(reader.GetOrdinal("Port_Switch")) ? null : (string)reader["Port_Switch"],
-                Nos = reader.IsDBNull(reader.GetOrdinal("Nos")) ? 0 : (int)reader["Nos"],
+                //Nos = reader.IsDBNull(reader.GetOrdinal("Nos")) ? 0 : (int)reader["Nos"],
+                LastAllocated_To = reader.IsDBNull(reader.GetOrdinal("LastAllocated_To")) ? 0 : (int)reader["LastAllocated_To"],
                 Specification = reader.IsDBNull(reader.GetOrdinal("Specification")) ? null : (string)reader["Specification"],
                 Vendorid = reader.IsDBNull(reader.GetOrdinal("Vendorid")) ? 0 : (int)reader["Vendorid"],
                 Vendors = reader.IsDBNull(reader.GetOrdinal("Vendors")) ? null : (string)reader["Vendors"],
@@ -114,7 +115,7 @@ namespace AmsApi.Repository
                 Remarks = reader.IsDBNull(reader.GetOrdinal("Remarks")) ? null : (string)reader["Remarks"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 InvoiceDate = (reader["InvoiceDate"] == DBNull.Value) ? null : Convert.ToDateTime(reader["InvoiceDate"]).ToString("yyyy/MM/dd"),
-
+                LastAllocated= reader.IsDBNull(reader.GetOrdinal("LastAllocated")) ? null : (string)reader["LastAllocated"],
                 Warranty_Till = (reader["Warranty_Till"] == DBNull.Value) ? null: Convert.ToDateTime(reader["Warranty_Till"]).ToString("yyyy/MM/dd"),
                 IsTransfered = (bool)reader["IsTransfered"],
                 totalrecord = (int)reader["totalrecord"]
@@ -243,7 +244,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@RAM", asset.RAM));
             cmd.Parameters.Add(new SqlParameter("@Inches", asset.Inches));
             cmd.Parameters.Add(new SqlParameter("@Port_Switch", asset.Port_Switch));
-            cmd.Parameters.Add(new SqlParameter("@Nos", asset.Nos));
+            cmd.Parameters.Add(new SqlParameter("@LastAllocated_To", asset.LastAllocated_To));
             cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
             cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
             cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));
@@ -254,6 +255,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
             cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.InvoiceDate));
             cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Warranty_Till));
+            
             cmd.Parameters.Add(new SqlParameter("@active", 1));
 
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -382,7 +384,7 @@ namespace AmsApi.Repository
                 cmd.Parameters.Add(new SqlParameter("@RAM", asset.RAM));
                 cmd.Parameters.Add(new SqlParameter("@Inches", asset.Inches));
                 cmd.Parameters.Add(new SqlParameter("@Port_Switch", asset.Port_Switch));
-                cmd.Parameters.Add(new SqlParameter("@Nos", asset.Nos));
+                cmd.Parameters.Add(new SqlParameter("@LastAllocated_To", asset.LastAllocated_To));
                 cmd.Parameters.Add(new SqlParameter("@specification", asset.Specification));
                 cmd.Parameters.Add(new SqlParameter("@Vendorid", asset.Vendorid));
                 cmd.Parameters.Add(new SqlParameter("@Status", asset.Status));

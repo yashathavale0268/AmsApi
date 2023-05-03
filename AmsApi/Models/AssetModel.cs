@@ -70,8 +70,11 @@ namespace AmsApi.Models
         [DataMember(Name = "Port_Switch")]
         public string Port_Switch { get; set; } 
 
-        [DataMember(Name = "Nos")]
-        public int Nos { get; set; } 
+        [DataMember(Name = "LastAllocated")]
+        public string LastAllocated { get; set; }
+
+        [DataMember(Name = "LastAllocated_To")]
+        public int LastAllocated_To { get; set; }
 
         [DataMember(Name = "Specification")]
         public string Specification { get; set; } 
