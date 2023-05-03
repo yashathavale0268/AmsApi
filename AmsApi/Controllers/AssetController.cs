@@ -59,7 +59,7 @@ namespace AmsApi.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        public IActionResult GetAllUserz()
+        public IActionResult GetAllUsers()
         {
             var result = _repository.GetAllUsers();
             var msg = new Message();
