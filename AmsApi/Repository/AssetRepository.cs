@@ -69,9 +69,9 @@ namespace AmsApi.Repository
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                SqlDataAdapter useradapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet);
+                useradapter.Fill(dataSet);
 
                 return dataSet;
             }

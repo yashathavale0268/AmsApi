@@ -61,7 +61,7 @@ namespace AmsApi.Controllers
         [HttpGet("GetAllUsers")]
         public IActionResult GetAllUserz()
         {
-            var result = _repository.GetAllTables();
+            var result = _repository.GetAllUsers();
             var msg = new Message();
             if (result.Tables.Count > 0)
             {
