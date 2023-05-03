@@ -57,6 +57,28 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
+
+        [HttpGet("GetAllUsers")]
+        public IActionResult GetAllUserz()
+        {
+            var result = _repository.GetAllTables();
+            var msg = new Message();
+            if (result.Tables.Count > 0)
+            {
+
+                msg.IsSuccess = true;
+                msg.Data = result;
+            }
+            else
+            {
+
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+            }
+
+
+            return Ok(msg);
+        }
         //[HttpGet("GetAllAssets")]
         //public async Task<ActionResult<IEnumerable<AssetModel>>> GetAllAssets([FromQuery]int pageNumber=1,[FromQuery] int pageSize=5)
         //{
@@ -67,7 +89,7 @@ namespace AmsApi.Controllers
         //        msg.IsSuccess = true;
         //        msg.Data = assets;
         //    }
-            
+
         //    else {
         //        msg.IsSuccess = false;
         //        msg.ReturnMessage = "no values found";
@@ -89,7 +111,7 @@ namespace AmsApi.Controllers
         //        var assets = await _repository.GetAllAssets_Paginated(pages);
         //        return Ok(assets);
         //    }
-      //  GET api/values/5
+        //  GET api/values/5
         [HttpGet("Getid/{id}")]
         public async Task<ActionResult<IEnumerable<AssetModel>>> Get(int id)
         {

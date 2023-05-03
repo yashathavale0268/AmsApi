@@ -60,6 +60,22 @@ namespace AmsApi.Repository
                 return dataSet;
             }
         }
+
+        public DataSet GetAllUsers()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllUsers", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
+        }
         public AssetModel MapToValue(SqlDataReader reader)
         {
             return new AssetModel() {

@@ -26,8 +26,18 @@ namespace AmsApi.Models
         
         [DataMember(Name = "scrapedassets")]
         public int scrapedassets { get; set; }
+        /// <summary>
+        /// //////////////////////////////////////////////////////
+        /// </summary>
+        [DataMember(Name = "sentformaintainence")]
+        public int sentformaintainence { get; set; }
 
-       
+        [DataMember(Name = "readyforscrap")]
+        public int readyforscrap { get; set; }
+
+        /// <summary>
+        /// //////////////////////////////////////////////////////
+        /// </summary>
 
         [DataMember(Name = "AssetsRequested")]
         public int AssetsRequested { get; set; } 
