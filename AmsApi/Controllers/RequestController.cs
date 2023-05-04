@@ -202,6 +202,36 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
+        [HttpGet("AssetAllotment/{id}")]
+        public async Task<IActionResult> AssetAllotment(int id,[FromQuery] string UniqueId, [FromQuery] string SerialNo)
+        {
+
+            var msg = new Message();
+            var GetRequest = await _repository.GetRequestId(id);
+            if (GetRequest.Count > 0)
+            {
+                await _repository.UniqueIdAdd(UniqueId,SerialNo,id);
+                bool success = _repository.IsSuccess;
+                if (success is true)
+                {
+                    msg.IsSuccess = true;
+                    msg.ReturnMessage = "request updated successfully";
+                }
+                else
+                {
+                    msg.IsSuccess = false;
+                    msg.ReturnMessage = "updated unsuccessfull";
+                }
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no id found";
+            }
+
+
+            return Ok(msg);
+        }
 
 
         [HttpGet("StatusChange/{id}")]

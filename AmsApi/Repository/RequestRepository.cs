@@ -189,6 +189,34 @@ namespace AmsApi.Repository
                 return;
             }
         }
+
+        internal async Task UniqueIdAdd(string UniqueId, string SerialNo, int id)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                //string.Join(","
+                using (SqlCommand cmd = new("sp_UniqueidAlloted", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@id", comp.Companyid);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@Uniqueid", UniqueId);
+                    cmd.Parameters.AddWithValue("@SerialNo", SerialNo);
+
+
+                    var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returnpart);
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    await sql.CloseAsync();
+                    // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    //  Itexists = itExists;
+                    IsSuccess = isSuccess;
+                }
+                return;
+            }
+        }
         internal async Task RequestAccepted(bool isAccepted, int type, int id)
         {
             using (SqlConnection sql = new(_connectionString))
