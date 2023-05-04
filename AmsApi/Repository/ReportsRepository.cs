@@ -247,6 +247,55 @@ namespace AmsApi.Repository
 
             };
         }
+
+        internal async Task<List<ReportModel>> GetReadyForScrapTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllScrapsSpecific_total_Report", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@pagenumber", pageNumber);
+                cmd.Parameters.AddWithValue("@pagesize", pageSize);
+                cmd.Parameters.AddWithValue("@searchstring", searchString);
+                cmd.Parameters.AddWithValue("@brcid", brcid);
+                cmd.Parameters.AddWithValue("@typ", typ);
+
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_ReadyForScrap(reader));
+                    }
+                }
+
+                return response;
+            }
+        }
+
+        public ReportModel MapToValue_ReadyForScrap(SqlDataReader reader)
+        {
+            return new ReportModel()
+            {
+                //userinfo = (string)reader["userinfo"],
+                branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
+
+                type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
+
+
+
+                ReadyForScrap = reader.IsDBNull(reader.GetOrdinal("ReadyForScrap")) ? 0 : (int)reader["ReadyForScrap"],
+
+
+                Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
+                status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
+                totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
+            };
+        }
+
         public ReportModel MapToValue_InProcess(SqlDataReader reader)
         {
             return new ReportModel()
@@ -445,6 +494,34 @@ namespace AmsApi.Repository
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllScrapsSpecific_total_Report", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@pagenumber", pageNumber);
+                cmd.Parameters.AddWithValue("@pagesize", pageSize);
+                cmd.Parameters.AddWithValue("@searchstring", searchString);
+                cmd.Parameters.AddWithValue("@brcid", brcid);
+                cmd.Parameters.AddWithValue("@typ", typ);
+
+                var response = new List<ReportModel>();
+                await sql.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Add(MapToValue_isScraped(reader));
+                    }
+                }
+
+                return response;
+            }
+        }
+
+        public async Task<List<ReportModel>> GetScrapTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllReadyForScrapSpecific_total_Report", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;

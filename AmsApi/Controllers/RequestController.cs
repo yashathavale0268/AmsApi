@@ -202,6 +202,8 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
+
+
         [HttpGet("StatusChange/{id}")]
         public async Task<IActionResult> StatusChange(int id, [FromQuery] int type=0, [FromQuery] bool isworking=true, [FromQuery] bool inuse=false, [FromQuery] string UniqueId =null, [FromQuery] String SerialNo =null)
         {
@@ -232,6 +234,38 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
+
+        [HttpGet("SendtoScrap/{id}")]
+        public async Task<IActionResult> SendtoScrap(int id, [FromQuery] int type = 0, [FromQuery] bool isScrap = false)
+        {
+
+            var msg = new Message();
+            var GetRequest = await _repository.GetRequestId(id);
+            if (GetRequest.Count > 0)
+            {
+                await _repository.SendtoScrap(isScrap, type, id);
+                bool success = _repository.IsSuccess;
+                if (success is true)
+                {
+                    msg.IsSuccess = true;
+                    msg.ReturnMessage = "request updated successfully";
+                }
+                else
+                {
+                    msg.IsSuccess = false;
+                    msg.ReturnMessage = "updated unsuccessfull";
+                }
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no id found";
+            }
+
+
+            return Ok(msg);
+        }
+
         // DELETE api/values/5
         // [Authorize("Admin,User")]
         [HttpGet("DeleteRequest/{id}")]
