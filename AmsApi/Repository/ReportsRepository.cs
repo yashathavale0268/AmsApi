@@ -248,7 +248,7 @@ namespace AmsApi.Repository
             };
         }
 
-        internal async Task<List<ReportModel>> GetReadyForScrapTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
+        internal async Task<List<ReportModel>> GetScrapTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllScrapsSpecific_total_Report", sql);
@@ -518,7 +518,7 @@ namespace AmsApi.Repository
             }
         }
 
-        public async Task<List<ReportModel>> GetScrapTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
+        public async Task<List<ReportModel>> GetReadyForScrapTable(int pageNumber, int pageSize, string searchString, int brcid, int typ)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllReadyForScrapSpecific_total_Report", sql);
