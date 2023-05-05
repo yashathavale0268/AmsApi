@@ -222,7 +222,7 @@ namespace AmsApi.Repository
             using (SqlConnection sql = new(_connectionString))
             {
                 //string.Join(","
-                using (SqlCommand cmd = new("sp_AcceptRequests", sql))
+                using (SqlCommand cmd = new("sp_StatusChange", sql)) //sp_AcceptRequests
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@id", comp.Companyid);
@@ -249,7 +249,7 @@ namespace AmsApi.Repository
             using (SqlConnection sql = new(_connectionString))
             {
                 //string.Join(","
-                using (SqlCommand cmd = new("sp_SendToScrap", sql))
+                using (SqlCommand cmd = new("sp_StatusChange", sql))//sp_SendToScrap
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
