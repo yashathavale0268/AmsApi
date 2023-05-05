@@ -244,16 +244,16 @@ namespace AmsApi.Repository
                 return;
             }
         }
-        internal async Task SendtoScrap(bool isScrap, int type, int id)
+        internal async Task SendtoScrap(bool isScrap, int type, string Uid,int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
                 //string.Join(","
-                using (SqlCommand cmd = new("sp_StatusChange", sql))
+                using (SqlCommand cmd = new("sp_SendToScrap", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //cmd.Parameters.AddWithValue("@id", comp.Companyid);
                     cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@Uid", Uid);
                     cmd.Parameters.AddWithValue("@type", type);
                     cmd.Parameters.AddWithValue("@isScrap", isScrap);
 

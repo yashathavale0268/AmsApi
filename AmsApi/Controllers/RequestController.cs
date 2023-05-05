@@ -266,14 +266,14 @@ namespace AmsApi.Controllers
         }
 
         [HttpGet("SendtoScrap/{id}")]
-        public async Task<IActionResult> SendtoScrap(int id, [FromQuery] int type = 0, [FromQuery] bool isScrap = false)
+        public async Task<IActionResult> SendtoScrap(int id, [FromQuery]string Uid,[FromQuery] int type = 0, [FromQuery] bool isScrap = false)
         {
 
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count > 0)
             {
-                await _repository.SendtoScrap(isScrap, type, id);
+                await _repository.SendtoScrap(isScrap, type,Uid,id);
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
