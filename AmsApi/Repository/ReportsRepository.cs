@@ -538,7 +538,7 @@ namespace AmsApi.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        response.Add(MapToValue_isScraped(reader));
+                        response.Add(MapToValue_ReadyForScrap(reader));
                     }
                 }
 
