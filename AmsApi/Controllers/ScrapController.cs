@@ -81,7 +81,7 @@ namespace AmsApi.Controllers
         //    return Ok(msg); 
         //}
 
-        public async Task<ActionResult<IEnumerable<ScrapModel>>> GetScrapsTable([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5,[FromQuery] string searchString=null, [FromQuery] int brcid=0, [FromQuery] int typ=0)
+        public async Task<ActionResult<IEnumerable<ReportModel>>> GetScrapsTable([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5,[FromQuery] string searchString=null, [FromQuery] int brcid=0, [FromQuery] int typ=0)
         {
             var msg = new Message();
             var Scrap = await _repository.GetScrapsTable( pageNumber, pageSize,searchString, brcid, typ);
