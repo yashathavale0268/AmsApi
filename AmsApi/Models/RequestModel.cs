@@ -65,5 +65,7 @@ namespace AmsApi.Models
 
         [DataMember(Name = "BranchName")]
         public string BranchName { get; set; }
+
+        public int MyProperty { get; set; }
     }
 }
