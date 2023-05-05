@@ -65,21 +65,21 @@ namespace AmsApi.Controllers
         //    return await _repository.GetAllScraps();
         //}
         [HttpGet("GetAllScrap")]
-        public async Task<ActionResult<IEnumerable<ScrapModel>>> SearchScrap([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int searchId = 0, [FromQuery] int assetId = 0, [FromQuery] int brcId = 0, [FromQuery] int vedId = 0, [FromQuery] int userid = 0,[FromQuery] int DateFilter=0,[FromQuery] string StartDate=null,[FromQuery] string EndDate = null)
-        {
-            var msg = new Message();
-            var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, userid, DateFilter,StartDate,EndDate);
-            if (Scrap.Count>0) { 
-                msg.IsSuccess = true;
-                msg.Data = Scrap;
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "No Matches found ";
-            }
-            return Ok(msg); 
-        }
+        //public async Task<ActionResult<IEnumerable<ScrapModel>>> SearchScrap([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int searchId = 0, [FromQuery] int assetId = 0, [FromQuery] int brcId = 0, [FromQuery] int vedId = 0, [FromQuery] int userid = 0,[FromQuery] int DateFilter=0,[FromQuery] string StartDate=null,[FromQuery] string EndDate = null)
+        //{
+        //    var msg = new Message();
+        //    var Scrap = await _repository.SearchScrap(pageNumber, pageSize, searchTerm, searchId, assetId, brcId, vedId, userid, DateFilter,StartDate,EndDate);
+        //    if (Scrap.Count>0) { 
+        //        msg.IsSuccess = true;
+        //        msg.Data = Scrap;
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "No Matches found ";
+        //    }
+        //    return Ok(msg); 
+        //}
 
         public async Task<ActionResult<IEnumerable<ScrapModel>>> GetScrapsTable([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5,[FromQuery] string searchString=null, [FromQuery] int brcid=0, [FromQuery] int typ=0)
         {
