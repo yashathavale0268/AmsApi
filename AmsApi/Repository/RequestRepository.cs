@@ -249,7 +249,7 @@ namespace AmsApi.Repository
             using (SqlConnection sql = new(_connectionString))
             {
                 //string.Join(","
-                using (SqlCommand cmd = new("sp_StatusChange", sql))//sp_SendToScrap
+                using (SqlCommand cmd = new("sp_SendToScrap", sql))//sp_StatusChange
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
