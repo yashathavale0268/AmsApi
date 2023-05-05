@@ -32,8 +32,8 @@ namespace AmsApi.Models
         [DataMember(Name = "SentForFix")]
         public int SentForFix { get; set; }
 
-        [DataMember(Name = "ReadyForScrap")]
-        public int ReadyForScrap { get; set; }
+        [DataMember(Name = "Assetid")]
+        public int Assetid { get; set; }
 
         /// <summary>
         /// //////////////////////////////////////////////////////

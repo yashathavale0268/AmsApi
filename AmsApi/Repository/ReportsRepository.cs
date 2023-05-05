@@ -281,15 +281,10 @@ namespace AmsApi.Repository
             return new ReportModel()
             {
                 //userinfo = (string)reader["userinfo"],
+                Assetid  = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0 : (int)reader["Assetid"],
                 branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
                 type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
-
-
-
-                ReadyForScrap = reader.IsDBNull(reader.GetOrdinal("ReadyForScrap")) ? 0 : (int)reader["ReadyForScrap"],
-
-
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
