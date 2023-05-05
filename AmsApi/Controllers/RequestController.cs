@@ -270,9 +270,7 @@ namespace AmsApi.Controllers
         {
 
             var msg = new Message();
-            var GetRequest = await _repository.GetRequestId(id);
-            if (GetRequest.Count > 0)
-            {
+            
                 await _repository.SendtoScrap(isScrap, type,Uid,id);
                 bool success = _repository.IsSuccess;
                 if (success is true)
@@ -285,14 +283,8 @@ namespace AmsApi.Controllers
                     msg.IsSuccess = false;
                     msg.ReturnMessage = "updated unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no id found";
-            }
-
-
+            
+            
             return Ok(msg);
         }
 
