@@ -283,7 +283,7 @@ namespace AmsApi.Repository
                 //userinfo = (string)reader["userinfo"],
                 Assetid  = reader.IsDBNull(reader.GetOrdinal("Assetid")) ? 0 : (int)reader["Assetid"],
                 branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
-
+                Uniqueid = reader.IsDBNull(reader.GetOrdinal("Uniqueid")) ? null : (string)reader["Uniqueid"],
                 type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],

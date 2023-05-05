@@ -35,6 +35,8 @@ namespace AmsApi.Models
         [DataMember(Name = "Assetid")]
         public int Assetid { get; set; }
 
+        [DataMember(Name = "Uniqueid")]
+        public string Uniqueid { get; set; }
         /// <summary>
         /// //////////////////////////////////////////////////////
         /// </summary>
