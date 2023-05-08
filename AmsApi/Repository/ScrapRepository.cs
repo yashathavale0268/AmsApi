@@ -83,8 +83,8 @@ namespace AmsApi.Repository
         {
             return new ReportModel()
             {
-                //LastUsedBy = reader.IsDBNull(reader.GetOrdinal("LastUsedBy")) ? 0 :(int)reader["LastUsedBy"],
-                //NameofLastUsedBy = reader.IsDBNull(reader.GetOrdinal("NameofLastUsedBy")) ? null :(string)reader["NameofLastUsedBy"],
+                LastUsedBy = reader.IsDBNull(reader.GetOrdinal("LastUsedBy")) ? 0 :(int)reader["LastUsedBy"],
+                NameofLastUsedBy = reader.IsDBNull(reader.GetOrdinal("NameofLastUsedBy")) ? null :(string)reader["NameofLastUsedBy"],
                 branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
                 type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],

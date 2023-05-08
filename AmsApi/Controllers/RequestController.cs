@@ -295,6 +295,36 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
+        [HttpGet("SentForFix/{id}")]
+        public async Task<IActionResult> SentForFix(int id,[FromQuery] int type = 0, [FromQuery] bool isScrap = false)// [FromQuery] string Uid,
+        {
+
+            var msg = new Message();
+            //var GetRequest = await _repository.GetRequestId(id);
+            //if (GetRequest.Count > 0)
+            //{
+            await _repository.SentForFix(isScrap, type, id);//, Uid
+            bool success = _repository.IsSuccess;
+            if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "request updated successfully";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "updated unsuccessfull";
+            }
+            //}
+            //else
+            //{
+            //    msg.IsSuccess = false;
+            //    msg.ReturnMessage = "no id found";
+            //}
+
+            return Ok(msg);
+        }
+
         // DELETE api/values/5
         // [Authorize("Admin,User")]
         [HttpGet("DeleteRequest/{id}")]

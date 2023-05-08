@@ -271,6 +271,34 @@ namespace AmsApi.Repository
                 return;
             }
         }
+
+        internal async Task SentForFix(bool SentForFix, int type,  int id)//string Uid,
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                //string.Join(","
+                using (SqlCommand cmd = new("sp_SentForFix", sql))//sp_StatusChange
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
+                 //   cmd.Parameters.AddWithValue("@Uid", Uid);
+                    cmd.Parameters.AddWithValue("@type", type);
+                    cmd.Parameters.AddWithValue("@SentForFix", SentForFix);
+
+
+                    var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returnpart);
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    await sql.CloseAsync();
+                    // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    //  Itexists = itExists;
+                    IsSuccess = isSuccess;
+                }
+                return;
+            }
+        }
         internal async Task<List<RequestModel>> GetRequestId(int id)
         {
             using (SqlConnection sql = new(_connectionString))
