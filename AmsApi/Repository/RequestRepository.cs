@@ -159,7 +159,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task StatusChange(string UniqueId, string SerialNo, bool isworking, bool inuse, int type, int id)
+        internal async Task StatusChange( bool isworking, bool inuse, int type, int id)//string UniqueId, string SerialNo,
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -172,8 +172,8 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@type", type);
                     cmd.Parameters.AddWithValue("@isworking", isworking);
                     cmd.Parameters.AddWithValue("@inuse", inuse);
-                    cmd.Parameters.AddWithValue("@Uniqueid", UniqueId);
-                    cmd.Parameters.AddWithValue("@SerialNo", SerialNo);
+                    //cmd.Parameters.AddWithValue("@Uniqueid", UniqueId);
+                    //cmd.Parameters.AddWithValue("@SerialNo", SerialNo);
 
 
                     var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };

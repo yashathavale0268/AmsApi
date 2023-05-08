@@ -235,14 +235,14 @@ namespace AmsApi.Controllers
 
 
         [HttpGet("StatusChange/{id}")]
-        public async Task<IActionResult> StatusChange(int id, [FromQuery] int type=0, [FromQuery] bool isworking=true, [FromQuery] bool inuse=false, [FromQuery] string UniqueId =null, [FromQuery] String SerialNo =null)
+        public async Task<IActionResult> StatusChange(int id, [FromQuery] int type=0, [FromQuery] bool isworking=true, [FromQuery] bool inuse=false)//, [FromQuery] string UniqueId =null, [FromQuery] string SerialNo =null
         {
 
             var msg = new Message();
             var GetRequest = await _repository.GetRequestId(id);
             if (GetRequest.Count > 0)
             {
-                await _repository.StatusChange(UniqueId,SerialNo,isworking,inuse,type, id);
+                await _repository.StatusChange(isworking,inuse,type, id);//UniqueId,SerialNo,
                 bool success = _repository.IsSuccess;
                 if (success is true)
                 {
