@@ -90,7 +90,7 @@ namespace AmsApi.Repository
 
 
 
-                scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
+                //scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
 
 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
