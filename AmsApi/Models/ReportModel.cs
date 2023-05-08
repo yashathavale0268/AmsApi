@@ -24,8 +24,8 @@ namespace AmsApi.Models
         public int spareassets { get; set; }
             
         
-        //[DataMember(Name = "scrapedassets")]
-        //public int scrapedassets { get; set; }
+        [DataMember(Name = "scrapedassets")]
+        public int scrapedassets { get; set; }
         /// <summary>
         /// //////////////////////////////////////////////////////
         /// </summary>
@@ -53,7 +53,12 @@ namespace AmsApi.Models
         [DataMember(Name = "status")]
         public string status { get; set; }
 
+        [DataMember(Name = "NameofLastUsedBy")]
+        public string NameofLastUsedBy { get; set; }
         
+        [DataMember(Name = "LastUsedBy")]
+        public int LastUsedBy { get; set; }
+
         [DataMember(Name = "userinfo")]
         public string userinfo { get; set; }
 

@@ -312,14 +312,16 @@ namespace AmsApi.Repository
         {
             return new ReportModel()
             {
-                //userinfo = (string)reader["userinfo"],
+
+                LastUsedBy = reader.IsDBNull(reader.GetOrdinal("LastUsedBy")) ? 0 :(int)reader["LastUsedBy"],
+                NameofLastUsedBy = reader.IsDBNull(reader.GetOrdinal("NameofLastUsedBy")) ? null :(string)reader["NameofLastUsedBy"],
                 branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
 
                 type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
 
 
 
-                //scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
+                scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
 
 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
