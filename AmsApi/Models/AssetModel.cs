@@ -139,7 +139,13 @@ namespace AmsApi.Models
         [DataMember(Name = "totalrecord")]
         public int totalrecord { get; set; }
         [DataMember(Name = "LocationName")]
-        public string LocationName { get; set; } 
-        
+        public string LocationName { get; set; }
+
+        [DataMember(Name = "Allocated_At")]
+        public string Allocated_At { get;  set; }
+        [DataMember(Name = "Sent_On_Date")]
+        public string Sent_On_Date { get;  set; }
+        [DataMember(Name = "SentToVendor")]
+        public string SentToVendor { get;  set; }
     }
 }

@@ -347,7 +347,7 @@ namespace AmsApi.Repository
 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
-                UniqueId= reader.IsDBNull(reader].GetOrdinal("UniqueId"))
+                Uniqueid= reader.IsDBNull(reader.GetOrdinal("Uniqueid")) ? null :(string)reader["Uniqueid"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
