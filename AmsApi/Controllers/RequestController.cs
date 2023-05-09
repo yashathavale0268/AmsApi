@@ -308,12 +308,12 @@ namespace AmsApi.Controllers
             if (success is true)
             {
                 msg.IsSuccess = true;
-                msg.ReturnMessage = "request updated successfully";
+                msg.ReturnMessage = "sent for Maintainence ";
             }
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = "updated unsuccessfull";
+                msg.ReturnMessage = "update unsuccessfull";
             }
             //}
             //else

@@ -107,7 +107,7 @@ namespace AmsApi.Repository
                 Vendors = reader.IsDBNull(reader.GetOrdinal("Vendors")) ? null : (string)reader["Vendors"],
                 Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? 3 : (int)reader["Status"],
                 StatusName = reader.IsDBNull(reader.GetOrdinal("StatusName")) ? null : (string)reader["StatusName"],
-                //Allocated_to=(int)reader["Allocated_to"],
+                Allocated_to=(int)reader["Allocated_to"],
                 Invoice_No = reader.IsDBNull(reader.GetOrdinal("Invoice_No")) ? null : (string)reader["Invoice_No"],
                 Location = reader.IsDBNull(reader.GetOrdinal("Location")) ? 0 : (int)reader["Location"],
                 LocationName = reader.IsDBNull(reader.GetOrdinal("LocationName")) ? null: (string)reader["LocationName"],

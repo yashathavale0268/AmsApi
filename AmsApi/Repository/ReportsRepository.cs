@@ -326,6 +326,7 @@ namespace AmsApi.Repository
 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
+
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
@@ -346,6 +347,7 @@ namespace AmsApi.Repository
 
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
+                UniqueId= reader.IsDBNull(reader].GetOrdinal("UniqueId"))
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
             };
         }
@@ -564,7 +566,7 @@ namespace AmsApi.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        response.Add(MapToValue_isScraped(reader));
+                        response.Add(MapToValue_SentForFix(reader));
                     }
                 }
 

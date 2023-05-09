@@ -40,10 +40,20 @@ namespace AmsApi.Models
 
         [DataMember(Name = "Uniqueid")]
         public string Uniqueid { get; set; }
+
+
+        [DataMember(Name = "Description")]
+        public string Description { get; set; }
+
+        [DataMember(Name = "SentToVendor")]
+        public string SentToVendor { get; set; }
+
+        [DataMember(Name = "SentOnDate")]
+        public string SentOnDate { get; set; }
         /// <summary>
         /// //////////////////////////////////////////////////////
         /// </summary>
-
+    
         [DataMember(Name = "AssetsRequested")]
         public int AssetsRequested { get; set; } 
 
