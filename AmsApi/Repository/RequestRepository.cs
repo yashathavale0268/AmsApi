@@ -272,7 +272,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task SentForFix(bool SentForFix, int type,  int id)//string Uid,
+        internal async Task SentForFix(bool SentForFix, int type,  int id ,int Vendorid, string Uid , string Description)
         {
             using (SqlConnection sql = new(_connectionString))
             {
@@ -281,7 +281,9 @@ namespace AmsApi.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
-                 //   cmd.Parameters.AddWithValue("@Uid", Uid);
+                    cmd.Parameters.AddWithValue("@Uid", Uid);
+                    cmd.Parameters.AddWithValue("@Desc", Description);
+                    cmd.Parameters.AddWithValue("@Vendorid", Vendorid);
                     cmd.Parameters.AddWithValue("@type", type);
                     cmd.Parameters.AddWithValue("@SentForFix", SentForFix);
 

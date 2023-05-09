@@ -296,7 +296,7 @@ namespace AmsApi.Controllers
         }
 
         [HttpGet("SentForFix/{id}")]
-        public async Task<IActionResult> SentForFix(int id,[FromQuery] int type = 0, [FromQuery] bool SentForFix = false)// [FromQuery] string Uid,
+        public async Task<IActionResult> SentForFix(int id,[FromQuery] int type = 0, [FromQuery] bool SentForFix = false, [FromQuery] int Vendorid=0, [FromQuery] string Uid=null, [FromQuery] string Description=null)// [FromQuery] string Uid,
         {
 
             var msg = new Message();
