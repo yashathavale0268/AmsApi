@@ -303,7 +303,7 @@ namespace AmsApi.Controllers
             //var GetRequest = await _repository.GetRequestId(id);
             //if (GetRequest.Count > 0)
             //{
-            await _repository.SentForFix(SentForFix, type, id);//, Uid
+            await _repository.SentForFix(SentForFix, type, id,Vendorid, Uid, Description);//, Uid
             bool success = _repository.IsSuccess;
             if (success is true)
             {
