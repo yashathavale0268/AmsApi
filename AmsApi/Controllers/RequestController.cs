@@ -296,14 +296,14 @@ namespace AmsApi.Controllers
         }
 
         [HttpGet("SentForFix/{id}")]
-        public async Task<IActionResult> SentForFix(int id,[FromQuery] int type = 0, [FromQuery] bool SentForFix = false, [FromQuery] int Vendorid=0, [FromQuery] string Uid=null, [FromQuery] string Description=null)// [FromQuery] string Uid,
+        public async Task<IActionResult> SentForFix( int id,[FromQuery] int type = 0, [FromQuery] bool SentForFix = false, [FromQuery] int Vendorid=0, [FromQuery] string Uid=null, [FromQuery] string Description=null)// [FromQuery] string Uid,
         {
 
             var msg = new Message();
             //var GetRequest = await _repository.GetRequestId(id);
             //if (GetRequest.Count > 0)
             //{
-            await _repository.SentForFix(SentForFix, type, id,Vendorid, Uid, Description);//, Uid
+            await _repository.SentForFix(SentForFix, type,Vendorid, Uid, Description, id);//, Uid
             bool success = _repository.IsSuccess;
             if (success is true)
             {

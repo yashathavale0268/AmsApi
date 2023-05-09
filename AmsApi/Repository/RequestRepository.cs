@@ -272,7 +272,7 @@ namespace AmsApi.Repository
             }
         }
 
-        internal async Task SentForFix(bool SentForFix, int type,  int id ,int Vendorid, string Uid , string Description)
+        internal async Task SentForFix(bool SentForFix, int type,int Vendorid, string Uid , string Description, int id)
         {
             using (SqlConnection sql = new(_connectionString))
             {
