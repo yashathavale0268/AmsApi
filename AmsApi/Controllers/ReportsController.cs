@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AmsApi.Models;
 using AmsApi.Repository;
 using CoreApiAdoDemo.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ namespace AmsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ReportsController : ControllerBase
     {
         private readonly ReportsRepository _repository;

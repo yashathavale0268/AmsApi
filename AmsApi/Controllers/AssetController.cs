@@ -17,8 +17,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AmsApi.Controllers
 {
-    [AllowAnonymous]
-    //[Authorize(Roles ="Admin")]//AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme
+   // [AllowAnonymous]
+    [Authorize]//AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -35,7 +35,7 @@ namespace AmsApi.Controllers
         //    return await _repository.GetAll();
 
         //}
-       
+        [AllowAnonymous]
         [HttpGet("GetAllTables")]
         public IActionResult GetAllTables()
         {
@@ -57,7 +57,7 @@ namespace AmsApi.Controllers
 
             return Ok(msg);
         }
-
+        [AllowAnonymous]
         [HttpGet("GetAllUsers")]
         public IActionResult GetAllUsers()
         {
