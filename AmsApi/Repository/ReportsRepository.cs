@@ -322,8 +322,8 @@ namespace AmsApi.Repository
 
 
                 scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
-
-                Created_at= (reader["Created_at"] == DBNull.Value) ? null : Convert.ToDateTime(reader["Created_at"]).ToString("yyyy/MM/dd"),
+                Uniqueid = reader.IsDBNull(reader.GetOrdinal("Uniqueid")) ? null : (string)reader["Uniqueid"],
+                Created_at = (reader["Created_at"] == DBNull.Value) ? null : Convert.ToDateTime(reader["Created_at"]).ToString("yyyy/MM/dd"),
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
 
