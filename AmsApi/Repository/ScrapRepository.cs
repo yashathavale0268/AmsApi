@@ -93,7 +93,7 @@ namespace AmsApi.Repository
 
                 scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
 
-
+                Uniqueid=reader.IsDBNull(reader.GetOrdinal("Uniqueid")) ? null : (string)reader["Uniqueid"],
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
                 totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"],
