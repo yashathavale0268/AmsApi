@@ -86,7 +86,7 @@ namespace AmsApi.Repository
                 LastUsedBy = reader.IsDBNull(reader.GetOrdinal("LastUsedBy")) ? 0 :(int)reader["LastUsedBy"],
                 NameofLastUsedBy = reader.IsDBNull(reader.GetOrdinal("NameofLastUsedBy")) ? null :(string)reader["NameofLastUsedBy"],
                 branch = reader.IsDBNull(reader.GetOrdinal("branch")) ? null : (string)reader["branch"],
-
+                Created_at = (reader["Created_at"] == DBNull.Value) ? null : Convert.ToDateTime(reader["Created_at"]).ToString("yyyy/MM/dd"),
                 type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : (string)reader["type"],
 
 

@@ -323,7 +323,7 @@ namespace AmsApi.Repository
 
                 scrapedassets = reader.IsDBNull(reader.GetOrdinal("ScrapedAssets")) ? 0 : (int)reader["ScrapedAssets"],
 
-
+                Created_at= (reader["Created_at"] == DBNull.Value) ? null : Convert.ToDateTime(reader["Created_at"]).ToString("yyyy/MM/dd"),
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
 
@@ -345,7 +345,7 @@ namespace AmsApi.Repository
                 SentForFix = reader.IsDBNull(reader.GetOrdinal("SentForFix")) ? 0 : (int)reader["SentForFix"],
                 SentOnDate = (reader["SentOnDate"] == DBNull.Value) ? null : Convert.ToDateTime(reader["SentOnDate"]).ToString("yyyy/MM/dd"),
                 SentToVendor = reader.IsDBNull(reader.GetOrdinal("SentToVendor")) ? null : (string)reader["SentToVendor"],
-                Description= reader.IsDBNull(reader.GetOrdinal("Description")) ? null : (string)reader["Description"],
+                Description= reader.IsDBNull(reader.GetOrdinal("Description")) ? null : (string)reader["SentToVendor"],
                 Statid = reader.IsDBNull(reader.GetOrdinal("Statid")) ? 0 : (int)reader["Statid"],
                 status = reader.IsDBNull(reader.GetOrdinal("status")) ? null : (string)reader["status"],
                 Uniqueid= reader.IsDBNull(reader.GetOrdinal("Uniqueid")) ? null :(string)reader["Uniqueid"],

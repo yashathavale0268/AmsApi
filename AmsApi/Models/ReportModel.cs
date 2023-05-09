@@ -50,10 +50,13 @@ namespace AmsApi.Models
 
         [DataMember(Name = "SentOnDate")]
         public string SentOnDate { get; set; }
+
+        [DataMember(Name = "Created_at")]
+        public string Created_at { get; set; }
         /// <summary>
         /// //////////////////////////////////////////////////////
         /// </summary>
-    
+
         [DataMember(Name = "AssetsRequested")]
         public int AssetsRequested { get; set; } 
 
