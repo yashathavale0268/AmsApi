@@ -14,7 +14,7 @@ namespace AmsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class ReportsController : ControllerBase
     {
         private readonly ReportsRepository _repository;
