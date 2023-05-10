@@ -116,9 +116,9 @@ namespace AmsApi.Repository
                 Uid = reader.IsDBNull(reader.GetOrdinal("Uid")) ? null : (string)reader["Uid"],
                 Remarks = reader.IsDBNull(reader.GetOrdinal("Remarks")) ? null : (string)reader["Remarks"],
                 Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
-                InvoiceDate = (reader["InvoiceDate"] == DBNull.Value) ? null : Convert.ToDateTime(reader["InvoiceDate"]).ToString("yyyy/MM/dd"),
+                InvoiceDate = (reader["InvoiceDate"] == DBNull.Value) ? null : Convert.ToDateTime(reader["InvoiceDate"]).ToString("yyyy-MM-dd"),
                 LastAllocated= reader.IsDBNull(reader.GetOrdinal("LastAllocated")) ? null : (string)reader["LastAllocated"],
-                Warranty_Till = (reader["Warranty_Till"] == DBNull.Value) ? null: Convert.ToDateTime(reader["Warranty_Till"]).ToString("yyyy/MM/dd"),
+                Warranty_Till = (reader["Warranty_Till"] == DBNull.Value) ? null: Convert.ToDateTime(reader["Warranty_Till"]).ToString("yyyy-MM-dd"),
                 IsTransfered = (bool)reader["IsTransfered"],
                 totalrecord = (int)reader["totalrecord"]
                 
