@@ -257,7 +257,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
             cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.InvoiceDate));
             cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Warranty_Till));
-            
+            cmd.Parameters.Add(new SqlParameter("@Allocated_At", asset.Allocated_At));
             cmd.Parameters.Add(new SqlParameter("@active", 1));
 
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -397,6 +397,7 @@ namespace AmsApi.Repository
                 cmd.Parameters.Add(new SqlParameter("@Created_at", asset.Created_at));
                 cmd.Parameters.Add(new SqlParameter("@InvoiceDate", asset.InvoiceDate));
                 cmd.Parameters.Add(new SqlParameter("@Warranty_Till", asset.Warranty_Till));
+                cmd.Parameters.Add(new SqlParameter("@Allocated_At", asset.Allocated_At));
                 cmd.Parameters.Add(new SqlParameter("@active", 1));
 
                 //var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
