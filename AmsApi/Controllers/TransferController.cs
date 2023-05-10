@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 using AmsApi.Models;
 using AmsApi.Repository;
 using CoreApiAdoDemo.Model;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AmsApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
