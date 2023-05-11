@@ -135,7 +135,7 @@ namespace AmsApi.Repository
                 using (SqlCommand cmd = new("sp_RequestCreate", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //cmd.Parameters.AddWithValue("@id", comp.Companyid);
+                    //cmd.Parameters.AddWithValue("@id", id);
                     cmd.Parameters.AddWithValue("@Userid", userid);
                     cmd.Parameters.AddWithValue("@Type",asset);
                   //  cmd.Parameters.AddWithValue("@typeid", asset);

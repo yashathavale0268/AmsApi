@@ -250,6 +250,7 @@ namespace AmsApi.Repository
                     using (SqlCommand cmd = new("sp_register_user", sql))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                   // cmd.Parameters.AddWithValue("@Id",user.Userid);
                         cmd.Parameters.AddWithValue("@Username", user.Username);
                         cmd.Parameters.AddWithValue("@Email", user.Email);
                         cmd.Parameters.AddWithValue("@Password", hashedpassword);
@@ -283,32 +284,78 @@ namespace AmsApi.Repository
                     }
                 }
         }
-            
-        
+        // Step 1: Create a DataTable object
+        public void BulkInsertOrUpdate(List<RolePermissionsModel> data)
+        {
+            using (SqlConnection connection = new(_connectionString))
+            {
+                connection.Open();
 
-        //internal async Task<List<UserModel>> GetAllUser(int pageNumber, int pageSize)
-        //{
-        //    using SqlConnection sql = new(_connectionString);
-        //    using SqlCommand cmd = new("sp_GetAllUsers", sql);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-        //    cmd.Parameters.AddWithValue("@PageSize", pageSize);
-        //    //   UserModel response = new();
-        //    var response = new List<UserModel>();
-        //   await sql.OpenAsync();
+                DataTable dataTable = new();
+                dataTable.Columns.Add("Rpid", typeof(Int64));
+                dataTable.Columns.Add("Roleid", typeof(Int64));
+                dataTable.Columns.Add("Menuid", typeof(Int64));
+                dataTable.Columns.Add("Add", typeof(bool));
+                dataTable.Columns.Add("View", typeof(bool));
+                dataTable.Columns.Add("Update", typeof(bool));
+                dataTable.Columns.Add("Delete", typeof(bool));
 
-        //    using (var reader = await cmd.ExecuteReaderAsync())
-        //    {
-        //        while (await reader.ReadAsync())
-        //        {
-        //            response.Add(MapToValue(reader));
-        //        }
-        //    }
+                foreach (var item in data)
+                {
+                    dataTable.Rows.Add(item.Rpid, item.Roleid, item.Menuid, item.Add, item.View,item.Update,item.Delete);
+                }
 
-        //    return response;
-        //}
+                using (SqlCommand command = new("sp_RolePermsBulkInsertOrUpdate", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
 
-        public async Task<List<UserModel>> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User,int Role)
+                    SqlParameter parameter = command.Parameters.AddWithValue("@BulkData", dataTable);
+                    parameter.SqlDbType = SqlDbType.Structured;
+                    parameter.TypeName = "dbo.RolepermissionsType";
+
+                    var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    command.Parameters.Add(returnnote);
+                    command.ExecuteNonQuery();
+                   // bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
+
+                   // Itexists = itexists;
+                    IsSuccess = successfull;
+
+                }
+
+                connection.Close();
+                
+            }
+        }
+    
+
+
+
+
+    //internal async Task<List<UserModel>> GetAllUser(int pageNumber, int pageSize)
+    //{
+    //    using SqlConnection sql = new(_connectionString);
+    //    using SqlCommand cmd = new("sp_GetAllUsers", sql);
+    //    cmd.CommandType = CommandType.StoredProcedure;
+    //    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+    //    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+    //    //   UserModel response = new();
+    //    var response = new List<UserModel>();
+    //   await sql.OpenAsync();
+
+    //    using (var reader = await cmd.ExecuteReaderAsync())
+    //    {
+    //        while (await reader.ReadAsync())
+    //        {
+    //            response.Add(MapToValue(reader));
+    //        }
+    //    }
+
+    //    return response;
+    //}
+
+    public async Task<List<UserModel>> SearchUsers(int pageNumber, int pageSize, string searchTerm, int User,int Role)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {

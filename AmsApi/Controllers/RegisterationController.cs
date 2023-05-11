@@ -112,9 +112,9 @@ namespace AmsApi.Controllers
                 UserModel Userinfo = new();
                 Userinfo = userSessions;
                 Userinfo.token = (string)token;//msg.Data =tokenkey;
-                
-                
-                
+
+
+
                 msg.Data = (Userinfo);
 
 
@@ -217,7 +217,7 @@ namespace AmsApi.Controllers
         public async Task<ActionResult<IEnumerable<UserModel>>> SearchUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null, [FromQuery] int User = 0, [FromQuery] int Role = 0)
         {
             var msg = new Message();
-            var Users = await _repository.SearchUsers(pageNumber, pageSize, searchTerm, User,Role);
+            var Users = await _repository.SearchUsers(pageNumber, pageSize, searchTerm, User, Role);
             if (Users.Count > 0)
             {
 
@@ -313,11 +313,11 @@ namespace AmsApi.Controllers
         }
         //[Authorize(Roles = "Admin")]
         [HttpPost("SetRole/{id}")]
-        public async Task<IActionResult> SetRole(int Role=0, int id = 0)
+        public async Task<IActionResult> SetRole(int Role = 0, int id = 0)
         {
             var msg = new Message();
             var User = await _repository.GetUserById(id);
-            if (User.Count> 0)
+            if (User.Count > 0)
             {
                 await _repository.SetRoles(Role, id);
                 msg.IsSuccess = true;
@@ -347,21 +347,21 @@ namespace AmsApi.Controllers
 
             //if (User.Userid > 0)
             //{
-                // msg.Data = User;
+            // msg.Data = User;
 
-                await _repository.UpdateUser(user);
-                bool success = _repository.IsSuccess;
-                if (success is true)
-                {
+            await _repository.UpdateUser(user);
+            bool success = _repository.IsSuccess;
+            if (success is true)
+            {
 
-                    msg.IsSuccess = true;
-                    msg.ReturnMessage = " User is Updated Successfully";
-                }
-                else
-                {
-                    msg.IsSuccess = false;
-                    msg.ReturnMessage = " User update unsuccessfull";
-                }
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " User is Updated Successfully";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " User update unsuccessfull";
+            }
             //}
             //else
             //{
@@ -421,8 +421,8 @@ namespace AmsApi.Controllers
             //        // Open the connection
             //        await connection.OpenAsync();
             UserModel email = new();
-             email = await _repository.GetByemail(model);
-           
+            email = await _repository.GetByemail(model);
+
             // Create a command to check if the email exists in the database
             bool itexists = _repository.Itexists;
             if (itexists is true)
@@ -430,11 +430,11 @@ namespace AmsApi.Controllers
                 msg.ItExists = true;
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " email found";
-                
-               //  var emailtoken = _repository.GenerateemailToken(email);
+
+                //  var emailtoken = _repository.GenerateemailToken(email);
                 var randomtoken = _repository.GeneratePasswordResetToken();
                 PasswordResetConfirm token = new();
-                token.Token = randomtoken.ToString() ;
+                token.Token = randomtoken.ToString();
 
                 await _repository.SendPasswordResetEmail(model.Email, randomtoken.ToString());
 
@@ -448,10 +448,10 @@ namespace AmsApi.Controllers
                 msg.ReturnMessage = " email not found";
                 msg.Data = null;
             }
-        
-    
-                return Ok(msg);
-        // Generate a password reset token and store it in the database
+
+
+            return Ok(msg);
+            // Generate a password reset token and store it in the database
         }
         // Send the password reset email
 
@@ -519,7 +519,7 @@ namespace AmsApi.Controllers
             var msg = new Message();
             var Users = await _repository.GetUserById(id);
 
-            if (Users.Count> 0)
+            if (Users.Count > 0)
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = "Delete Successfully";
@@ -532,7 +532,7 @@ namespace AmsApi.Controllers
             {
                 msg.ReturnMessage = "no values found";
             }
-          return Ok(msg);
+            return Ok(msg);
         }
 
         //[HttpPost]
@@ -550,10 +550,35 @@ namespace AmsApi.Controllers
         //{
         //    Commondbo commondbo = new();
         //    commondbo = await _common.giveAll();
-            
+
         //}
+        [HttpPost]
+        [Route("RolePermissions")]
+        public IActionResult BulkInsertOrUpdate(List<RolePermissionsModel> data)
+        {
+            var msg = new Message();
+            // Step 8: Call the repository method
+            _repository.BulkInsertOrUpdate(data);
+            bool success = _repository.IsSuccess;
+            if (success is true)
+            {
 
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " User is Updated Successfully";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " per";
+            }
+            // Step 9: Return the appropriate response
+            return Ok(msg);
+        }
     }
+    }
+    
 
 
-}
+
+
+
