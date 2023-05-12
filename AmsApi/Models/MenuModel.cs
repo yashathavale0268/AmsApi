@@ -11,7 +11,7 @@ namespace AmsApi.Models
     public class MenuModel
     {
         [DataMember(Name = "MenuId")]
-        public int MenuId { get; set; }
+        public Int64 MenuId { get; set; }
         [DataMember(Name = "Menu")]
         public string Menu { get; set; }
         

@@ -71,7 +71,7 @@ namespace AmsApi.Repository
                 using (SqlCommand cmd = new SqlCommand("sp_GetAllMenus", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue(" @Roleid", role);
+                    cmd.Parameters.AddWithValue("@Roleid", role);
                     cmd.Parameters.AddWithValue("@Projid", proj);
                     cmd.Parameters.AddWithValue("@uid", userid);
                  
@@ -97,7 +97,7 @@ namespace AmsApi.Repository
             return new MenuModel()
                 {
                 
-                    MenuId = (int)reader["MenuId"],
+                    MenuId = (Int64)reader["MenuId"],
                 Menu = (string)reader["Menu"],
                 };
             
