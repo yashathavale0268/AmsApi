@@ -14,7 +14,9 @@ namespace AmsApi.Models
         public Int64 MenuId { get; set; }
         [DataMember(Name = "Menu")]
         public string Menu { get; set; }
-        
-        
+
+        [DataMember(Name = "PageUrl")]
+        public string PageUrl { get; set; }
+
     }
 }

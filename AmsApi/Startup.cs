@@ -48,6 +48,8 @@ namespace AmsApi
             services.AddOptions();
             services.AddMemoryCache();
            services.AddCors();
+
+            #region rate limiting config
             //services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
             //services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
             //services.Configure<IpRateLimitOptions>(options =>
@@ -93,6 +95,8 @@ namespace AmsApi
             //services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
             //services.AddInMemoryRateLimiting();
 
+            #endregion
+
             services.AddControllers()
                 .AddNewtonsoftJson()
                 .AddControllersAsServices()
@@ -108,6 +112,8 @@ namespace AmsApi
             //});
             //--------------Role policies
             services.AddSession(m => m.IdleTimeout = TimeSpan.FromMinutes(30));
+
+            #region for ratelimiting
             //----------------------------------------------------------------------------------------------------------------------------------------
             //services.AddMemoryCache();
             //services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
@@ -116,13 +122,16 @@ namespace AmsApi
             //services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             //services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             //----------------------------------------------------------------------------------------------------------------------------------------
-           // services.AddMemoryCache();
-           // services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
-           //// services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
-           // services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-           // services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-           // services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-           //-----
+            // services.AddMemoryCache();
+            // services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+            //// services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+            // services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            // services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            // services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            #endregion
+
+            #region idneity role settings
+            //-----
             //services.AddIdentity<UserAuth, IdentityRole>(options =>
             //{
             //    options.User.RequireUniqueEmail = true;
@@ -134,12 +143,17 @@ namespace AmsApi
             //      //  .AddEntityFrameworkStores<IdentityDbcontext>()
             //        .AddDefaultTokenProviders();
 
-           
-            
+            #endregion
+
             services.AddTransient<RegisterationController>();
             services.AddHttpContextAccessor();
+
+            ///----------------Ocelot--------------///
             services.AddOcelot();
 
+            ///----------------Ocelot--------------///
+
+            #region idenity auth
             //services.AddIdentity<UserModel, IdentityRole>()
             //    .AddEntityFrameworkStores<IdentityDbcontext>()
             //    .AddDefaultTokenProviders();
@@ -157,6 +171,7 @@ namespace AmsApi
             //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
             //    };
             //});
+            #endregion
 
             // configure strongly typed settings objects
             var jwtSection = Configuration.GetSection("JwtBearerTokenSettings");
@@ -185,15 +200,18 @@ namespace AmsApi
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                   // ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
-                    //,ValidAudience = Configuration["JWT:ValidAudience"],
-                    //ValidIssuer = Configuration["JWT:ValidIssuer"],
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
-                   
-               
-            };
+                    
+
+
+                };
                 options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(jwtBearerTokenSettings.ExpiryTimeInMinutes);
+                
+                #region validations
+                // ValidateLifetime = true,
+                //,ValidAudience = Configuration["JWT:ValidAudience"],
+                //ValidIssuer = Configuration["JWT:ValidIssuer"],
+                //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 //    ValidateIssuer = true,
                 //ValidIssuer = jwtBearerTokenSettings.Issuer,
                 //ValidateAudience = true,
@@ -202,6 +220,7 @@ namespace AmsApi
                 //IssuerSigningKey = new SymmetricSecurityKey(key),
                 //ValidateLifetime = true,
                 //ClockSkew = TimeSpan.Zero
+                #endregion
             });
             services.AddAuthorization(options =>
             {
@@ -209,6 +228,7 @@ namespace AmsApi
 
                 // options.AddPolicy("Role", policy => policy.RequireClaim(ClaimTypes.Role,session.role));
             });
+            #region don't know why so kept it 
             ////services.AddControllers()
             //    .AddNewtonsoftJson()
             //    .AddControllersAsServices();
@@ -216,6 +236,9 @@ namespace AmsApi
             //{
             //    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             //}); 
+            #endregion
+
+
             services.AddHttpClient();
             services.AddScoped<LoginRepository>();
             services.AddScoped<AssettypeRepository>();
@@ -232,10 +255,14 @@ namespace AmsApi
             services.AddScoped<ReportsRepository>();
             services.AddScoped<TransferRepository>();
             services.AddMvc();
-          // services.Configure<DbContext>(Configuration.GetSection("Maincon"));
-           // services.AddDbContext<IdentityDbcontext>(options => 
-           // options.UseSqlServer(Configuration.GetConnectionString("MainCon")));
-            
+
+            #region//--------Identity connection---------//
+            // services.Configure<DbContext>(Configuration.GetSection("Maincon"));
+            // services.AddDbContext<IdentityDbcontext>(options => 
+            // options.UseSqlServer(Configuration.GetConnectionString("MainCon")));
+            #endregion
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AmsApi", Version = "v1" });
