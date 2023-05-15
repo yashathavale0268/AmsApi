@@ -99,7 +99,7 @@ namespace AmsApi.Repository
                 
                     MenuId = (Int64)reader["MenuId"],
                 Menu = (string)reader["Menu"],
-                PageUrl = (string)reader["Menu"],
+                PageUrl = (String)reader["Menu"],
             };
             
         }
