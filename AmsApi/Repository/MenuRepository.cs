@@ -64,7 +64,7 @@ namespace AmsApi.Repository
         //    return response;
         //}
 
-        internal List<MenuModel> GetMenu(int role, int proj,int userid)
+        internal DataSet GetMenu(int role, int proj,int userid)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -74,20 +74,12 @@ namespace AmsApi.Repository
                     cmd.Parameters.AddWithValue("@Roleid", role);
                     cmd.Parameters.AddWithValue("@Projid", proj);
                     cmd.Parameters.AddWithValue("@uid", userid);
-                 
 
-                    var response = new List<MenuModel>();
-                     sql.Open();
 
-                    using (var reader =  cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            response.Add(MapToValue(reader));
-                        }
-                    }
-
-                    return response;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet dataSet = new();
+                    adapter.Fill(dataSet);
+                    return dataSet;
                 }
             }
         }

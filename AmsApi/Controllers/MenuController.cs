@@ -33,7 +33,7 @@ namespace AmsApi.Controllers
         {
             var msg = new Message();
             var GetDets = _repository.GetMenu(role, proj, userid);
-            if (GetDets.Count > 0)
+            if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
                 msg.Data = GetDets;
