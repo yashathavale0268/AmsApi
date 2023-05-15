@@ -55,21 +55,84 @@ namespace AmsApi.Controllers
         }
 
         // POST api/<ProjectController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        [HttpPost]
+        public IActionResult Post(ProjectModel proj)
+        {
+            var msg = new Message();
+             _repository.Insert(proj);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "Item alredy registered";
+            }
+            else if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " new entry succesfully registered";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "registeration unscessfull";
+            }
+            return Ok(msg);
+        }
 
         //// PUT api/<ProjectController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut("{id}")]
+        public IActionResult Put(ProjectModel proj)
+        {
+            var msg = new Message();
+            _repository.Insert(proj);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "Item alredy registered";
+            }
+            else if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " new entry succesfully registered";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "registeration unscessfull";
+            }
+            return Ok(msg);
+        }
 
         //// DELETE api/<ProjectController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var msg = new Message();
+
+               _repository.DeleteById(id);
+            bool exists = _repository.Itexists;
+            bool success = _repository.IsSuccess;
+            if (exists is false)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "entry doesn't exist";
+            }
+            else if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "succesfully removed";
+            }
+            else
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = "removal unsuccessfull";
+            }
+            return Ok(msg);
+        }
     }
 }

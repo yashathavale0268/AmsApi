@@ -1,5 +1,9 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
+using AmsApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace AmsApi.Controllers
@@ -50,5 +54,57 @@ namespace AmsApi.Controllers
                 }
             }
         }
+
+        public void Insert(ProjectModel proj)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_ProjectCreate", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", proj.Pmid));
+            cmd.Parameters.Add(new SqlParameter("@Pid", proj.Pid));
+            cmd.Parameters.Add(new SqlParameter("@CreatedDate", proj.CreatedDate));
+            cmd.Parameters.Add(new SqlParameter("@CID", proj.CID));
+            cmd.Parameters.Add(new SqlParameter("@Name", proj.Name));
+            cmd.Parameters.Add(new SqlParameter("@Techstack", proj.Techstack));
+            cmd.Parameters.Add(new SqlParameter("@PMName", proj.PMName));
+            cmd.Parameters.Add(new SqlParameter("@Type", proj.Type));
+
+
+            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returncode);
+            var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returnpart);
+
+            sql.Open();
+            cmd.ExecuteNonQuery();
+            bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+            bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+            sql.Close();
+            Itexists = itExists;
+            IsSuccess = isSuccess;
+            return ;
+        }
+
+        public void DeleteById(int id)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_DeleteProject", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", id));
+            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returncode);
+            var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returnpart);
+
+            sql.Open();
+            cmd.ExecuteNonQuery();
+            bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+            bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+            sql.Close();
+            Itexists = itExists;
+            IsSuccess = isSuccess;
+            return;
+        }
+
     }
 }
