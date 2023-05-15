@@ -10,14 +10,14 @@ namespace AmsApi.Models
     [DataContract]
     public class MenuModel
     {
-        [DataMember(Name = "MenuId")]
+        [DataMember(Name = "menuId")]
         public Int64 MenuId { get; set; }
-        [DataMember(Name = "Menu")]
+        [DataMember(Name = "menu")]
         public string Menu { get; set; }
 
-        [DataMember(Name = "PageUrl")]
+        [DataMember(Name = "pageUrl")]
         public string PageUrl { get; set; }
-        [DataMember(Name = "Icon")]
+        [DataMember(Name = "icon")]
         public string Icon { get; set; }
 
     }
