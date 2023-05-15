@@ -17,6 +17,8 @@ namespace AmsApi.Models
 
         [DataMember(Name = "PageUrl")]
         public string PageUrl { get; set; }
+        [DataMember(Name = "Icon")]
+        public string Icon { get; set; }
 
     }
 }
