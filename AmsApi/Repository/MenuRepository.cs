@@ -64,6 +64,21 @@ namespace AmsApi.Repository
         //    return response;
         //}
 
+        public DataSet GetAllForProjects()
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_GetAllForProjects", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
+        }
         internal DataSet GetMenu(int role, int proj,int userid)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
@@ -84,17 +99,17 @@ namespace AmsApi.Repository
             }
         }
 
-        public MenuModel MapToValue(SqlDataReader reader)
-        {
-            return new MenuModel()
-                {
+        //public MenuModel MapToValue(SqlDataReader reader)
+        //{
+        //    return new MenuModel()
+        //        {
                 
-                    MenuId = (Int64)reader["MenuId"],
-                Menu = (string)reader["Menu"],
-                PageUrl = (string)reader["Menu"],
-            };
+        //            MenuId = (Int64)reader["MenuId"],
+        //        Menu = (string)reader["Menu"],
+        //        PageUrl = (string)reader["Menu"],
+        //    };
             
-        }
+        //}
 
         
 

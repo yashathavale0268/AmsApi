@@ -28,6 +28,34 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
+
+
+        [HttpGet("GetAllForProjects")]
+        public IActionResult GetAllForProjects()
+        {
+            var result = _repository.GetAllForProjects();
+            var msg = new Message();
+            if (result.Tables.Count > 0)
+            {
+
+                msg.IsSuccess = true;
+                msg.Data = result;
+            }
+            else
+            {
+
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values available";
+            }
+
+
+            return Ok(msg);
+        }
+
+
+
+
+
         [HttpGet("GetAllDetails")]
         public ActionResult<IEnumerable<MenuModel>> GetMenu([FromQuery] int role = 0, [FromQuery] int proj = 0, [FromQuery] int userid = 0)
         {
