@@ -19,10 +19,27 @@ namespace AmsApi.Repository
             _connectionString = configuration.GetConnectionString("MainCon");
         }
 
-       // @Cid nvarchar(255)='',@Name nvarchar(255)='',@Created_at datetime = GETDATE
+       
 
+        internal DataSet GetRolePerms(int User, int Menu)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_GetRolePerms", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@uid", User);
+                    cmd.Parameters.AddWithValue("@menuid", Menu);
 
-            internal DataSet SearchCustomer(int pageNumber, int pageSize, string searchTerm)
+                    SqlDataAdapter adapter = new(cmd);
+                    DataSet dataSet = new();
+                    adapter.Fill(dataSet);
+                    return dataSet;
+                }
+            }
+        }
+
+        internal DataSet SearchCustomer(int pageNumber, int pageSize, string searchTerm)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {

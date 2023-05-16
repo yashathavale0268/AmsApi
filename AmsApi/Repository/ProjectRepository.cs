@@ -18,6 +18,24 @@ namespace AmsApi.Controllers
             _connectionString = configuration.GetConnectionString("MainCon");
         }
 
+        internal DataSet GetRolePerms(int User, int Menu)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            {
+                using (SqlCommand cmd = new("sp_GetRolePerms", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@uid", User);
+                    cmd.Parameters.AddWithValue("@menuid", Menu);
+
+                    SqlDataAdapter adapter = new(cmd);
+                    DataSet dataSet = new();
+                    adapter.Fill(dataSet);
+                    return dataSet;
+                }
+            }
+        }
+
         internal DataSet SearchProject(int pageNumber, int pageSize, string searchTerm)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))

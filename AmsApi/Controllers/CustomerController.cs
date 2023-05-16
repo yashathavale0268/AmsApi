@@ -21,6 +21,25 @@ namespace AmsApi.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
+
+        [HttpGet("GetRolePerms")]
+        public IActionResult GetRolePerms(int User = 0, int Menu = 0)
+        {
+            var msg = new Message();
+            var GetDets = _repository.GetRolePerms(User, Menu);
+            if (GetDets.Tables.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = GetDets;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values found";
+            }
+            return Ok(msg);
+        }
+
         // GET: api/<ServerInfoController>
         [HttpGet("GetAllCustomers")]
         public IActionResult GetCustomerInfo([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 0, [FromQuery] string searchTerm = null)
