@@ -247,7 +247,9 @@ namespace AmsApi
             services.AddScoped<CompanyRepository>();
             services.AddScoped<DepartmentRepository>();
             services.AddScoped<MenuRepository>();
+            services.AddScoped<CustomerRepository>();
             services.AddScoped<ProjectRepository>();
+            services.AddScoped<ServerInfoRepository>();
             services.AddScoped<VendorRepository>();
             services.AddScoped<StatusRepository>();
             services.AddScoped<RequestRepository>();
@@ -255,6 +257,7 @@ namespace AmsApi
             services.AddScoped<LocationRepository>();
             services.AddScoped<ReportsRepository>();
             services.AddScoped<TransferRepository>();
+            
             services.AddMvc();
 
             #region//--------Identity connection---------//

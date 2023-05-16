@@ -14,5 +14,7 @@ namespace AmsApi.Models
 
         [DataMember(Name = "Cid")]
         public string Cid { get; set; }
+        [DataMember(Name = "Name")]
+        public string Name { get; set; }
     }
 }

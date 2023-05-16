@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmsApi.Models;
+using AmsApi.Repository;
 using CoreApiAdoDemo.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,35 +13,19 @@ namespace AmsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjectController : ControllerBase
+    public class ServerInfoController : ControllerBase
     {
-        private readonly ProjectRepository _repository;
-        public ProjectController(ProjectRepository repository)
+        private readonly ServerInfoRepository _repository;
+        public ServerInfoController(ServerInfoRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        [HttpGet("GetAllProjects")]
-        public IActionResult Getproject([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 0, [FromQuery] string searchTerm = null)
+        // GET: api/<ServerInfoController>
+        [HttpGet("GetAllServerInfo")]
+        public IActionResult GetServerInfo([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 0, [FromQuery] string searchTerm = null)
         {
             var msg = new Message();
-            var GetDets = _repository.SearchProject(pageNumber, pageSize, searchTerm);
-            if (GetDets.Tables.Count > 0)
-            {
-                msg.IsSuccess = true;
-                msg.Data = GetDets;
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "no values found";
-            }
-            return Ok(msg);
-        }
-        [HttpGet("{id}")]
-        public IActionResult Getprojectid(int id)
-        {
-            var msg = new Message();
-            var GetDets = _repository.GetProjectid(id);
+            var GetDets = _repository.SearchServerInfo(pageNumber, pageSize, searchTerm);
             if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
@@ -54,12 +39,31 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
-        // POST api/<ProjectController>
-        [HttpPost]
-        public IActionResult Post(ProjectModel proj)
+        // GET api/<ServerInfoController>/5
+        [HttpGet("{id}")]
+        public IActionResult GetServerInfoid(int id)
         {
             var msg = new Message();
-             _repository.Insert(proj);
+            var GetDets = _repository.GetServerInfo(id);
+            if (GetDets.Tables.Count > 0)
+            {
+                msg.IsSuccess = true;
+                msg.Data = GetDets;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "no values found";
+            }
+            return Ok(msg);
+        }
+
+        // POST api/<ServerInfoController>
+        [HttpPost]
+        public IActionResult Post(ServerInfoModel serv)
+        {
+            var msg = new Message();
+            _repository.Insert(serv);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 
@@ -81,12 +85,12 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
-        //// PUT api/<ProjectController>/5
+        // PUT api/<ServerInfoController>/5
         [HttpPut]
-        public IActionResult Put(ProjectModel proj)
+        public IActionResult Put(ServerInfoModel serv)
         {
             var msg = new Message();
-            _repository.Insert(proj);
+            _repository.Insert(serv);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 
@@ -108,13 +112,13 @@ namespace AmsApi.Controllers
             return Ok(msg);
         }
 
-        //// DELETE api/<ProjectController>/5
+        // DELETE api/<ServerInfoController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             var msg = new Message();
 
-               _repository.DeleteById(id);
+            _repository.DeleteById(id);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
             if (exists is false)
