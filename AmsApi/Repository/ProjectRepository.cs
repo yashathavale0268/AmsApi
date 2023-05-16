@@ -80,7 +80,7 @@ namespace AmsApi.Controllers
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@id", proj.Pmid));
             cmd.Parameters.Add(new SqlParameter("@Pid", proj.Pid));
-            cmd.Parameters.Add(new SqlParameter("@CreatedDate", proj.CreatedDate));
+           // cmd.Parameters.Add(new SqlParameter("@CreatedDate", proj.CreatedDate));
             cmd.Parameters.Add(new SqlParameter("@CID", proj.CID));
             cmd.Parameters.Add(new SqlParameter("@Name", proj.Name));
             cmd.Parameters.Add(new SqlParameter("@Techstack", proj.Techstack));
