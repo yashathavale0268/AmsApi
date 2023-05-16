@@ -67,6 +67,7 @@ namespace AmsApi.Repository
             cmd.Parameters.Add(new SqlParameter("@id", cust.Custid));
             cmd.Parameters.Add(new SqlParameter("@Cid", cust.Cid));
             cmd.Parameters.Add(new SqlParameter("@Name", cust.Name));
+            //cmd.Parameters.Add(new SqlParameter("@Created_at", cust.Created_at));
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);
             var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
