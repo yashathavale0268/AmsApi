@@ -548,18 +548,53 @@ namespace AmsApi.Repository
             
         }
 
-        internal async Task ChangePassword(UserModel user)
+        //internal async Task ChangePassword(string NewPass, int id)
+        //{
+        //    //string password = password;
+        //    string hashedpassword = HashPassword(NewPass);
+        //    using (SqlConnection sql = new(_connectionString))
+        //    {
+        //        await sql.OpenAsync();
+        //        using (SqlCommand command = new("sp_ChangePassword", sql))
+        //        {
+        //            command.CommandType = CommandType.StoredProcedure;
+        //            command.Parameters.AddWithValue("@Id", id);
+        //            command.Parameters.AddWithValue("@Password", hashedpassword);
+        //            var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+        //            command.Parameters.Add(returncode);
+        //            var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+        //            command.Parameters.Add(returnnote);
+        //            await command.ExecuteNonQueryAsync();
+
+        //            bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+        //            bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
+
+        //            Itexists = itexists;
+        //            IsSuccess = successfull;
+
+
+        //            return;
+        //        }
+        //    }
+        //}
+
+        internal async Task GetIDForCheck(string NewPass, string CuurentPass, int id)
         {
-            string password = user.Password;
-            string hashedpassword = HashPassword(password);
             using (SqlConnection sql = new(_connectionString))
             {
                 await sql.OpenAsync();
-                using (SqlCommand command = new("sp_ChangePassword", sql))
+                using (SqlCommand command = new("sp_GetPassword", sql))
                 {
+                    //string password = Password;
+                    string Currenthashedpassword = HashPassword(CuurentPass);
+                    string Newhashedpassword = HashPassword(NewPass);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Id", user.Userid);
-                    command.Parameters.AddWithValue("@Password", hashedpassword);
+                    command.Parameters.AddWithValue("@Id", id);
+                    //command.Parameters.AddWithValue("@Username", user.Username);
+                    //command.Parameters.AddWithValue("@Email", user.Email);
+                    command.Parameters.AddWithValue("@CurrentPass", Currenthashedpassword);
+                    command.Parameters.AddWithValue("@NewPass",Newhashedpassword);
+                    //command.Parameters.AddWithValue("@Password", hashedpassword);
                     var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     command.Parameters.Add(returncode);
                     var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -571,40 +606,6 @@ namespace AmsApi.Repository
 
                     Itexists = itexists;
                     IsSuccess = successfull;
-
-
-                    return;
-                }
-            }
-        }
-
-        internal async Task GetIDForCheck(UserModel user)
-        {
-            using (SqlConnection sql = new(_connectionString))
-            {
-                await sql.OpenAsync();
-                using (SqlCommand command = new("sp_GetPassword", sql))
-                {
-                    string password = user.Password;
-                    string hashedpassword = HashPassword(password);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Id", user.Userid);
-                    command.Parameters.AddWithValue("@Username", user.Username);
-                    command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@Password", hashedpassword);
-                    //command.Parameters.AddWithValue("@Password", user.Password);
-                    //command.Parameters.AddWithValue("@Password", hashedpassword);
-                    var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                    command.Parameters.Add(returncode);
-                    //var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                    //command.Parameters.Add(returnnote);
-                    await command.ExecuteNonQueryAsync();
-
-                    bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
-                  //  bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
-
-                    Itexists = itexists;
-                    //IsSuccess = successfull;
 
 
                     return;

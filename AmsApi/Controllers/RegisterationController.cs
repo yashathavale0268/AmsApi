@@ -374,21 +374,18 @@ namespace AmsApi.Controllers
 
 
         [HttpPost("UpdatePassword")]
-        public async Task<IActionResult> UpdatePassword([FromBody] UserModel user)
+        public async Task<IActionResult> UpdatePassword(string NewPass = null ,string CuurentPass=null,int id=0)
         {
             var msg = new Message();
-            await _repository.GetIDForCheck(user);
+            await _repository.GetIDForCheck(NewPass,CuurentPass,id);
 
-            bool itexists = _repository.Itexists;
-            if (itexists is true)
-            {
-                await _repository.ChangePassword(user);
+                //await _repository.ChangePassword(NewPass, id);
                 bool exists = _repository.Itexists;
                 bool success = _repository.IsSuccess;
-                if (exists is true)
+                if (exists is false)
                 {
                     msg.IsSuccess = false;
-                    msg.ReturnMessage = "please  enter a different password";
+                    msg.ReturnMessage = "password is worng try again";
                 }
                 else if (success is true)
                 {
@@ -401,12 +398,6 @@ namespace AmsApi.Controllers
                     msg.IsSuccess = false;
                     msg.ReturnMessage = " password update unsuccessfull";
                 }
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = "  no valid credentials found try again ";
-            }
             return Ok(msg);
 
         }
