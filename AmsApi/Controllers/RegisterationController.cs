@@ -313,13 +313,13 @@ namespace AmsApi.Controllers
         }
         //[Authorize(Roles = "Admin")]
         [HttpPost("SetRole/{id}")]
-        public async Task<IActionResult> SetRole(int Role = 0, int id = 0)
+        public async Task<IActionResult> SetRole(int Role = 0,int Project=0, int id = 0)
         {
             var msg = new Message();
             var User = await _repository.GetUserById(id);
             if (User.Count > 0)
             {
-                await _repository.SetRoles(Role, id);
+                await _repository.SetRoles(Role,Project, id);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " User is Updated Successfully";
 

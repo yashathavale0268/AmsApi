@@ -649,7 +649,7 @@ namespace AmsApi.Repository
         }
 
         //-----------Role Update and set
-        public async Task SetRoles(int Role,int id)
+        public async Task SetRoles(int Role,int Project,int id)
         { 
             using (SqlConnection sql = new(_connectionString))
             {
@@ -661,6 +661,7 @@ namespace AmsApi.Repository
                     command.Parameters.AddWithValue("@id", id);
                     
                     command.Parameters.AddWithValue("@Role", Role);
+                    command.Parameters.AddWithValue("@Project",Project);
 
                     await command.ExecuteNonQueryAsync();
                 }
