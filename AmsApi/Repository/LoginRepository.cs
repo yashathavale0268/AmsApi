@@ -649,7 +649,7 @@ namespace AmsApi.Repository
         }
 
         //-----------Role Update and set
-        public async Task SetRoles(int Role,int Project,int id)
+        public async Task SetRoles(int Role,string Project,int id)
         { 
             using (SqlConnection sql = new(_connectionString))
             {
