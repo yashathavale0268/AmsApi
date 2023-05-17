@@ -25,7 +25,7 @@ namespace AmsApi.Controllers
                 using (SqlCommand cmd = new("sp_GetRolePerms", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@uid", User);
+                    cmd.Parameters.AddWithValue("@role", User);
                     cmd.Parameters.AddWithValue("@menuid", Menu);
 
                     SqlDataAdapter adapter = new(cmd);

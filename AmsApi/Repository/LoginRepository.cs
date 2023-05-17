@@ -295,14 +295,14 @@ namespace AmsApi.Repository
                 dataTable.Columns.Add("Rpid", typeof(Int64));
                 dataTable.Columns.Add("Roleid", typeof(Int64));
                 dataTable.Columns.Add("Menuid", typeof(Int64));
-                dataTable.Columns.Add("Add", typeof(bool));
                 dataTable.Columns.Add("View", typeof(bool));
+                dataTable.Columns.Add("Add", typeof(bool));
                 dataTable.Columns.Add("Update", typeof(bool));
                 dataTable.Columns.Add("Delete", typeof(bool));
 
                 foreach (var item in data)
                 {
-                    dataTable.Rows.Add(item.Rpid, item.Roleid, item.Menuid, item.Add, item.View,item.Update,item.Delete);
+                    dataTable.Rows.Add(item.Rpid, item.Roleid, item.Menuid, item.View, item.Add, item.Update,item.Delete);
                 }
 
                 using (SqlCommand command = new("sp_RolePermsBulkInsertOrUpdate", connection))
@@ -328,11 +328,46 @@ namespace AmsApi.Repository
                 
             }
         }
-    
+        
+    //public void ProjectInsert(List<ProjectIdArray> data)
+    //    {
+    //        using (SqlConnection connection = new(_connectionString))
+    //        {
+    //            connection.Open();
+    //            DataTable projectIdTable = new ();
+    //            projectIdTable.Columns.Add("ProjectId", typeof(string));
 
+    //            // Add project ids to the DataTable
+    //            foreach (var projectId in data)
+    //            {
+    //                projectIdTable.Rows.Add(projectId);
+    //            }
 
+    //            using (SqlCommand command = new("sp_RolePermsBulkInsertOrUpdate", connection))
+    //            {
+    //                command.CommandType = CommandType.StoredProcedure;
 
+    //                SqlParameter parameter = command.Parameters.AddWithValue("@ProjectIds", projectIdTable);
+    //                parameter.SqlDbType = SqlDbType.Structured;
+    //                parameter.TypeName = "dbo.RolepermissionsType";
 
+    //                var returnnote = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+    //                command.Parameters.Add(returnnote);
+    //                command.ExecuteNonQuery();
+    //                // bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+    //                bool successfull = returnnote?.Value is not DBNull && (bool)returnnote.Value;
+
+    //                // Itexists = itexists;
+    //                IsSuccess = successfull;
+
+    //            }
+
+    //            connection.Close();
+
+    //        }
+    //    }
+
+        
     //internal async Task<List<UserModel>> GetAllUser(int pageNumber, int pageSize)
     //{
     //    using SqlConnection sql = new(_connectionString);
@@ -654,6 +689,15 @@ namespace AmsApi.Repository
             using (SqlConnection sql = new(_connectionString))
             {
                 await sql.OpenAsync();
+
+                DataTable projectIdTable = new();
+                projectIdTable.Columns.Add("ProjectId", typeof(string));
+
+                // Add project ids to the DataTable
+                foreach (var projectId in Project)
+                {
+                    projectIdTable.Rows.Add(projectId);
+                }
                 using (SqlCommand command = new("sp_SetRole", sql))
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -661,8 +705,10 @@ namespace AmsApi.Repository
                     command.Parameters.AddWithValue("@id", id);
                     
                     command.Parameters.AddWithValue("@Role", Role);
-                    command.Parameters.AddWithValue("@Project",Project);
-
+                   // command.Parameters.AddWithValue("@Project", projectIdTable);
+                    SqlParameter parameter = command.Parameters.AddWithValue("@ProjectIds", projectIdTable);
+                    parameter.SqlDbType = SqlDbType.Structured;
+                    parameter.TypeName = "dbo.ProjectIdTableType";
                     await command.ExecuteNonQueryAsync();
                 }
             }
