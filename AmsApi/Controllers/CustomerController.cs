@@ -80,10 +80,10 @@ namespace AmsApi.Controllers
 
         // POST api/<ServerInfoController>
         [HttpPost]
-        public IActionResult Post(CustomerModel cust)
+        public IActionResult Post(Int64 id=0,string CID=null,string Name=null)
         {
             var msg = new Message();
-            _repository.Insert(cust);
+            _repository.Insert(id,CID,Name);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 
@@ -107,7 +107,7 @@ namespace AmsApi.Controllers
 
         // PUT api/<ServerInfoController>/5
         [HttpPut]
-        public IActionResult Put(CustomerModel cust)
+        public IActionResult Put(Int64 id = 0, string CID = null, string Name = null)
         {
             var msg = new Message();
             _repository.Insert(cust);

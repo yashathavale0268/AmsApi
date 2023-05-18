@@ -76,14 +76,14 @@ namespace AmsApi.Repository
             }
         }
 
-        public void Insert(CustomerModel cust)
+        public void Insert(Int64 id = 0, string CID = null, string Name = null)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_CustomerCreate", sql);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@id", cust.Custid));
-            //cmd.Parameters.Add(new SqlParameter("@Cid", cust.Cid));
-            cmd.Parameters.Add(new SqlParameter("@Name", cust.Name));
+            cmd.Parameters.Add(new SqlParameter("@id", id ));//cust.Custid
+            cmd.Parameters.Add(new SqlParameter("@Cid", CID ));// cust.Cid
+            cmd.Parameters.Add(new SqlParameter("@Name", Name));//cust.Name
             //cmd.Parameters.Add(new SqlParameter("@Created_at", cust.Created_at));
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);
